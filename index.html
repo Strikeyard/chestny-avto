@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Честный автомобиль — авто из Китая и Кореи под ключ в Ростове</title>
+<meta name="description" content="Привозим автомобили из Китая, Кореи и Киргизии под заказ. Одна итоговая цена под ключ в Ростове-на-Дону, договор, проверка до покупки, выдача как для себя.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="theme-color" content="#121417">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121417'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FF7A1A'/%3E%3C/svg%3E">
+<link rel="preload" as="image" href="img/hero.jpg">
+<!-- Превью ссылки в мессенджерах. При переезде на свой домен замените адрес в og:image, og:url, canonical и ld+json -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Честный автомобиль">
+<meta property="og:title" content="Честный автомобиль — авто из Китая и Кореи под ключ в Ростове">
+<meta property="og:description" content="Одна итоговая цена в Ростове: машина, доставка, растаможка и ЭПТС. Договор, оплата через ВТБ, 1 800+ авто подобрано и выдано.">
+<meta property="og:image" content="https://strikeyard.github.io/chestny-avto/img/og.jpg">
+<meta property="og:url" content="https://strikeyard.github.io/chestny-avto/">
+<link rel="canonical" href="https://strikeyard.github.io/chestny-avto/">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"AutoDealer","name":"Честный автомобиль",
+ "description":"Подбор и привоз автомобилей из Китая, Кореи и Киргизии под ключ",
+ "telephone":"+79198731668","image":"https://strikeyard.github.io/chestny-avto/img/og.jpg","url":"https://strikeyard.github.io/chestny-avto/",
+ "address":{"@type":"PostalAddress","streetAddress":"ул. Красноармейская, 200","addressLocality":"Ростов-на-Дону","addressCountry":"RU"},
+ "areaServed":"Ростов-на-Дону","openingHours":"Mo-Su 00:00-23:59"}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
+  --accent:#FF7A1A; --on-accent:#121417; --text:#FFFFFF; --muted:#A9B0BA;
+  --r:28px; --gut:clamp(16px,4vw,64px); color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",Manrope,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+h1,h2,h3{font-family:Manrope,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
+h2{font-size:clamp(30px,5vw,60px);margin:18px 0 28px}
+section{padding:clamp(64px,10vw,120px) 0}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--accent);color:var(--on-accent);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:18px 30px;border-radius:999px;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px -10px var(--accent)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);box-shadow:none}
+
+/* header */
+header{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(18,20,23,.85);backdrop-filter:blur(12px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-family:Manrope,sans-serif;font-size:18px}
+.logo i{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent)}
+.nav ul{display:flex;gap:32px;list-style:none;font-size:14px;color:var(--muted)}
+.nav ul a:hover{color:var(--text)}
+.nav .btn{padding:12px 20px;font-size:13px}
+@media(max-width:900px){.nav ul{display:none}}
+@media(max-width:480px){.nav .btn{display:none}}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 0 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(60% 50% at 75% 35%,rgba(255,122,26,.22),transparent 70%),
+  radial-gradient(40% 40% at 10% 90%,rgba(255,122,26,.08),transparent 70%);pointer-events:none}
+.hero .bg{position:absolute;inset:0;background:url(img/hero.jpg) 70% 65%/cover no-repeat;transform:scale(1.05);animation:zoom 18s ease-out forwards}
+.hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,20,23,.94) 0%,rgba(18,20,23,.72) 42%,rgba(18,20,23,0) 75%),linear-gradient(0deg,var(--bg) 0%,transparent 35%)}
+@keyframes zoom{to{transform:scale(1)}}
+@media(max-width:900px){
+  .hero{padding-top:calc(60px + 52vw)}
+  .hero .bg{bottom:auto;height:calc(76px + 62vw);background-position:62% 70%}
+  .hero .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(18,20,23,0) 45%),linear-gradient(180deg,rgba(18,20,23,.7) 0%,rgba(18,20,23,0) 30%)}
+}
+.hero .wrap{position:relative}
+.hero h1{font-size:clamp(40px,8.4vw,120px);max-width:12ch;position:relative}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{color:var(--muted);font-size:clamp(17px,2vw,21px);max-width:46ch;margin:24px 0 36px;position:relative}
+.hero .cta{display:flex;flex-wrap:wrap;gap:14px;position:relative}
+.marquee{margin-top:clamp(56px,9vw,100px);border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:22px 0}
+.marquee div{display:inline-flex;gap:48px;animation:run 28s linear infinite;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(20px,3vw,34px);text-transform:uppercase}
+.marquee span{display:inline-flex;align-items:center;gap:48px}
+.marquee span::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent)}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+.about-grid p{color:var(--muted);font-size:18px;margin-bottom:18px}
+.about-grid p strong{color:var(--text)}
+.dirs{display:grid;gap:12px}
+.dir{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;transition:border-color .2s,transform .2s}
+.dir:hover{border-color:var(--accent);transform:translateX(6px)}
+.dir b{font-family:Manrope,sans-serif;font-size:22px;text-transform:uppercase}
+.dir small{display:block;color:var(--muted);font-size:14px}
+.dir .days{color:var(--accent);font-weight:800;white-space:nowrap}
+.flag{width:44px;height:44px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-size:22px}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:clamp(48px,7vw,80px)}
+.stat{background:var(--card);border-radius:var(--r);padding:32px 28px}
+.stat b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(40px,5vw,64px);line-height:1;color:var(--accent)}
+.stat span{display:block;margin-top:12px;color:var(--muted);text-transform:uppercase;font-size:13px;letter-spacing:.1em}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}}
+
+/* steps */
+.steps-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;min-height:260px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.step .n{font-family:Manrope,sans-serif;font-weight:800;color:var(--accent);font-size:15px}
+.step h3{font-size:22px;margin:auto 0 12px;padding-top:40px}
+.step p{color:var(--muted)}
+.step.hl{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.step.hl .n,.step.hl p{color:var(--on-accent)}
+@media(max-width:900px){.steps{grid-template-columns:1fr}.step{min-height:0}}
+
+/* handover */
+.handover{background:var(--card);border-radius:calc(var(--r) + 12px);padding:clamp(32px,6vw,72px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);position:relative;overflow:hidden}
+.handover::after{content:"";position:absolute;width:520px;height:520px;right:-160px;bottom:-220px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.35),transparent 65%)}
+.handover h2{margin-top:18px}
+.handover p{color:var(--muted);font-size:18px}
+.checks{list-style:none;display:grid;gap:14px;position:relative;z-index:1}
+.checks li{display:flex;gap:16px;align-items:flex-start;background:var(--bg);border-radius:20px;padding:18px 22px}
+.checks li::before{content:"✓";flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-size:14px}
+@media(max-width:900px){.handover{grid-template-columns:1fr}}
+
+/* reviews */
+.rev-top{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.arrows{display:flex;gap:10px;margin-bottom:28px}
+.arrows button{width:56px;height:56px;border-radius:50%;background:transparent;border:1px solid var(--line);color:var(--text);font-size:20px;cursor:pointer}
+.arrows button:hover{border-color:var(--accent);color:var(--accent)}
+.rating{display:inline-flex;align-items:center;gap:10px;color:var(--muted);margin-bottom:28px}
+.rating b{color:var(--text);font-size:22px}
+.rating .stars{color:var(--accent);letter-spacing:2px}
+.reviews{display:grid;grid-auto-flow:column;grid-auto-columns:min(420px,85%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.reviews::-webkit-scrollbar{display:none}
+.review{scroll-snap-align:start;background:var(--card);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;gap:24px;min-height:300px}
+.review q{font-size:19px;quotes:"«" "»"}
+.review q::before{color:var(--accent);font-size:44px;line-height:0;vertical-align:-.35em;margin-right:4px}
+.review .who{margin-top:auto;display:flex;align-items:center;gap:14px;color:var(--muted);font-size:14px}
+.review .who b{display:block;color:var(--text);font-size:16px}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-weight:800;color:var(--accent)}
+
+/* faq */
+.faq{display:grid;gap:10px;max-width:900px}
+details{background:var(--card);border-radius:22px;padding:4px 28px}
+summary{list-style:none;cursor:pointer;padding:22px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-size:26px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding:0 0 24px;max-width:70ch}
+
+/* contacts */
+.contact{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px)}
+.contact .info{display:grid;gap:22px;align-content:start}
+.contact .info div span{display:block;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
+.contact .info div b{font-size:22px}
+form{background:var(--card);border-radius:calc(var(--r) + 8px);padding:clamp(24px,4vw,44px);display:grid;gap:14px}
+form h3{font-size:26px;margin-bottom:6px}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:18px 20px;color:var(--text);font:inherit;font-size:16px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{min-height:100px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{display:none}
+.chips span{display:inline-block;padding:10px 16px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-size:14px}
+.chips input:checked+span{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:700}
+.agree{display:flex;gap:10px;align-items:flex-start;color:var(--muted);font-size:13px}
+.agree input{width:18px;height:18px;flex:none;accent-color:var(--accent);margin-top:2px}
+/* messengers */
+:root{--wa:#25D366;--tg:#2AABEE;--max:#6B4BFF}
+.msgr{display:flex;gap:10px;flex-wrap:wrap}
+.mb{display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 8px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:15px;transition:transform .2s,border-color .2s,box-shadow .2s;cursor:pointer}
+.mb i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--c)}
+.mb svg{width:19px;height:19px;fill:#fff}
+.mb:hover{transform:translateY(-2px);border-color:var(--c);box-shadow:0 10px 26px -12px var(--c)}
+.mb:focus-visible,.fab a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.mb.wa,.fab .wa{--c:var(--wa)}.mb.tg,.fab .tg{--c:var(--tg)}.mb.max,.fab .max{--c:var(--max)}
+.hero .msgr{margin-top:22px;position:relative;align-items:center}
+.hero .msgr span{color:var(--muted);font-size:14px;margin-right:4px}
+@media(max-width:520px){.hero .msgr span{width:100%}}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;flex-direction:column;gap:10px;transform:translateY(140%);opacity:0;transition:transform .4s,opacity .4s}
+.fab.on{transform:none;opacity:1}
+.fab a{width:54px;height:54px;border-radius:50%;background:var(--c);display:grid;place-items:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.6);transition:transform .2s;position:relative}
+.fab a:hover{transform:scale(1.08)}
+.fab svg{width:26px;height:26px;fill:#fff}
+.fab a::after{content:attr(aria-label);position:absolute;right:66px;white-space:nowrap;background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s}
+.fab a:hover::after{opacity:1}
+.fab .wa::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 var(--wa);animation:ring 2.4s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(37,211,102,.55)}80%,100%{box-shadow:0 0 0 16px rgba(37,211,102,0)}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--card2);border:1px solid var(--line);padding:14px 20px;border-radius:16px;font-size:15px;max-width:calc(100% - 32px);z-index:70;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){.fab .wa::before{animation:none}}
+.form-ok{display:none;text-align:center;padding:40px 0}
+.form-ok b{display:block;font-size:24px;margin-bottom:8px}
+@media(max-width:900px){.contact{grid-template-columns:1fr}}
+
+/* video reviews */
+.vids{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.vid{position:relative;border-radius:var(--r);overflow:hidden;background:var(--card);aspect-ratio:9/16;cursor:pointer}
+.vid video{width:100%;height:100%;object-fit:cover;display:block}
+.vid .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 45%,transparent 70%);transition:opacity .3s}
+.vid.playing .ov{opacity:0;pointer-events:none}
+.vid .play{position:absolute;top:50%;left:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:var(--accent);display:grid;place-items:center;box-shadow:0 0 0 0 rgba(255,122,26,.6);animation:pulse 2s infinite}
+.vid .play::before{content:"";border-left:20px solid var(--on-accent);border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
+@keyframes pulse{70%{box-shadow:0 0 0 18px rgba(255,122,26,0)}100%{box-shadow:0 0 0 0 rgba(255,122,26,0)}}
+.vid .ov q{font-weight:700;font-size:16px;line-height:1.35;quotes:"«" "»"}
+.vid .ov small{display:block;color:var(--muted);margin-top:10px;font-size:13px}
+.vid .ov small b{color:var(--accent)}
+.vid .dur{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border-radius:999px;padding:4px 10px;font-size:12px}
+@media(max-width:1000px){.vids{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(280px,72%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.vid{scroll-snap-align:start}}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.gal a{display:block;border-radius:22px;overflow:hidden;position:relative;aspect-ratio:3/4;background:var(--card)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.gal a:hover img{transform:scale(1.05)}
+.gal a .cap{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 14px;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent);font-weight:700;font-size:14px;opacity:0;transition:opacity .3s}
+.gal a:hover .cap{opacity:1}
+@media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}.gal a .cap{opacity:1}}
+.gal a::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:inherit}
+.gal-more{display:flex;justify-content:center;margin-top:24px}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(10,11,13,.94);display:none;align-items:center;justify-content:center;padding:24px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:16px}
+.lb button{position:absolute;background:var(--card);color:var(--text);border:0;width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer}
+.lb .x{top:20px;right:20px}.lb .pv{left:20px;top:50%}.lb .nx{right:20px;top:50%}
+
+.handover .photo{border-radius:var(--r);overflow:hidden;margin-top:28px;aspect-ratio:4/3}
+.handover .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+
+/* conversion: progress, trust, quiz, compare, mobile bar */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);z-index:80}
+.nav{gap:24px}
+.logo{white-space:nowrap}
+@media(max-width:1100px){.nav ul{display:none}}
+.nav ul{margin-left:16px}
+.hdr-phone{font-weight:700;font-size:15px;white-space:nowrap;margin-left:auto;margin-right:18px}
+.hdr-phone small{display:block;color:var(--muted);font-weight:400;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:1180px){.hdr-phone{display:none}}
+.trust{list-style:none;display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:30px;position:relative;color:var(--muted);font-size:14px}
+.trust li{display:flex;align-items:baseline;gap:8px}
+.trust b{color:var(--text);font-size:17px}
+.trust b.star{color:var(--accent)}
+.hero .eyebrow,.hero h1,.hero .lead,.hero .cta,.hero .msgr,.hero .trust{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero h1{animation-delay:.08s}.hero .lead{animation-delay:.18s}.hero .cta{animation-delay:.28s}.hero .msgr{animation-delay:.36s}.hero .trust{animation-delay:.44s}
+@keyframes rise{from{transform:translateY(26px)}}
+.btn.shine{position:relative;overflow:hidden}
+.btn.shine::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 3.6s 1.2s infinite}
+@keyframes shine{0%{left:-60%}35%,100%{left:130%}}
+@media(prefers-reduced-motion:reduce){.hero .eyebrow,.hero h1,.hero .lead,.hero .cta,.hero .msgr,.hero .trust,.btn.shine::after{animation:none}}
+
+.quiz{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:start}
+.quiz .pitch p{color:var(--muted);font-size:18px;margin-bottom:22px;max-width:46ch}
+.perks{list-style:none;display:grid;gap:12px}
+.perks li{display:flex;gap:12px;align-items:center}
+.perks li::before{content:"✓";flex:none;width:26px;height:26px;border-radius:50%;background:var(--card2);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:13px}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:calc(var(--r) + 8px);padding:clamp(22px,4vw,40px);position:relative;overflow:hidden;min-width:0}
+.qcard::before{content:"";position:absolute;width:360px;height:360px;right:-140px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.22),transparent 65%);pointer-events:none}
+.qtop{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;position:relative}
+.qbar{height:6px;border-radius:99px;background:var(--bg);overflow:hidden;margin-bottom:28px;position:relative}
+.qbar i{display:block;height:100%;width:20%;background:var(--accent);border-radius:inherit;transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.qstep{display:none;position:relative}
+.qstep.on{display:block;animation:qin .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes qin{from{opacity:0;transform:translateX(24px)}}
+.qstep h3{font-size:clamp(22px,2.6vw,28px);margin-bottom:20px;text-transform:none;letter-spacing:-.01em}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts button{background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:18px;padding:18px;text-align:left;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .2s,transform .2s,background .2s}
+.opts button small{color:var(--muted);font-weight:400;font-size:13px}
+.opts button:hover{border-color:var(--accent);transform:translateY(-2px)}
+.opts button.sel{border-color:var(--accent);background:rgba(255,122,26,.12)}
+.opts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:520px){.opts{grid-template-columns:1fr}.opts button{padding:15px 16px}}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;position:relative}
+.qback{background:none;border:0;color:var(--muted);font:inherit;cursor:pointer;padding:6px 0}
+.qback:hover{color:var(--text)}
+.qback[hidden]{display:none}
+.qform{display:grid;gap:12px}
+.qnote{color:var(--muted);font-size:12px}
+.qdone{text-align:center;padding:10px 0}
+.qdone .big{font-size:56px;line-height:1;margin-bottom:12px}
+.qdone h3{margin-bottom:10px}
+.qdone p{color:var(--muted);margin-bottom:20px}
+.qsum{background:var(--bg);border-radius:16px;padding:14px 18px;text-align:left;color:var(--muted);font-size:14px;white-space:pre-line;margin-bottom:18px}
+.qdone .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media(max-width:900px){.quiz{grid-template-columns:1fr}}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp > div{border-radius:var(--r);padding:clamp(24px,4vw,40px)}
+.cmp .them{background:var(--card);border:1px solid var(--line)}
+.cmp .us{background:linear-gradient(160deg,rgba(255,122,26,.18),rgba(255,122,26,.04) 60%),var(--card);border:1px solid var(--accent)}
+.cmp h3{font-size:22px;margin-bottom:22px}
+.cmp ul{list-style:none;display:grid;gap:14px}
+.cmp li{display:flex;gap:12px;align-items:flex-start}
+.cmp .them li{color:var(--muted)}
+.cmp .them li::before{content:"✕";color:#E5484D;font-weight:800;flex:none}
+.cmp .us li::before{content:"✓";color:var(--accent);font-weight:800;flex:none}
+.cmp-foot{display:flex;justify-content:center;margin-top:28px}
+@media(max-width:800px){.cmp{grid-template-columns:1fr}}
+
+.mbar{display:none}
+@media(max-width:700px){
+  .fab{display:none}
+  .mbar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(18,20,23,.92);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .35s}
+  .mbar.on{transform:none}
+  .mbar .btn{flex:1;justify-content:center;padding:15px 14px;font-size:13px}
+  .mbar a.ic{width:50px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--c)}
+  .mbar a.ic svg{width:24px;height:24px;fill:#fff}
+  .mbar .wa{--c:var(--wa)}.mbar .tg{--c:var(--tg)}
+  footer{padding-bottom:96px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+
+/* trust: team, savings, yandex link, legal footer */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.member{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:14px}
+.member .ph{margin:-28px -28px 8px;aspect-ratio:1/1;overflow:hidden;background:var(--card2)}
+.member .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.member:hover .ph img{transform:scale(1.04)}
+.member{overflow:hidden}
+.member b{font-size:22px;font-family:Manrope,sans-serif}
+.member .role{color:var(--accent);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em}
+.member p{color:var(--muted)}
+.team-note{color:var(--muted);margin-top:18px;font-size:15px}
+.team-note q{color:var(--text);quotes:"«" "»"}
+@media(max-width:900px){.team{grid-template-columns:1fr}}
+.save{margin-top:12px;border-radius:var(--r);padding:clamp(24px,4vw,40px);background:var(--accent);color:var(--on-accent);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,48px);align-items:center}
+.save .num{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(44px,7vw,84px);line-height:1;letter-spacing:-.03em;white-space:nowrap}
+.save p{font-size:18px;font-weight:600}
+.save small{display:block;margin-top:8px;font-weight:400;opacity:.8}
+@media(max-width:640px){.save{grid-template-columns:1fr}}
+.ya{display:inline-flex;align-items:center;gap:8px;color:var(--text);border-bottom:1px solid var(--accent);padding-bottom:2px;font-weight:700;margin-left:10px}
+.ya:hover{color:var(--accent)}
+footer .legal{display:grid;gap:4px}
+@media(max-width:700px){.hero .cta .btn{width:100%;justify-content:center;font-size:14px;letter-spacing:.04em}}
+
+/* MAX channel band */
+.chan{position:relative;overflow:hidden;border-radius:calc(var(--r) + 12px);padding:clamp(28px,5vw,64px);background:radial-gradient(120% 140% at 100% 0%,rgba(107,75,255,.45),transparent 55%),linear-gradient(135deg,#1E1A3A,var(--card));border:1px solid rgba(107,75,255,.35);display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);align-items:center}
+.chan h2{margin-top:16px}
+.chan p{color:#C9CCE0;font-size:18px;max-width:46ch;margin-bottom:24px}
+.chan .eyebrow::before{background:var(--max)}
+.chan .stats-row{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:28px}
+.chan .stats-row b{display:block;font-family:Manrope,sans-serif;font-size:32px;line-height:1}
+.chan .stats-row span{color:#A9A6C9;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.btn.maxbtn{background:var(--max);color:#fff}
+.btn.maxbtn:hover{box-shadow:0 12px 30px -10px var(--max)}
+.btn.maxbtn svg{width:22px;height:22px;fill:#fff}
+.chan .feed{display:grid;grid-template-columns:1fr 1fr;gap:10px;transform:rotate(-3deg)}
+.chan .feed img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:18px;display:block;box-shadow:0 20px 40px -20px rgba(0,0,0,.8)}
+.chan .feed img:nth-child(2){margin-top:28px}
+.chan .feed img:nth-child(3){margin-top:-28px}
+@media(max-width:860px){.chan{grid-template-columns:1fr}.chan .feed{transform:none;grid-template-columns:repeat(4,1fr)}.chan .feed img{margin:0!important}}
+
+/* price cases */
+.cases-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.cases-head p{color:var(--muted);max-width:46ch;margin-bottom:28px}
+.cases{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.case{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,border-color .3s;min-width:0}
+.case:hover{transform:translateY(-4px);border-color:var(--accent)}
+.case .pic{position:relative;aspect-ratio:4/3;overflow:hidden;background:radial-gradient(120% 90% at 80% 10%,rgba(255,122,26,.28),transparent 60%),linear-gradient(160deg,#252a33,#15181c)}
+.case .pic{cursor:zoom-in}
+.case .pic img{width:100%;height:100%;object-fit:cover;object-position:50% 80%;display:block;transition:transform .6s}
+.case:hover .pic img{transform:scale(1.05)}
+.case .count{position:absolute;right:14px;bottom:14px;background:rgba(18,20,23,.75);backdrop-filter:blur(6px);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+.case .pic .mark{position:absolute;left:18px;right:18px;bottom:14px;font-family:Manrope,sans-serif;font-weight:800;text-transform:uppercase;line-height:.9;letter-spacing:-.02em}
+.case .pic .mark small{display:block;font-size:13px;letter-spacing:.2em;color:var(--muted);margin-bottom:6px}
+.case .pic .mark span{font-size:clamp(30px,3vw,40px);color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.75)}
+.case .from{position:absolute;top:14px;left:14px;background:rgba(18,20,23,.75);backdrop-filter:blur(6px);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:700}
+.case .save-chip{position:absolute;top:14px;right:14px;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:800}
+.case .body{padding:20px;display:flex;flex-direction:column;gap:12px;flex:1}
+.case h3{font-size:19px;text-transform:none;letter-spacing:-.01em;line-height:1.2}
+.case .specs{display:flex;flex-wrap:wrap;gap:6px}
+.case .specs span{background:var(--bg);border-radius:8px;padding:4px 9px;font-size:12px;color:var(--muted)}
+.case .desc{color:var(--muted);font-size:14px}
+.case .price{margin-top:auto;padding-top:6px}
+.case .price small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.12em}
+.case .price b{font-family:Manrope,sans-serif;font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.case .btn{justify-content:center;padding:14px;font-size:13px}
+.cases-note{color:var(--muted);font-size:13px;margin-top:16px}
+@media(max-width:1100px){.cases{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cases{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:82%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}.case{scroll-snap-align:start}.cases::-webkit-scrollbar{display:none}}
+
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.reveal{transform:translateY(24px);transition:transform .8s}
+.reveal.in{transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transform:none}.marquee div{animation:none}}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#" class="logo"><i></i>Честный автомобиль</a>
+    <ul>
+      <li><a href="#cases">Цены</a></li>
+      <li><a href="#video">Отзывы</a></li>
+      <li><a href="#steps">Как работаем</a></li>
+      <li><a href="#gallery">Выдачи</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul>
+    <a class="hdr-phone" href="tel:+79198731668"><small>Консультации 24/7</small>+7 919 873-16-68</a>
+    <a href="#quiz" class="btn">Подобрать авто</a>
+  </div>
+</header>
+<div class="progress" id="progress"></div>
+
+<section class="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="eyebrow">Ростов-на-Дону · авто под заказ</div>
+    <h1 style="margin-top:20px">Честная цена <em>под ключ</em></h1>
+    <p class="lead">Привозим автомобили из Китая, Кореи и Киргизии. Подбор, проверка, доставка, растаможка и ЭПТС — одна итоговая цена в Ростове, без доплат по ходу.</p>
+    <div class="cta">
+      <a href="#quiz" class="btn shine">Подобрать авто за 1 минуту →</a>
+      <a href="#steps" class="btn ghost">Как мы работаем</a>
+    </div>
+    <div class="msgr">
+      <span>Или напишите сразу:</span>
+      <a class="mb wa" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener"><i><svg><use href="#i-wa"/></svg></i>WhatsApp</a>
+      <a class="mb tg" data-m="tg" href="https://t.me/+79198731668" target="_blank" rel="noopener"><i><svg><use href="#i-tg"/></svg></i>Telegram</a>
+      <a class="mb max" data-m="max" href="#" target="_blank" rel="noopener"><i><svg><use href="#i-max"/></svg></i>MAX</a>
+    </div>
+    <ul class="trust">
+      <li><b class="star">★ 4,8</b>на Яндекс Картах</li>
+      <li><b>1 800+</b>авто подобрано и выдано</li>
+      <li><b>Договор</b>оплата через ВТБ</li>
+      <li><b>Задаток</b>вернём, если машину не нашли</li>
+    </ul>
+  </div>
+  <div class="marquee" aria-label="Китай, Корея, Киргизия, новые и с пробегом, под ключ">
+    <div><span>Китай</span><span>Корея</span><span>Киргизия</span><span>Новые</span><span>С пробегом</span><span>Под ключ</span><span>Китай</span><span>Корея</span><span>Киргизия</span><span>Новые</span><span>С пробегом</span><span>Под ключ</span></div>
+  </div>
+</section>
+
+<section id="cases">
+  <div class="wrap">
+    <div class="cases-head">
+      <div><div class="eyebrow">Цены из нашего канала</div><h2>Сколько стоит под ключ</h2></div>
+      <p>Реальные расчёты, которые мы публиковали в канале MAX. В цене уже машина, доставка, растаможка, ЭПТС, мойка и полный бак.</p>
+    </div>
+    <div class="cases">
+      <article class="case reveal" data-car="Chevrolet Cruze 2023" data-price="1 597 000">
+        <div class="pic" role="button" tabindex="0" aria-label="Смотреть фото: Chevrolet Cruze 2023" data-photos="img/cars/cruze-1.jpg,img/cars/cruze-2.jpg,img/cars/cruze-3.jpg,img/cars/cruze-4.jpg,img/cars/cruze-5.jpg,img/cars/cruze-6.jpg"><img src="img/cars/cruze-1.jpg" alt="Chevrolet Cruze 2023" loading="lazy"><span class="from">Из Китая</span><span class="save-chip">−350 000 ₽</span><span class="count">6 фото</span></div>
+        <div class="body">
+          <h3>Chevrolet Cruze 2023</h3>
+          <div class="specs"><span>27 000 км</span><span>1.5 л · 113 л.с.</span><span>робот</span><span>5,9 л/100 км</span></div>
+          <p class="desc">Экономичный седан: CarPlay, камера, беспроводная зарядка, Auto Hold.</p>
+          <div class="price"><small>Под ключ в Ростове</small><b>1 597 000 ₽</b></div>
+          <a class="btn" href="https://wa.me/79198731668" target="_blank" rel="noopener">Хочу такую →</a>
+        </div>
+      </article>
+      <article class="case reveal" data-car="Audi A3L 2023 35 TFSI" data-price="2 375 000">
+        <div class="pic" role="button" tabindex="0" aria-label="Смотреть фото: Audi A3L 2023" data-photos="img/cars/a3l-1.jpg,img/cars/a3l-2.jpg,img/cars/a3l-3.jpg,img/cars/a3l-4.jpg,img/cars/a3l-5.jpg,img/cars/a3l-6.jpg"><img src="img/cars/a3l-1.jpg" alt="Audi A3L 2023" loading="lazy"><span class="from">Из Китая</span><span class="save-chip">−450 000 ₽</span><span class="count">6 фото</span></div>
+        <div class="body">
+          <h3>Audi A3L 2023 35 TFSI</h3>
+          <div class="specs"><span>60 000 км</span><span>1.4 TSI · 150 л.с.</span><span>S tronic</span></div>
+          <p class="desc">Удлинённый седан в спортивной комплектации: цифровая панель, подогрев, климат.</p>
+          <div class="price"><small>Под ключ в Ростове</small><b>2 375 000 ₽</b></div>
+          <a class="btn" href="https://wa.me/79198731668" target="_blank" rel="noopener">Хочу такую →</a>
+        </div>
+      </article>
+      <article class="case reveal" data-car="Volkswagen Tayron 2022" data-price="2 778 000">
+        <div class="pic" role="button" tabindex="0" aria-label="Смотреть фото: Volkswagen Tayron 2022" data-photos="img/cars/tayron-1.jpg,img/cars/tayron-2.jpg,img/cars/tayron-4.jpg,img/cars/tayron-5.jpg,img/cars/tayron-6.jpg"><img src="img/cars/tayron-1.jpg" alt="Volkswagen Tayron 2022" loading="lazy"><span class="from">Из Китая</span><span class="save-chip">−400 000 ₽</span><span class="count">5 фото</span></div>
+        <div class="body">
+          <h3>Volkswagen Tayron 2022</h3>
+          <div class="specs"><span>44 000 км</span><span>1.4 TSI · 150 л.с.</span><span>DSG</span></div>
+          <p class="desc">Семейный кроссовер: адаптивный круиз, цифровая панель, большой экран.</p>
+          <div class="price"><small>Под ключ в Ростове</small><b>2 778 000 ₽</b></div>
+          <a class="btn" href="https://wa.me/79198731668" target="_blank" rel="noopener">Хочу такую →</a>
+        </div>
+      </article>
+      <article class="case reveal" data-car="Changan Q07 2026 Max+" data-price="3 810 000">
+        <div class="pic" role="button" tabindex="0" aria-label="Смотреть фото: Changan Q07 2026" data-photos="img/cars/q07-1.jpg,img/cars/q07-2.jpg,img/cars/q07-3.jpg,img/cars/q07-4.jpg,img/cars/q07-5.jpg,img/cars/q07-6.jpg"><img src="img/cars/q07-1.jpg" alt="Changan Q07 2026" loading="lazy"><span class="from">Из Киргизии</span><span class="save-chip">−500 000 ₽</span><span class="count">6 фото</span></div>
+        <div class="body">
+          <h3>Changan Q07 2026 Max+</h3>
+          <div class="specs"><span>новый</span><span>гибрид · 374 л.с.</span><span>215 км на электричестве</span></div>
+          <p class="desc">Гибридный кроссовер: батарея CATL, массаж и обдув сидений, проекция на стекло.</p>
+          <div class="price"><small>Под ключ в Ростове</small><b>3 810 000 ₽</b></div>
+          <a class="btn" href="https://wa.me/79198731668" target="_blank" rel="noopener">Хочу такую →</a>
+        </div>
+      </article>
+    </div>
+    <p class="cases-note"><b style="color:var(--accent)">⚡ Успейте выкупить до повышения таможенных пошлин 1 января 2027 года.</b><br>Экономия — в сравнении с такой же машиной в России. Цены на дату публикации: перед заказом пришлём точный расчёт на сегодня.</p>
+  </div>
+</section>
+
+<section id="quiz" style="padding-top:0">
+  <div class="wrap quiz">
+    <div class="pitch reveal">
+      <div class="eyebrow">Подбор за 1 минуту</div>
+      <h2>4 вопроса — и вы получите варианты с ценой под ключ</h2>
+      <ul class="perks">
+        <li>Бесплатно и ни к чему не обязывает</li>
+        <li>1–2 варианта с итоговой ценой в Ростове</li>
+        <li>Ответим туда, где вам удобно: WhatsApp, Telegram или MAX</li>
+      </ul>
+    </div>
+    <div class="qcard reveal" id="qcard">
+      <div class="qtop"><span id="qcount">Вопрос 1 из 4</span><span id="qhint">≈ 1 минута</span></div>
+      <div class="qbar"><i id="qbar"></i></div>
+
+      <div class="qstep on" data-key="Тип">
+        <h3>Какой автомобиль ищете?</h3>
+        <div class="opts">
+          <button type="button">Кроссовер<small>город и трасса</small></button>
+          <button type="button">Седан<small>комфорт на каждый день</small></button>
+          <button type="button">Большой семейный<small>7 мест, багажник</small></button>
+          <button type="button">Внедорожник / пикап<small>полный привод</small></button>
+          <button type="button">Электро или гибрид<small>экономия на топливе</small></button>
+          <button type="button">Пока не знаю<small>поможем выбрать</small></button>
+        </div>
+      </div>
+      <div class="qstep" data-key="Бюджет под ключ">
+        <h3>Какой бюджет под ключ в Ростове?</h3>
+        <div class="opts">
+          <button type="button">до 2 млн ₽</button>
+          <button type="button">2–3 млн ₽</button>
+          <button type="button">3–4 млн ₽</button>
+          <button type="button">4–6 млн ₽</button>
+          <button type="button">от 6 млн ₽</button>
+          <button type="button">Пока не определился</button>
+        </div>
+      </div>
+      <div class="qstep" data-key="Состояние">
+        <h3>Новый или с пробегом?</h3>
+        <div class="opts">
+          <button type="button">Новый<small>без пробега</small></button>
+          <button type="button">До 3 лет<small>с небольшим пробегом</small></button>
+          <button type="button">До 5 лет<small>максимум машины за бюджет</small></button>
+          <button type="button">Не важно<small>предложите лучшее</small></button>
+        </div>
+      </div>
+      <div class="qstep" data-key="Когда нужна">
+        <h3>Когда хотите получить машину?</h3>
+        <div class="opts">
+          <button type="button">Как можно скорее</button>
+          <button type="button">В течение 2–3 месяцев</button>
+          <button type="button">Пока присматриваюсь</button>
+          <button type="button">Нужна консультация</button>
+        </div>
+      </div>
+      <div class="qstep" data-key="contact">
+        <h3>Куда прислать варианты?</h3>
+        <form class="qform" id="qform" novalidate>
+          <input id="q-name" name="name" aria-label="Ваше имя" placeholder="Ваше имя" autocomplete="given-name" required>
+          <input id="q-phone" name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required>
+          <button class="btn shine" type="submit" style="justify-content:center">Получить подборку →</button>
+          <p class="qnote">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html" style="color:inherit;text-decoration:underline">обработку персональных данных</a>.</p>
+        </form>
+      </div>
+      <div class="qstep qdone" data-key="done">
+        <div class="big">🎉</div>
+        <h3>Заявка готова</h3>
+        <p id="qdone-text">Осталось отправить её нам — текст уже заполнен.</p>
+        <div class="qsum" id="qsum"></div>
+        <div class="row">
+          <a class="btn" id="q-send" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a>
+          <button class="btn ghost" type="button" id="q-copy">Скопировать заявку</button>
+        </div>
+      </div>
+
+      <div class="qnav"><button class="qback" type="button" id="qback" hidden>← Назад</button><span></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <div class="eyebrow">Видеоотзывы</div>
+    <h2>Снято в день выдачи</h2>
+    
+    <div class="vids">
+      <div class="vid reveal"><video src="video/review1.mp4" poster="video/review1.jpg" preload="none" playsinline></video><span class="dur">0:41</span><div class="ov"><span class="play"></span><q>Уже второй автомобиль заказываем у ребят. Всё чётко, даже раньше, чем планировали.</q><small><b>Евгений</b> · Toyota</small></div></div>
+      <div class="vid reveal"><video src="video/review2.mp4" poster="video/review2.jpg" preload="none" playsinline></video><span class="dur">1:39</span><div class="ov"><span class="play"></span><q>Посоветовали знакомые — поэтому не было страха, было доверие.</q><small><b>Максим</b> · Renault Samsung из Кореи</small></div></div>
+      <div class="vid reveal"><video src="video/review3.mp4" poster="video/review3.jpg" preload="none" playsinline></video><span class="dur">1:38</span><div class="ov"><span class="play"></span><q>Написал анкету — хочу семейную, с большим багажником — и через день-два предложили эту машину.</q><small><b>Дима</b> · Volkswagen Tayron</small></div></div>
+      <div class="vid reveal"><video src="video/review4.mp4" poster="video/review4.jpg" preload="none" playsinline></video><span class="dur">0:57</span><div class="ov"><span class="play"></span><q>Бесподобная бригада, я таких людей не видел. Машина соответствует тому, что заказывал.</q><small><b>Клиент</b> · Nissan</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="compare" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Почему мы</div>
+    <h2>Цена до Ростова, а не до Владивостока</h2>
+    <div class="cmp">
+      <div class="them reveal">
+        <h3>Как бывает часто</h3>
+        <ul>
+          <li>Низкая цена «до Владивостока», остальное — доплатами по ходу</li>
+          <li>Пишут маленькую комиссию, а разницу прячут в логистику</li>
+          <li>Машину отдают с автовоза: грязную, сколы находите потом</li>
+          <li>Непонятно, на каком этапе машина</li>
+        </ul>
+      </div>
+      <div class="us reveal">
+        <h3>Как у нас</h3>
+        <ul>
+          <li>Одна итоговая цена в Ростове: машина, логистика, таможня, ЭПТС</li>
+          <li>Договор, оплата через ВТБ, курс фиксируется при оплате</li>
+          <li>Личная приёмка, мойка, полный бак и подарок на выдаче</li>
+          <li>Группа сопровождения: каждый этап — фото и видео</li>
+        </ul>
+      </div>
+    </div>
+    <div class="save reveal"><div class="num">−600 000 ₽</div><p>Changan из Китая вышел дешевле, чем такая же машина в России.<small>Иван впервые заказывал машину: «больше боялся, чем на самом деле было»</small></p></div>
+    <div class="cmp-foot"><a href="#quiz" class="btn">Посчитать мою машину →</a></div>
+  </div>
+</section>
+
+<section id="about" style="padding-top:0">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="eyebrow">Направления</div>
+        <h2>Откуда везём и сколько ждать</h2>
+        <p>Чаще всего — из Китая: при тех же параметрах машина там в среднем на 15–20% дешевле, чем в Корее. Корею берём, когда нужен полный привод, дизель или конкретная модель. На всех этапах авто застраховано.</p>
+      </div>
+      <div class="dirs reveal">
+        <div class="dir"><div class="flag">🇨🇳</div><div><b>Китай</b><small>Основное направление. Новые и до 5 лет</small></div><div class="days">40–55 дн.</div></div>
+        <div class="dir"><div class="flag">🇰🇷</div><div><b>Корея</b><small>Полный привод, дизель, редкие позиции</small></div><div class="days">35–45 дн.</div></div>
+        <div class="dir"><div class="flag">🇰🇬</div><div><b>Киргизия</b><small>Только новые, без пробега</small></div><div class="days">10–15 дн.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="steps">
+  <div class="wrap">
+    <div class="steps-head">
+      <div><div class="eyebrow">Как работаем</div><h2>От анкеты до ключей</h2></div>
+      <a href="#quiz" class="btn ghost" style="margin-bottom:28px">Начать с анкеты →</a>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">01</span><h3>Анкета и расчёт</h3><p>Вы говорите, какую машину и в какой бюджет хотите. Мы присылаем 1–2 варианта с итоговой ценой под ключ.</p></div>
+      <div class="step reveal"><span class="n">02</span><h3>Договор и задаток</h3><p>Официальный договор, задаток 100 000 ₽. Если машину не нашли или она не устроила — возвращаем задаток.</p></div>
+      <div class="step reveal"><span class="n">03</span><h3>Проверка до покупки</h3><p>Выездная диагностика на месте: толщиномер, электрика, ошибки, кузов, двигатель. Только потом выкуп.</p></div>
+      <div class="step reveal"><span class="n">04</span><h3>Оплата через ВТБ</h3><p>~80% — по инвойсу через банк, курс фиксируется. Остаток ~20% — таможенные платежи по приезду, они уже в цене.</p></div>
+      <div class="step reveal"><span class="n">05</span><h3>Доставка и растаможка</h3><p>Логистика, таможня, лаборатория и ЭПТС — берём на себя. Каждый этап — фото и видео в группе.</p></div>
+      <div class="step hl reveal"><span class="n">06</span><h3>Выдача в Ростове</h3><p>Принимаем машину лично, готовим в своём гараже и передаём вам ключи.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="handover" style="padding-top:0">
+  <div class="wrap">
+    <div class="handover reveal">
+      <div style="position:relative;z-index:1">
+        <div class="eyebrow">Выдача</div>
+        <h2>Отдаём машину как для себя</h2>
+        <p>Получение машины — один из ярких моментов в жизни. Делаем его таким: без грязи с автовоза и сюрпризов потом.</p>
+        <div class="photo"><img src="img/h1.jpg" alt="Выдача Mazda клиентам в гараже" loading="lazy"></div>
+      </div>
+      <ul class="checks">
+        <li>Личная приёмка: фонари, толщиномер, проверка документов</li>
+        <li>Мойка снаружи и внутри — максимально близко к новой</li>
+        <li>Полный бак или полный заряд у электромобиля</li>
+        <li>Подарок «на обмыть» — каждому клиенту</li>
+        <li>Тонировка, бронеплёнка, русификация — по желанию, заранее</li>
+        <li>После выдачи на связи: запчасти, проверенные мастера</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Выдачи</div>
+    <h2>Ключи уже у них</h2>
+    <div class="gal" id="gal">
+      <a href="img/h4.jpg"><img src="img/h4.jpg" alt="Выдача автомобиля в гараже" loading="lazy"></a>
+      <a href="img/h7.jpg"><img src="img/h7.jpg" alt="Выдача Volkswagen" loading="lazy"></a>
+      <a href="img/h8.jpg"><img src="img/h8.jpg" alt="Выдача автомобиля клиентам" loading="lazy"></a>
+      <a href="img/h3.jpg"><img src="img/h3.jpg" alt="Вечерняя выдача в гараже" loading="lazy"></a>
+      <a href="img/h10.jpg"><img src="img/h10.jpg" alt="Выдача автомобиля семье" loading="lazy"></a>
+      <a href="img/h5.jpg"><img src="img/h5.jpg" alt="Выдача Lexus" loading="lazy"></a>
+      <a href="img/h9.jpg"><img src="img/h9.jpg" alt="Передача ключей" loading="lazy"></a>
+      <a href="img/h2.jpg"><img src="img/h2.jpg" alt="Выдача вечером" loading="lazy"></a>
+    </div>
+    <div class="gal-more"><a href="#quiz" class="btn shine">Хочу так же →</a></div>
+  </div>
+</section>
+
+<section id="team" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Команда</div>
+    <h2>Кто ведёт вашу сделку</h2>
+    <div class="team">
+      <div class="member reveal"><div class="ph"><img src="img/team/aleksey.jpg" alt="Алексей Клещёв" loading="lazy"></div><span class="role">Подбор и договор</span><b>Алексей Клещёв</b><p>Владелец. Разбирается в вашем запросе, считает цену под ключ, заключает договор и собирает группу сопровождения.</p></div>
+      <div class="member reveal"><div class="ph"><img src="img/team/rashid.jpg" alt="Рашид" loading="lazy"></div><span class="role">Поиск и логистика</span><b>Рашид</b><p>Находит машину, работает с партнёрами в Китае: выездная диагностика, документы, отправка. Ведёт доставку до Ростова.</p></div>
+      <div class="member reveal"><div class="ph"><img src="img/team/ivan.jpg" alt="Иван" loading="lazy"></div><span class="role">Растаможка и выдача</span><b>Иван</b><p>Растаможка, лаборатория и ЭПТС, предпродажная подготовка. Выдаёт машину, организует и согласует установку доп. опций.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" style="padding-top:0">
+  <div class="wrap">
+    <div class="rev-top">
+      <div><div class="eyebrow">Отзывы</div><h2>Что говорят клиенты</h2>
+        <div class="rating"><b>4,8</b><span class="stars">★★★★★</span>Яндекс Карты<a class="ya" href="https://yandex.ru/maps/org/chestny_avtomobil/226227269441/reviews/" target="_blank" rel="noopener">Все отзывы →</a></div>
+      </div>
+      <div class="arrows"><button aria-label="Назад" data-dir="-1">←</button><button aria-label="Вперёд" data-dir="1">→</button></div>
+    </div>
+    <div class="reviews" id="revs">
+      <div class="review"><q>Боялись, что будут задержки или скрытые платежи — но всё прошло чётко, как по маслу.</q><div class="who"><div class="avatar">Р</div><div><b>Роман</b>VW Lamando L из Китая</div></div></div>
+      <div class="review"><q>Выдали авто чистое, с полным баком бензина и ещё приятным бонусом на обмыть.</q><div class="who"><div class="avatar">В</div><div><b>Виктория</b>Яндекс Карты</div></div></div>
+      <div class="review"><q>Цены на фоне конкурентов всегда давали итоговые, без каких-то доплат.</q><div class="who"><div class="avatar">М</div><div><b>Максим</b>машина для жены из Кореи</div></div></div>
+      <div class="review"><q>Если бы не ребята, я точно бы влетел на какой-то хлам, оказывается столько битых машин.</q><div class="who"><div class="avatar">А</div><div><b>Алексан</b>Infiniti, пришёл по совету друзей</div></div></div>
+      <div class="review"><q>Мы заказывали максимальную комплектацию из Киргизии — и ребята справились всего за 10 дней!</q><div class="who"><div class="avatar">A</div><div><b>Клиент</b>Audi Q3 2026 из Киргизии</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="channel" style="padding-top:0">
+  <div class="wrap">
+    <div class="chan reveal">
+      <div>
+        <div class="eyebrow">Канал в MAX</div>
+        <h2>Смотрите, как это происходит</h2>
+        <p>Выдачи, видео с таможни, свежие машины и реальные цены под ключ. Подпишитесь — отписаться успеете.</p>
+        <div class="stats-row">
+          <div><b>1 200+</b><span>подписчиков</span></div>
+        </div>
+        <a class="btn maxbtn" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener"><svg><use href="#i-max"/></svg>Подписаться на канал</a>
+      </div>
+      <div class="feed" aria-hidden="true">
+        <img src="video/review1.jpg" alt="" loading="lazy">
+        <img src="video/review2.jpg" alt="" loading="lazy">
+        <img src="video/review3.jpg" alt="" loading="lazy">
+        <img src="video/review4.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Вопросы</div>
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details><summary>Что входит в цену под ключ?</summary><p>Автомобиль, логистика до Ростова, таможенные платежи, утильсбор, брокер, ЭПТС и наши услуги. Мойка, полный бак и подарок на выдаче — тоже. Сравнивайте итоговую цену в Ростове, а не отдельные статьи.</p></details>
+      <details><summary>Почему чаще всего Китай?</summary><p>При тех же параметрах машина из Кореи в среднем на 15–20% дороже. Корею предлагаем, когда нужен полный привод, дизель или конкретная модель.</p></details>
+      <details><summary>Может ли цена измениться?</summary><p>После оплаты через ВТБ стоимость машины, логистики и наших услуг фиксируется. Таможенные платежи (~20%) считаются по курсу евро на день растаможки — могут немного измениться и в плюс, и в минус.</p></details>
+      <details><summary>Что если машина не найдётся?</summary><p>Возвращаем задаток полностью в течение нескольких рабочих дней. Удерживаем только выездную диагностику 10 000 ₽, если она уже была.</p></details>
+      <details><summary>Я не в Ростове. Можно привезти домой?</summary><p>Да, доставим эвакуатором за доплату. Если вы в 200–300 км — приглашаем на выдачу лично.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contacts" style="padding-top:0">
+  <div class="wrap contact">
+    <div class="info reveal">
+      <div><div class="eyebrow">Контакты</div><h2>Обсудим ваш автомобиль</h2></div>
+      <div><span>Адрес</span><b>Ростов-на-Дону, ул. Красноармейская, 200</b></div>
+      <div><span>Телефон</span><b><a href="tel:+79198731668">+7 919 873-16-68</a></b></div>
+      <div class="msgr">
+        <a class="mb wa" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener"><i><svg><use href="#i-wa"/></svg></i>WhatsApp</a>
+        <a class="mb tg" data-m="tg" href="https://t.me/+79198731668" target="_blank" rel="noopener"><i><svg><use href="#i-tg"/></svg></i>Telegram</a>
+        <a class="mb max" data-m="max" href="#" target="_blank" rel="noopener"><i><svg><use href="#i-max"/></svg></i>MAX</a>
+      </div>
+      <div><span>На связи</span><b>Консультации 24/7</b></div>
+    </div>
+    <form id="lead" class="reveal" novalidate>
+      <div class="form-body">
+        <h3>Оставить заявку</h3>
+        <p style="color:var(--muted);margin-bottom:10px">Оставьте телефон — менеджер свяжется и пришлёт варианты с ценой под ключ.</p>
+        <div style="display:grid;gap:14px">
+          <input id="l-name" name="name" aria-label="Ваше имя" placeholder="Ваше имя" autocomplete="given-name" required>
+          <input id="l-phone" name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required>
+          <button class="btn" type="submit" style="justify-content:center">Отправить заявку →</button>
+          <p class="qnote">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html" style="color:inherit;text-decoration:underline">обработку персональных данных</a>.</p>
+        </div>
+      </div>
+      <div class="form-ok"><b>Заявка готова</b><p style="color:var(--muted);margin-bottom:20px">Отправьте её нам в WhatsApp — текст уже заполнен.</p><a id="wa-send" class="btn" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a><p style="color:var(--muted);margin-top:18px;font-size:14px">Или позвоните: +7 919 873-16-68</p></div>
+    </form>
+  </div>
+</section>
+
+<div class="lb" id="lb"><img alt=""><button class="x" aria-label="Закрыть">✕</button><button class="pv" aria-label="Назад">←</button><button class="nx" aria-label="Вперёд">→</button></div>
+
+<footer>
+  <div class="wrap"><div class="legal"><span>© 2026 Честный автомобиль · ИП Клещёв А. В. · ИНН 261806972222 · ОГРНИП 318619600025839</span><span>Ростов-на-Дону, ул. Красноармейская, 200 · +7 919 873-16-68</span><span><a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener" style="color:inherit">Канал в MAX</a> · <a href="privacy.html" style="color:inherit">Политика конфиденциальности</a></span></div><a href="#">Наверх ↑</a></div>
+</footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.3 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.5c.2.6.4.8.8.8s.6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4zM9.9 14.6l-.4 4-1.5-4.7 10.4-6.6z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 2.5c-5.3 0-9.5 4-9.5 9 0 2.6 1.1 4.9 3 6.5l-.6 3.3 3.4-1.6c1.1.4 2.4.7 3.7.7 5.3 0 9.5-4 9.5-9s-4.2-8.9-9.5-8.9zM7.6 15V8.6h1.7l2.7 3.6 2.7-3.6h1.7V15h-1.8v-3.7L12 14.6l-2.6-3.3V15z"/></symbol>
+</svg>
+<div class="fab" id="fab">
+  <a class="max" data-m="max" href="#" target="_blank" rel="noopener" aria-label="Написать в MAX"><svg><use href="#i-max"/></svg></a>
+  <a class="tg" data-m="tg" href="https://t.me/+79198731668" target="_blank" rel="noopener" aria-label="Написать в Telegram"><svg><use href="#i-tg"/></svg></a>
+  <a class="wa" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg><use href="#i-wa"/></svg></a>
+</div>
+<div class="mbar" id="mbar">
+  <a href="#quiz" class="btn">Подобрать авто</a>
+  <a class="ic wa" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><svg><use href="#i-wa"/></svg></a>
+  <a class="ic tg" data-m="tg" href="https://t.me/+79198731668" target="_blank" rel="noopener" aria-label="Написать в Telegram"><svg><use href="#i-tg"/></svg></a>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const hdr=document.getElementById('top'),fab=document.getElementById('fab');
+const mbar=document.getElementById('mbar'),prog=document.getElementById('progress'),quizEl=document.getElementById('quiz');
+function onScroll(){
+  const y=scrollY,show=y>innerHeight*.6;
+  hdr.classList.toggle('scrolled',y>40);fab.classList.toggle('on',show);
+  const r=quizEl.getBoundingClientRect(),inQuiz=r.top<innerHeight*.8&&r.bottom>innerHeight*.3;
+  mbar.classList.toggle('on',show&&!inQuiz);
+  prog.style.transform='scaleX('+(y/Math.max(1,document.documentElement.scrollHeight-innerHeight))+')';
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// Мессенджеры. MAX не открывает чат по номеру — вставьте ссылку на профиль
+// (MAX → Профиль → «Поделиться ссылкой»). Пока пусто, кнопка копирует номер.
+const PHONE='+7 919 873-16-68', MAX_URL='https://max.ru/id261806972222_biz';
+const toast=document.getElementById('toast');let tt;
+function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),4500)}
+document.querySelectorAll('[data-m="max"]').forEach(a=>{
+  if(MAX_URL){a.href=MAX_URL;return}
+  a.removeAttribute('target');
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const done=()=>say('Номер '+PHONE+' скопирован — найдите нас в MAX по номеру');
+    try{navigator.clipboard.writeText(PHONE.replace(/[^\d+]/g,'')).then(done,()=>say('Найдите нас в MAX по номеру '+PHONE))}
+    catch(_){say('Найдите нас в MAX по номеру '+PHONE)}
+  });
+});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll?.('[data-count]').forEach(count);
+  if(e.target.matches('[data-count]'))count(e.target);
+  io.unobserve(e.target);
+}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function count(el){
+  if(el.dataset.done)return;el.dataset.done=1;
+  const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now();
+  (function f(t){const p=Math.min((t-t0)/1400,1),v=to*(1-Math.pow(1-p,3));
+    el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+    if(p<1)requestAnimationFrame(f)})(t0);
+}
+
+const revs=document.getElementById('revs');
+document.querySelectorAll('.arrows button').forEach(b=>b.onclick=()=>{
+  const card=revs.querySelector('.review');
+  revs.scrollBy({left:+b.dataset.dir*(card.offsetWidth+12),behavior:'smooth'});
+});
+
+document.querySelectorAll('.vid').forEach(card=>{
+  const v=card.querySelector('video');
+  card.addEventListener('click',()=>{
+    if(v.paused){
+      document.querySelectorAll('.vid video').forEach(o=>{if(o!==v&&!o.paused)o.pause()});
+      v.controls=true;v.play();
+    }else if(!v.controls)v.pause();
+  });
+  v.addEventListener('play',()=>card.classList.add('playing'));
+  v.addEventListener('pause',()=>{card.classList.remove('playing');v.controls=false});
+  v.addEventListener('ended',()=>{card.classList.remove('playing');v.controls=false});
+});
+
+const gal=[...document.querySelectorAll('#gal a')],lb=document.getElementById('lb'),lbImg=lb.querySelector('img');let gi=0,lbList=[];
+const show=i=>{gi=(i+lbList.length)%lbList.length;lbImg.src=lbList[gi];lb.classList.add('on')};
+gal.forEach((a,i)=>a.addEventListener('click',e=>{e.preventDefault();lbList=gal.map(x=>x.href);show(i)}));
+document.querySelectorAll('.case .pic').forEach(pic=>{
+  const open=()=>{lbList=pic.dataset.photos.split(',');show(0)};
+  pic.addEventListener('click',open);
+  pic.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+});
+lb.querySelector('.x').onclick=()=>lb.classList.remove('on');
+lb.querySelector('.pv').onclick=e=>{e.stopPropagation();show(gi-1)};
+lb.querySelector('.nx').onclick=e=>{e.stopPropagation();show(gi+1)};
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('on')});
+addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;
+  if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')show(gi-1);if(e.key==='ArrowRight')show(gi+1)});
+
+
+// Квиз: 4 вопроса → контакты → готовое сообщение в выбранный мессенджер
+(()=>{
+  const steps=[...document.querySelectorAll('#qcard .qstep')],bar=document.getElementById('qbar'),cnt=document.getElementById('qcount'),
+    hint=document.getElementById('qhint'),back=document.getElementById('qback'),answers={};let cur=0,text='';
+  const go=i=>{
+    steps[cur].classList.remove('on');cur=i;steps[cur].classList.add('on');
+    bar.style.width=(cur>=5?100:20+cur*20)+'%';
+    cnt.textContent=cur<4?`Вопрос ${cur+1} из 4`:cur===4?'Последний шаг':'Готово';
+    hint.textContent=cur<4?'≈ 1 минута':cur===4?'осталось 10 секунд':'';
+    back.hidden=cur===0||cur===5;
+    if(cur===4)setTimeout(()=>document.getElementById('q-name').focus({preventScroll:true}),350);
+  };
+  steps.slice(0,4).forEach((st,i)=>st.querySelectorAll('.opts button').forEach(b=>b.addEventListener('click',()=>{
+    st.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');
+    answers[st.dataset.key]=b.firstChild.textContent.trim();
+    setTimeout(()=>go(i+1),220);
+  })));
+  back.addEventListener('click',()=>cur>0&&go(cur-1));
+  document.getElementById('qform').addEventListener('submit',e=>{
+    e.preventDefault();const f=e.target,name=f.name.value.trim(),phone=f.phone.value.trim();
+    if(!name){f.name.focus();say('Напишите, как к вам обращаться');return}
+    if(phone.replace(/\D/g,'').length<10){f.phone.focus();say('Проверьте номер телефона');return}
+    text=['Заявка с сайта (подбор)',...Object.entries(answers).map(([k,v])=>k+': '+v),'Имя: '+name,'Телефон: '+phone].join('\n');
+    document.getElementById('qsum').textContent=text;
+    document.getElementById('q-send').href='https://wa.me/79198731668?text='+encodeURIComponent(text);
+    go(5);
+  });
+  document.getElementById('q-copy').addEventListener('click',()=>copy(text,'Заявка скопирована'));
+  function copy(t,msg){
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('qsum'));const s=getSelection();s.removeAllRanges();s.addRange(r);say('Текст выделен — скопируйте его')};
+    try{navigator.clipboard.writeText(t).then(()=>say(msg),sel)}catch(_){sel()}
+  }
+})();
+
+// Маска телефона: +7 900 000-00-00
+document.querySelectorAll('input[type=tel]').forEach(inp=>{
+  inp.addEventListener('focus',()=>{if(!inp.value)inp.value='+7 '});
+  inp.addEventListener('blur',()=>{if(inp.value.trim()==='+7')inp.value=''});
+  inp.addEventListener('input',()=>{
+    let d=inp.value.replace(/\D/g,'');
+    if(d.startsWith('78')&&d.length>11)d='7'+d.slice(2);
+    if(d[0]==='8')d='7'+d.slice(1); if(d[0]!=='7')d='7'+d; d=d.slice(0,11);
+    const p=d.slice(1);let o='+7';
+    if(p.length)o+=' '+p.slice(0,3); if(p.length>3)o+=' '+p.slice(3,6);
+    if(p.length>6)o+='-'+p.slice(6,8); if(p.length>8)o+='-'+p.slice(8,10);
+    inp.value=o;
+  });
+});
+
+// Кнопки «Хочу такую»: сообщение в WhatsApp с машиной и ценой
+document.querySelectorAll('.case').forEach(c=>{
+  const a=c.querySelector('.btn');
+  a.href='https://wa.me/79198731668?text='+encodeURIComponent(`Здравствуйте! Интересует ${c.dataset.car} за ${c.dataset.price} ₽ под ключ — увидел на сайте. Можно подобрать похожую?`);
+});
+
+// Заявка уходит в WhatsApp Алексея готовым сообщением (без сервера)
+document.getElementById('lead').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(!f.name.value.trim()||!f.phone.value.trim()){f.reportValidity();return}
+  const text=`Заявка с сайта\nИмя: ${f.name.value.trim()}\nТелефон: ${f.phone.value.trim()}`;
+  document.getElementById('wa-send').href='https://wa.me/79198731668?text='+encodeURIComponent(text);
+  f.querySelector('.form-body').style.display='none';
+  f.querySelector('.form-ok').style.display='block';
+});
+</script>
+</body>
+</html>
