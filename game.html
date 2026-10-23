@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Угадай цену под ключ 🚗 — Честный автомобиль</title>
+<meta name="description" content="Игра: угадай, сколько стоят под ключ в Ростове тачки из Китая и Кореи. 7 раундов, реальные цены из нашего канала, приз в конце.">
+<meta name="theme-color" content="#121417">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121417'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FF7A1A'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Угадай цену под ключ: машины из Китая и Кореи">
+<meta property="og:description" content="Сколько стоит Audi из Китая под ключ в Ростове? Угадай за 2 минуты, набей очки и забери приз 🎁">
+<meta property="og:image" content="https://strikeyard.github.io/chestny-avto/img/og.jpg">
+<meta property="og:url" content="https://strikeyard.github.io/chestny-avto/game.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
+  --accent:#FF7A1A; --on-accent:#121417; --text:#FFFFFF; --muted:#A9B0BA;
+  --good:#3DDC84; --bad:#FF5A5F; --wa:#25D366;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",Manrope,system-ui,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+h1,h2,h3{font-family:Manrope,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
+.app{max-width:520px;margin:0 auto;min-height:100%;padding:14px 16px 28px;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-family:Manrope,sans-serif;font-size:15px;color:var(--text);text-decoration:none}
+.logo i{width:22px;height:22px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(255,122,26,.18)}
+.score{font-family:Manrope,sans-serif;font-weight:800;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-variant-numeric:tabular-nums;transition:transform .2s}
+.score.bump{transform:scale(1.15);border-color:var(--accent)}
+.progress{display:flex;gap:5px;margin-bottom:16px}
+.progress span{flex:1;height:5px;border-radius:3px;background:var(--line);transition:background .3s}
+.progress span.done{background:var(--accent)}
+.progress span.now{background:rgba(255,122,26,.45)}
+.screen{display:none;flex-direction:column;flex:1;animation:in .35s ease}
+.screen.on{display:flex}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.muted{color:var(--muted)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:14px;background:var(--accent);color:var(--on-accent);font-family:Manrope,sans-serif;font-weight:800;font-size:17px;padding:17px 20px;cursor:pointer;text-decoration:none;transition:transform .1s,filter .2s}
+.btn:active{transform:scale(.98)}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#08210f}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn svg{width:22px;height:22px;fill:currentColor}
+
+/* intro */
+.hero{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/3.4;margin-bottom:20px;background:var(--card)}
+.hero img{position:absolute;width:50%;height:50%;object-fit:cover}
+.hero img:nth-child(1){left:0;top:0}.hero img:nth-child(2){right:0;top:0}
+.hero img:nth-child(3){left:0;bottom:0}.hero img:nth-child(4){right:0;bottom:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,23,.1) 30%,rgba(18,20,23,.95))}
+.hero .q{position:absolute;z-index:2;left:18px;right:18px;bottom:16px}
+.hero .q b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(40px,12vw,64px);line-height:.9;color:var(--accent)}
+.intro h1{font-size:clamp(28px,8vw,40px);margin-bottom:12px}
+.rules{list-style:none;display:grid;gap:10px;margin:18px 0 22px}
+.rules li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:15px}
+.rules li b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:14px;font-family:Manrope,sans-serif}
+.best{text-align:center;color:var(--muted);font-size:14px;margin-top:12px}
+
+/* car round */
+.car{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.pic{position:relative;aspect-ratio:4/3;background:#000;cursor:pointer;user-select:none}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .from{position:absolute;left:12px;top:12px;background:rgba(18,20,23,.8);backdrop-filter:blur(6px);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700}
+.pic .dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:5px}
+.pic .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45)}
+.pic .dots i.on{background:#fff;width:16px;border-radius:3px}
+.pic .hint{position:absolute;right:12px;top:12px;background:rgba(18,20,23,.8);border-radius:999px;padding:5px 10px;font-size:12px;color:var(--muted)}
+.car .body{padding:16px 16px 18px}
+.car h2{font-size:24px;margin-bottom:10px}
+.specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.specs span{background:var(--card2);border-radius:8px;padding:4px 9px;font-size:13px;color:var(--muted)}
+.ru{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px}
+.ru b{font-family:Manrope,sans-serif;font-size:19px;text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px;white-space:nowrap}
+.ask{font-family:Manrope,sans-serif;font-weight:800;font-size:17px;text-transform:uppercase;margin:18px 0 6px}
+.guess{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(34px,10vw,46px);text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:4px 0 6px}
+.guess small{font-size:.5em;color:var(--muted)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:pointer;touch-action:pan-y}
+input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:5px;background:linear-gradient(90deg,var(--accent) var(--p,50%),var(--line) var(--p,50%))}
+input[type=range]::-moz-range-track{height:10px;border-radius:5px;background:var(--line)}
+input[type=range]::-moz-range-progress{height:10px;border-radius:5px;background:var(--accent)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:#fff;border:6px solid var(--accent);margin-top:-12px;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:6px solid var(--accent)}
+.range-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:16px}
+.steppers{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.steppers button{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 0;font-weight:700;font-size:14px;cursor:pointer}
+.steppers button:active{background:var(--card2)}
+
+/* reveal */
+.reveal{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px 18px;margin-top:14px;animation:in .35s ease}
+.verdict{font-family:Manrope,sans-serif;font-weight:800;font-size:22px;text-transform:uppercase;margin-bottom:6px;text-align:center}
+.face{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:72px;line-height:1;text-align:center;margin:2px 0 10px;animation:face .7s cubic-bezier(.3,1.6,.5,1)}
+.say{text-align:center;color:var(--muted);font-size:15px;margin-bottom:12px}
+@keyframes face{0%{transform:scale(0) rotate(-25deg)}60%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.fact .face{font-size:60px;margin-bottom:8px}
+.fact .verdict{color:var(--text)}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row:last-of-type{border-bottom:0}
+.row b{font-family:Manrope,sans-serif;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.row b.big{font-size:26px;color:var(--accent)}
+.save{margin:14px 0 4px;background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.35);color:var(--good);border-radius:14px;padding:12px 14px;font-weight:700;font-size:15px}
+.pts{text-align:center;font-family:Manrope,sans-serif;font-weight:800;font-size:44px;color:var(--accent);margin:10px 0 2px;font-variant-numeric:tabular-nums}
+.pts + p{text-align:center;color:var(--muted);font-size:13px;margin-bottom:16px}
+
+/* quiz */
+.quizq{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px 18px}
+.quizq .tag{display:inline-block;background:rgba(255,122,26,.14);color:var(--accent);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;margin-bottom:14px}
+.quizq h2{font-size:clamp(22px,6.4vw,28px);margin-bottom:18px;text-transform:none;letter-spacing:-.01em}
+.opts{display:grid;gap:9px}
+.opts button{text-align:left;background:var(--card2);border:2px solid transparent;border-radius:14px;padding:15px 16px;font-size:16px;font-weight:600;cursor:pointer;transition:border-color .2s,background .2s}
+.opts button:hover{border-color:var(--line)}
+.opts button.right{border-color:var(--good);background:rgba(61,220,132,.12)}
+.opts button.wrong{border-color:var(--bad);background:rgba(255,90,95,.1)}
+.opts.locked button{pointer-events:none}
+.fact{margin-top:14px;font-size:15px;color:var(--muted);animation:in .35s ease}
+.fact b{color:var(--text)}
+.vibe{text-align:center;color:var(--muted);font-size:14px;min-height:20px;margin-bottom:2px}
+.streak{text-align:center;margin:-6px auto 14px;width:max-content;max-width:100%;background:linear-gradient(90deg,#FF7A1A,#ff4d4d);color:#fff;font-family:Manrope,sans-serif;font-weight:800;border-radius:999px;padding:7px 16px;font-size:15px;animation:pop .45s ease}
+.quizq .streak{margin:14px auto 0}
+@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+
+/* final */
+.final h1{font-size:clamp(30px,9vw,44px);margin-bottom:6px}
+.rank{align-self:flex-start;display:inline-block;background:var(--accent);color:var(--on-accent);font-family:Manrope,sans-serif;font-weight:800;text-transform:uppercase;border-radius:10px;padding:6px 12px;font-size:15px;margin-bottom:14px}
+.big-score{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(60px,18vw,90px);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stats b{display:block;font-family:Manrope,sans-serif;font-size:20px;font-variant-numeric:tabular-nums}
+.stats span{font-size:13px;color:var(--muted)}
+.scratch{user-select:none;-webkit-user-select:none;position:relative;border-radius:20px;overflow:hidden;margin:6px 0 16px;background:linear-gradient(135deg,#2b1a0c,#1C2026);border:2px dashed var(--accent);min-height:150px}
+.scratch .prize{padding:20px 18px;text-align:center}
+.scratch .prize .eyebrow{margin-bottom:6px}
+.scratch .prize b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:21px;line-height:1.15;margin-bottom:6px;text-transform:uppercase}
+.scratch .prize p{font-size:14px;color:var(--muted)}
+.scratch canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .5s}
+.timer{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px;font-size:14px}
+.timer b{font-family:Manrope,sans-serif;font-size:22px;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+form{display:grid;gap:10px;margin-bottom:12px}
+form input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:17px;outline:none}
+form input:focus{border-color:var(--accent)}
+.small{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
+.small a{color:var(--muted)}
+.actions{display:grid;gap:10px;margin-top:6px}
+.ok{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 16px;margin-bottom:12px}
+.ok b{display:block;font-family:Manrope,sans-serif;font-size:20px;text-transform:uppercase;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#fff;color:#121417;border-radius:12px;padding:12px 18px;font-weight:700;transition:transform .3s;z-index:20}
+.toast.on{transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:15}
+.foot{margin-top:auto;padding-top:22px;text-align:center;font-size:12px;color:var(--muted)}
+.foot a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="app">
+  <div class="top">
+    <a class="logo" href="./" aria-label="Честный автомобиль — на главную"><i></i>Честный автомобиль</a>
+    <div class="score" id="score" hidden>0</div>
+  </div>
+  <div class="progress" id="progress" hidden></div>
+
+  <!-- intro -->
+  <section class="screen intro on" id="s-intro">
+    <div class="hero">
+      <img src="img/cars/a3l-1.jpg" alt=""><img src="img/cars/tayron-1.jpg" alt="">
+      <img src="img/cars/cruze-1.jpg" alt=""><img src="img/cars/q07-1.jpg" alt="">
+      <div class="q"><b>???&nbsp;₽</b><span class="muted">под ключ в Ростове-на-Дону</span></div>
+    </div>
+    <div class="eyebrow">Залипалка на 2 минуты 🎮</div>
+    <h1>Угадай цену под ключ</h1>
+    <p class="muted">Тачки настоящие — мы их реально привозили. Показываем ценник в России, а ты угадываешь, сколько она вышла из-за бугра со всеми растаможками. Спорим, удивишься? 😏</p>
+    <ul class="rules">
+      <li><b>1</b><span>4 тачки и 3 каверзных вопроса</span></li>
+      <li><b>2</b><span>Попал точнее — больше очков. Угадываешь подряд — ловишь 🔥 серию и бонусы</span></li>
+      <li><b>3</b><span>В конце — титул, стирашка с призом и право хвастаться друзьям</span></li>
+    </ul>
+    <button class="btn" id="start">Погнали 🚀</button>
+    <p class="best" id="best"></p>
+  </section>
+
+  <!-- car round -->
+  <section class="screen" id="s-car">
+    <div class="car">
+      <div class="pic" id="pic"><img id="pic-img" alt=""><span class="from" id="from"></span><span class="hint">листайте фото →</span><div class="dots" id="dots"></div></div>
+      <div class="body">
+        <h2 id="car-name"></h2>
+        <div class="specs" id="specs"></div>
+        <div class="ru"><span class="muted">Столько просят в России</span><b id="ru-price"></b></div>
+      </div>
+    </div>
+    <div id="guess-box">
+      <p class="ask">А под ключ сколько? 🤔</p>
+      <div class="guess" id="guess">0 <small>₽</small></div>
+      <p class="vibe" id="vibe"></p>
+      <input type="range" id="slider" aria-label="Твоя цена">
+      <div class="range-legend"><span id="min"></span><span id="max"></span></div>
+      <div class="steppers">
+        <button data-d="-100000">−100 тыс</button><button data-d="-10000">−10 тыс</button>
+        <button data-d="10000">+10 тыс</button><button data-d="100000">+100 тыс</button>
+      </div>
+      <button class="btn" id="check">Вскрываем карты 🃏</button>
+    </div>
+    <div id="reveal-box"></div>
+  </section>
+
+  <!-- quiz round -->
+  <section class="screen" id="s-quiz">
+    <div class="quizq">
+      <span class="tag">Вопросик на 300 очков 💡</span>
+      <h2 id="q-text"></h2>
+      <div class="opts" id="q-opts"></div>
+      <div id="q-fact"></div>
+    </div>
+    <div style="margin-top:14px"><button class="btn" id="q-next" hidden>Погнали дальше →</button></div>
+  </section>
+
+  <!-- final -->
+  <section class="screen final" id="s-final">
+    <div class="eyebrow">Финиш 🏁</div>
+    <h1>Ну ты даёшь!</h1>
+    <div class="big-score" id="f-score">0</div>
+    <div class="rank" id="f-rank"></div>
+    <p class="muted" id="f-text"></p>
+    <div class="stats">
+      <div><b id="f-acc"></b><span>точность твоих ставок 🎯</span></div>
+      <div><b id="f-save"></b><span>можно сэкономить на этих 4 тачках</span></div>
+    </div>
+    <div class="eyebrow" style="margin-top:6px">Тут твой приз — три пальцем 👇</div>
+    <div class="scratch" id="scratch">
+      <div class="prize" id="prize"></div>
+      <canvas id="scratch-cv" aria-label="Стирашка — проведи пальцем"></canvas>
+    </div>
+    <div id="claim">
+      <div class="timer"><span>⚡ Утильсбор подорожает 1 января. Осталось:</span><b id="days"></b></div>
+      <form id="form" novalidate>
+        <input id="name" name="name" autocomplete="given-name" placeholder="Как тебя зовут?" required>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+        <button class="btn" type="submit">Забрать приз 🎁</button>
+      </form>
+      <p class="small">Жмёшь кнопку — соглашаешься с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки данных</a>. Без спама и ни к чему не обязывает 🤝</p>
+    </div>
+    <div id="claimed" hidden>
+      <div class="ok"><b>Приз твой! 🎉</b><p class="muted">Осталось отправить в WhatsApp — текст уже набран. Алексей ответит тебе в течение дня 🤙</p></div>
+      <a class="btn wa" id="wa-send" href="https://wa.me/79198731668" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.3 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></svg>Отправить в WhatsApp</a>
+    </div>
+    <div class="actions">
+      <button class="btn ghost" id="share">Бросить вызов другу 😈</button>
+      <button class="btn ghost" id="again">Ещё разок 🔁</button>
+    </div>
+  </section>
+
+  <p class="foot">Цены — из наших публикаций в канале MAX на дату поста; «в России» — такая же машина на российском рынке. Перед заказом скинем тебе точный расчёт на сегодня 😉<br><a href="./">strikeyard.github.io/chestny-avto</a> · +7 919 873-16-68</p>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// Если страницу открыли не с сайта (файлом, в превью, пересланной), берём фото с опубликованного сайта
+const LIVE = 'https://strikeyard.github.io/chestny-avto/';
+function fixImg(img){ const s = img.getAttribute('src'); if(s && !/^(https?:|data:)/.test(s)) img.src = LIVE + s; }
+document.addEventListener('error', e=>{ if(e.target.tagName==='IMG') fixImg(e.target); }, true);
+document.querySelectorAll('img').forEach(i=>{ if(i.complete && !i.naturalWidth) fixImg(i); });
+
+// ===== Настройки, которые можно менять =====
+const PHONE = '79198731668';
+const YM_ID = ''; // номер счётчика Яндекс Метрики, когда появится
+// Призы по титулу. Обещать можно только то, что владелец подтвердил.
+const PRIZES = {
+  pro:  {title:'Подбор 2 тачек под твой бюджет + личный расчёт от Алексея', note:'Варианты с итоговой ценой под ключ за 1–2 дня и честный разбор, успевает ли машина до 1 января.'},
+  mid:  {title:'Подбор 2 тачек под твой бюджет с ценой под ключ', note:'Скинем варианты с фото и итоговой ценой в Ростове за 1–2 дня.'},
+  base: {title:'Подбор тачки под твой бюджет с ценой под ключ', note:'Скинем вариант с фото и итоговой ценой в Ростове за 1–2 дня.'}
+};
+
+// Реальные кейсы из канала (см. раздел «Сколько стоит под ключ» на главной)
+const CARS = [
+  {name:'Chevrolet Cruze 2023', from:'Из Китая', specs:['27 000 км','1.5 л · 113 л.с.','робот'], price:1597000, save:350000, photos:['cruze-1','cruze-2','cruze-3','cruze-4']},
+  {name:'Audi A3L 2023', from:'Из Китая', specs:['60 000 км','1.4 TSI · 150 л.с.','S tronic'], price:2375000, save:450000, photos:['a3l-1','a3l-2','a3l-3','a3l-4']},
+  {name:'Volkswagen Tayron 2022', from:'Из Китая', specs:['44 000 км','1.4 TSI · 150 л.с.','DSG'], price:2778000, save:400000, photos:['tayron-1','tayron-2','tayron-4','tayron-5']},
+  {name:'Changan Q07 2026', from:'Новый, из Киргизии', specs:['без пробега','гибрид · 374 л.с.','215 км на электричестве'], price:3810000, save:500000, photos:['q07-1','q07-2','q07-3','q07-4']}
+];
+const QUIZ = [
+  {q:'Сколько едет тачка из Китая до Ростова? 🚛', opts:['10–15 дней','40–55 дней','3–4 месяца'], a:1,
+   fact:'<b>40–55 дней</b> — автовозом через Казахстан. Из Кореи — 35–45, новые из Киргизии — 10–15. Как раз успеешь соскучиться 😄'},
+  {q:'Что входит в нашу цену «под ключ»?', opts:['Машина и доставка, остальное — сюрприз 🙃','Всё, кроме растаможки','Всё: доставка, растаможка, ЭПТС, мойка и полный бак ⛽'], a:2,
+   fact:'Называем <b>одну итоговую цену в Ростове</b> сразу — без «ой, ещё доплатите». Если курс может сдвинуть сумму — говорим заранее. Забираешь чистую и с полным баком.'},
+  {q:'Когда каждый год дорожает утильсбор? 💸', opts:['1 января','1 июля','Когда Луна в Козероге 🌙'], a:0,
+   fact:'<b>1 января</b> — индексация. Кто растаможился до неё, тот сэкономил. Поэтому осенью все и суетятся 🏃'}
+];
+const ORDER = [['car',0],['quiz',0],['car',1],['quiz',1],['car',2],['quiz',2],['car',3]];
+const MAX_SCORE = CARS.length*1000 + QUIZ.length*300;
+
+// ===== Утилиты =====
+const $ = id => document.getElementById(id);
+const rub = n => Math.round(n).toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽';
+const goal = g => { try{ if(YM_ID && window.ym) ym(+YM_ID,'reachGoal',g); }catch(e){} };
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function countUp(el, to, ms, fmt){
+  const t0 = performance.now(), from = 0;
+  (function f(t){ const k = Math.min(1,(t-t0)/ms), e = 1-Math.pow(1-k,3);
+    el.textContent = fmt(from + (to-from)*e); if(k<1) requestAnimationFrame(f); })(t0);
+  setTimeout(()=>{ el.textContent = fmt(to); }, ms+60); // если вкладка не рисует кадры
+}
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),2200); }
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on', s.id===id)); window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ===== Состояние =====
+let step=0, score=0, accs=[], quizRight=0, streak=0;
+const pick = a => a[Math.random()*a.length|0];
+// серия: попал точно (машина ±10% или верный ответ) — серия растёт и даёт бонус
+function hit(ok){
+  streak = ok ? streak+1 : 0;
+  const bonus = streak>=2 ? 100*(streak-1) : 0;
+  return bonus ? `<div class="streak">🔥 Серия x${streak}! Бонус +${bonus}</div>` : '';
+}
+function streakBonus(){ return streak>=2 ? 100*(streak-1) : 0; }
+const best = +store.get('cg_best') || 0;
+if(best) $('best').textContent = 'Твой рекорд: ' + best + ' очков. Побьёшь? 💪';
+
+function setScore(add){
+  score += add; const el=$('score'); el.textContent = score;
+  el.classList.add('bump'); setTimeout(()=>el.classList.remove('bump'),250);
+}
+function drawProgress(){
+  $('progress').innerHTML = ORDER.map((_,i)=>`<span class="${i<step?'done':i===step?'now':''}"></span>`).join('');
+}
+function next(){
+  step++;
+  if(step>=ORDER.length) return finish();
+  drawProgress();
+  const [type,i] = ORDER[step];
+  type==='car' ? carRound(i) : quizRound(i);
+}
+
+// ===== Раунд с машиной =====
+let car, photo=0;
+const slider=$('slider');
+function carRound(i){
+  car = CARS[i]; photo = 0;
+  const ru = car.price + car.save;
+  $('car-name').textContent = car.name;
+  $('from').textContent = car.from;
+  $('specs').innerHTML = car.specs.map(s=>`<span>${s}</span>`).join('');
+  $('ru-price').textContent = rub(ru);
+  setPhoto();
+  const lo = Math.floor(ru*0.5/50000)*50000, hi = Math.ceil(ru/50000)*50000;
+  slider.min = lo; slider.max = hi; slider.step = 10000;
+  slider.value = hi; // старт с цены в России: игрок сам ищет, насколько дешевле
+  $('min').textContent = rub(lo); $('max').textContent = rub(hi);
+  onSlide();
+  $('guess-box').hidden = false; $('reveal-box').innerHTML = '';
+  show('s-car');
+}
+function setPhoto(){
+  $('pic-img').src = 'img/cars/' + car.photos[photo] + '.jpg';
+  $('pic-img').alt = car.name;
+  $('dots').innerHTML = car.photos.map((_,k)=>`<i class="${k===photo?'on':''}"></i>`).join('');
+}
+$('pic').addEventListener('click', e=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  photo = (photo + (e.clientX - r.left < r.width/3 ? car.photos.length-1 : 1)) % car.photos.length;
+  setPhoto();
+});
+function onSlide(){
+  const p = (slider.value - slider.min)/(slider.max - slider.min)*100;
+  slider.style.setProperty('--p', p+'%');
+  $('guess').innerHTML = (+slider.value).toLocaleString('ru-RU').replace(/,/g,' ') + ' <small>₽</small>';
+  const k = slider.value / slider.max;
+  $('vibe').textContent = k>.97 ? 'Это ж цена в России, обижаешь 😏' : k>.9 ? 'Скромненько скидываешь… 🤏' : k>.8 ? 'Так-так, торгуешься уверенно 🧐' : k>.65 ? 'Ого, смело! 😳' : 'Это уже почти даром 😅';
+}
+slider.addEventListener('input', onSlide);
+document.querySelectorAll('.steppers button').forEach(b=>b.addEventListener('click',()=>{
+  slider.value = Math.min(+slider.max, Math.max(+slider.min, +slider.value + +b.dataset.d)); onSlide();
+}));
+$('check').addEventListener('click', ()=>{
+  const g = +slider.value, err = Math.abs(g - car.price)/car.price;
+  const pts = Math.max(0, Math.round(1000*(1 - err*4)));
+  accs.push(Math.max(0, 1-err));
+  const over = g > car.price; // ставка выше реальной цены
+  const r = err<=.03 ? pick([
+      ['🤩','Братан, ты монстр!','Ты точно не перекуп под прикрытием? 😏'],
+      ['😎','Снайпер, дружище!','Прям в копеечку. Уважаю 🤝'],
+      ['🥳','Да ты гений!','С такой чуйкой тебе к нам в команду 😄']])
+    : err<=.08 ? pick([
+      ['😉','Почти в точку, друг!','Ещё чуть-чуть — и был бы джекпот 😉'],
+      ['😁','Красавчик!','Видно, что в тачках шаришь 👌'],
+      ['😏','Горячо-горячо!','Подмигиваю: ты на верном пути 😉']])
+    : err<=.18 ? pick([
+      ['🙂','Неплохо, дружище','Тепло, но не горячо. Следующую добьёшь 💪'],
+      ['🤔','Близко, но не сигара','Разогреваешься, я вижу 😉'],
+      ['😌','Нормально так','Чуть-чуть не дотянул(а), бывает 🤷']])
+    : err<=.3 ? (over ? pick([
+      ['😬','Эх, мимо кассы…','Импорт-то дешевле, чем ты думал(а)! И это хорошая новость 😅'],
+      ['🙈','Ой-ой, переплатил(а) бы!','Хорошо, что это игра. А у нас — дешевле 😉']])
+      : pick([
+      ['😕','Эх, мечтатель…','Чуть дороже, но всё равно сильно дешевле, чем в России 😉'],
+      ['🙃','Губу закатай, друг','Но немного — всё равно выгодно 😄']]))
+    : (over ? pick([
+      ['😭','Ну ты загнул, друг…','Столько отдавать не надо — в этом и смысл импорта 😅'],
+      ['😢','Больно смотреть…','Ничего, следующая тачка будет твоей 🤞'],
+      ['💀','Ну это вообще мимо','Не грусти, зато теперь знаешь реальные цены 😉']])
+      : pick([
+      ['😭','Ахах, это почти даром!','Так дёшево даже из Китая не бывает 😅'],
+      ['😢','Мечтать не вредно…','Но реальность чуть дороже. Держись, друг 🤗']]));
+  const verdict = `<div class="face">${r[0]}</div><div class="verdict">${r[1]}</div><p class="say">${r[2]}</p>`;
+  const streakHtml = hit(err<=.1), bonus = streakBonus();
+  $('guess-box').hidden = true;
+  $('reveal-box').innerHTML = `
+    <div class="reveal">
+      ${verdict}
+      <div class="row"><span class="muted">Твоя ставка</span><b>${rub(g)}</b></div>
+      <div class="row"><span class="muted">Под ключ в Ростове</span><b class="big" id="real">0 ₽</b></div>
+      <div class="save">💸 На ${rub(car.save)} дешевле, чем в России. ${pick(["Это ж отпуск на море 🏖","Хватит на хорошую резину и ещё останется 🛞","Это бензин года на три вперёд ⛽","Можно и ремонт на кухне сделать 🍳"])}</div>
+      <div class="pts" id="pts">+0</div><p>очков за точность</p>${streakHtml}
+      <button class="btn" id="next">${step===ORDER.length-1?'Ну, что там у меня? 👀':'Погнали дальше →'}</button>
+    </div>`;
+  countUp($('real'), car.price, 900, rub);
+  countUp($('pts'), pts, 900, v=>'+'+Math.round(v));
+  setTimeout(()=>setScore(pts + bonus), 900);
+  $('next').addEventListener('click', next);
+  $('reveal-box').scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+// ===== Вопрос =====
+function quizRound(i){
+  const q = QUIZ[i];
+  $('q-text').textContent = q.q; $('q-fact').innerHTML = ''; $('q-next').hidden = true;
+  const box = $('q-opts'); box.className = 'opts';
+  box.innerHTML = q.opts.map((o,k)=>`<button data-k="${k}">${o}</button>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+    const k = +b.dataset.k; box.classList.add('locked');
+    box.children[q.a].classList.add('right');
+    const ok = k===q.a, sh = hit(ok);
+    if(ok){ quizRight++; setScore(300 + streakBonus()); } else b.classList.add('wrong');
+    const qr = ok ? pick([['😉','Шаришь, друг!'],['😎','Точняк, красавчик!'],['🤩','Изи! Ты в теме'],['😏','Ну ты знаток, подмигиваю']])
+                  : pick([['😢','Мимо, дружище…'],['🙈','Не-а, но не грусти'],['😅','Почти! Бывает'],['😕','Эх, не угадал(а)']]);
+    $('q-fact').innerHTML = `<div class="fact"><div class="face">${qr[0]}</div><div class="verdict">${qr[1]}</div><p style="text-align:center">${q.fact}</p></div>${sh}`;
+    $('q-next').hidden = false;
+  }));
+  show('s-quiz');
+}
+$('q-next').addEventListener('click', next);
+
+// ===== Финал =====
+let rankKey='base', rankName='';
+function finish(){
+  $('progress').innerHTML = ORDER.map(()=>'<span class="done"></span>').join('');
+  const share = score/MAX_SCORE;
+  rankKey = share>=.75 ? 'pro' : share>=.5 ? 'mid' : 'base';
+  rankName = {pro:'Акула импорта 🦈', mid:'Шарит за тачки 😎', base:'Зелёный водитель 🔰'}[rankKey];
+  $('f-rank').textContent = rankName;
+  $('f-text').textContent = {
+    pro:'Ты чуешь цены лучше половины перекупов. Осталось выбрать себе тачку 😉',
+    mid:'Чуйка есть! Но импорт всё равно умеет удивлять — дешевле, чем кажется.',
+    base:'Не беда — зато теперь знаешь: на этих 4 тачках разница с рынком больше 1,7 млн ₽ 🤯'
+  }[rankKey];
+  countUp($('f-score'), score, 1200, v=>Math.round(v)+'');
+  $('f-acc').textContent = Math.round(accs.reduce((a,b)=>a+b,0)/accs.length*100) + '%';
+  $('f-save').textContent = rub(CARS.reduce((a,c)=>a+c.save,0));
+  const p = PRIZES[rankKey];
+  $('prize').innerHTML = `<div class="eyebrow">${rankName}</div><b>${p.title}</b><p>${p.note}</p>`;
+  const days = Math.ceil((new Date(new Date().getFullYear()+1,0,1) - new Date())/864e5);
+  $('days').textContent = days + ' ' + plural(days,['день','дня','дней']);
+  if(score > (+store.get('cg_best')||0)) store.set('cg_best', score);
+  $('score').hidden = true;
+  show('s-final'); goal('game_finish');
+  requestAnimationFrame(initScratch);
+  if(rankKey!=='base') setTimeout(confetti, 500);
+}
+function plural(n,f){ n=Math.abs(n)%100; const n1=n%10; return n>10&&n<20?f[2]:n1>1&&n1<5?f[1]:n1===1?f[0]:f[2]; }
+
+// стирашка
+let scratched=false;
+function initScratch(){
+  const cv=$('scratch-cv'), box=$('scratch'), r=box.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  cv.style.opacity=1; cv.style.pointerEvents='auto'; scratched=false;
+  cv.width=r.width*dpr; cv.height=r.height*dpr;
+  const c=cv.getContext('2d'); c.scale(dpr,dpr);
+  const g=c.createLinearGradient(0,0,r.width,r.height);
+  g.addColorStop(0,'#FF7A1A'); g.addColorStop(.5,'#ffb066'); g.addColorStop(1,'#FF7A1A');
+  c.fillStyle=g; c.fillRect(0,0,r.width,r.height);
+  c.fillStyle='rgba(18,20,23,.85)'; c.font='800 20px Manrope, sans-serif'; c.textAlign='center';
+  c.fillText('ТРИ ТУТ 👆', r.width/2, r.height/2-4);
+  c.font='600 14px Manrope, sans-serif'; c.fillText('пальцем или мышкой — как лотерейку', r.width/2, r.height/2+20);
+  c.globalCompositeOperation='destination-out';
+  c.lineWidth=48; c.lineCap='round'; c.lineJoin='round';
+  let down=false, moves=0, last=null;
+  const pos=e=>{const b=cv.getBoundingClientRect(); return [e.clientX-b.left, e.clientY-b.top];};
+  const rub_=e=>{ const [x,y]=pos(e); const [lx,ly]=last||[x,y];
+    c.beginPath(); c.moveTo(lx,ly); c.lineTo(x,y); c.stroke(); last=[x,y];
+    if(++moves%8===0) checkCleared(); };
+  cv.onpointerdown=e=>{down=true; last=null; cv.setPointerCapture(e.pointerId); rub_(e);};
+  cv.onpointermove=e=>{ if(down) rub_(e); };
+  cv.onpointerup=cv.onpointercancel=()=>{down=false; checkCleared();};
+  function checkCleared(){
+    if(scratched) return;
+    const d=c.getImageData(0,0,cv.width,cv.height).data; let clear=0, n=0;
+    for(let i=3;i<d.length;i+=64){ n++; if(d[i]===0) clear++; }
+    if(clear/n>.45){ scratched=true; cv.style.opacity=0; cv.style.pointerEvents='none'; confetti(); goal('game_scratch'); }
+  }
+}
+
+// заявка
+$('phone').addEventListener('input', e=>{
+  let d=e.target.value.replace(/\D/g,''); if(d.startsWith('8')) d='7'+d.slice(1); if(d && !d.startsWith('7')) d='7'+d;
+  d=d.slice(0,11); let s='+7';
+  if(d.length>1) s+=' ('+d.slice(1,4); if(d.length>=4) s+=') '+d.slice(4,7);
+  if(d.length>=7) s+='-'+d.slice(7,9); if(d.length>=9) s+='-'+d.slice(9,11);
+  e.target.value = d ? s : '';
+});
+$('form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const name=$('name').value.trim(), phone=$('phone').value.replace(/\D/g,'');
+  if(!name){ $('name').focus(); return toast('Как тебя зовут? 🙂'); }
+  if(phone.length!==11){ $('phone').focus(); return toast('Кажется, в номере опечатка 📱'); }
+  const text = `Привет! Я ${name} 👋 Мой результат в «Угадай цену под ключ»: ${score} очков, титул «${rankName}». Забираю приз: ${PRIZES[rankKey].title.toLowerCase()}. Мой номер: +${phone}`;
+  $('wa-send').href = `https://wa.me/${PHONE}?text=` + encodeURIComponent(text);
+  $('claim').hidden = true; $('claimed').hidden = false;
+  if(!scratched){ scratched=true; $('scratch-cv').style.opacity=0; $('scratch-cv').style.pointerEvents='none'; }
+  goal('game_lead');
+});
+$('wa-send').addEventListener('click', ()=>goal('game_wa'));
+
+// вызов другу
+$('share').addEventListener('click', async ()=>{
+  const url = location.href.split('#')[0].split('?')[0];
+  const text = `У меня ${score} очков и титул «${rankName}» в «Угадай цену под ключ» 🚗 Угадай, сколько стоят тачки из Китая. Слабо обойти? 😏`;
+  goal('game_share');
+  try{ if(navigator.share){ await navigator.share({title:'Угадай цену под ключ', text, url}); return; } }catch(e){ if(e.name==='AbortError') return; }
+  try{ await navigator.clipboard.writeText(text+' '+url); toast('Ссылка скопирована — кидай другу 😈'); }
+  catch(e){ window.open('https://wa.me/?text='+encodeURIComponent(text+' '+url),'_blank','noopener'); }
+});
+$('again').addEventListener('click', ()=>{ step=-1; score=0; accs=[]; quizRight=0; streak=0; $('score').textContent=0; $('score').hidden=false; $('claim').hidden=false; $('claimed').hidden=true; next(); });
+$('start').addEventListener('click', ()=>{
+  step=-1; $('score').hidden=false; $('progress').hidden=false; goal('game_start'); next();
+});
+
+// конфетти
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv=$('confetti'), c=cv.getContext('2d'); cv.width=innerWidth; cv.height=innerHeight;
+  const cols=['#FF7A1A','#ffffff','#ffb066','#3DDC84'];
+  const ps=Array.from({length:140},()=>({x:Math.random()*cv.width, y:-20-Math.random()*cv.height*.5, vx:(Math.random()-.5)*3, vy:2+Math.random()*4, r:Math.random()*6.28, w:6+Math.random()*6, c:cols[Math.random()*4|0]}));
+  const t0=performance.now();
+  (function f(t){ c.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{ p.x+=p.vx; p.y+=p.vy; p.r+=.1; c.save(); c.translate(p.x,p.y); c.rotate(p.r); c.fillStyle=p.c; c.fillRect(-p.w/2,-p.w/4,p.w,p.w/2); c.restore(); });
+    if(t-t0<3200) requestAnimationFrame(f); else c.clearRect(0,0,cv.width,cv.height); })(t0);
+}
+</script>
+<script>
+// Яндекс Метрика подключается, когда в YM_ID появится номер счётчика
+if (YM_ID) {
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(+YM_ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounces:true});
+}
+</script>
+</body>
+</html>
