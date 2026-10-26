@@ -83,6 +83,48 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;line-
 footer a{text-decoration:underline}
 .m:focus-visible,.l:focus-visible,.save:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.wa-pulse::after{animation:none}}
+
+/* — премиум-слой — */
+.who{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-top:-4px}
+.who b{color:var(--text);font-weight:700}
+.who .dot{width:8px;height:8px;border-radius:50%;background:#2ECC71;box-shadow:0 0 0 0 rgba(46,204,113,.6);animation:live 2s infinite}
+@keyframes live{70%{box-shadow:0 0 0 8px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+.m.wa{background:linear-gradient(135deg,#2BE071,#1EBE5A)}
+.m.tg{background:linear-gradient(135deg,#3DB9F5,#1E96D6)}
+.m.max{background:linear-gradient(135deg,#7D5FFF,#5A3BEA)}
+.m{position:relative;overflow:hidden}
+.m.wa::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3.8s 1s infinite}
+@keyframes shine{0%{left:-60%}30%,100%{left:130%}}
+.row2{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:10px}
+.row2 .save{margin-top:0}
+.share{display:grid;place-items:center;width:64px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:22px;cursor:pointer;transition:border-color .2s,transform .15s}
+.share:hover{border-color:var(--accent)}
+.share:active{transform:scale(.96)}
+.share small{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;border-radius:18px;overflow:hidden}
+.strip a{position:relative;aspect-ratio:3/4;display:block;overflow:hidden}
+.strip img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.strip a:hover img{transform:scale(1.06)}
+.strip a:last-child::after{content:"Ещё →";position:absolute;inset:0;display:grid;place-items:center;background:rgba(18,20,23,.55);font-weight:800;font-family:Manrope,sans-serif}
+
+.rev{margin-top:10px;display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px;transition:border-color .2s}
+.rev:hover{border-color:var(--accent)}
+.rev .stars{color:#FFC83D;letter-spacing:2px;font-size:15px}
+.rev q{display:block;margin:8px 0 10px;font-size:15px;line-height:1.5;quotes:"«" "»"}
+.rev small{color:var(--muted);font-size:13px}
+
+.official{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.official div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;font-size:12px;color:var(--muted);line-height:1.35}
+.official b{display:block;font-size:20px;margin-bottom:4px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--card2);border:1px solid var(--line);padding:12px 18px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-width:calc(100% - 32px);z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+.head,.label,.msgs,.row2,.strip,.rev,.links,.official,footer{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.msgs{animation-delay:.08s}.row2{animation-delay:.14s}.strip{animation-delay:.2s}.rev{animation-delay:.24s}.links{animation-delay:.28s}
+@keyframes rise{from{transform:translateY(16px)}}
+@media(prefers-reduced-motion:reduce){.who .dot,.m.wa::before,.head,.label,.msgs,.row2,.strip,.rev,.links,.official,footer{animation:none}}
 </style>
 </head>
 <body>
@@ -91,6 +133,7 @@ footer a{text-decoration:underline}
   <div class="head">
     <div class="ava"><img src="../img/team/aleksey.jpg" alt="Алексей Клещёв, основатель"></div>
     <h1><i></i>Честный автомобиль</h1>
+    <p class="who"><span class="dot" aria-hidden="true"></span><b>Алексей Клещёв</b> · основатель, на связи лично</p>
     <p class="sub">Привозим машины из Китая, Кореи и Киргизии. Одна итоговая цена под ключ в Ростове — без доплат по ходу.</p>
     <div class="trust">
       <span><b class="star">★ 4,8</b> Яндекс Карты</span>
@@ -106,7 +149,23 @@ footer a{text-decoration:underline}
     <a class="m max" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-max"/></svg></span><span>MAX<small>Наш канал и сообщения</small></span><span class="arr">→</span></a>
     <a class="m call" href="tel:+79198731668"><span class="ic"><svg><use href="#i-call"/></svg></span><span>Позвонить<small>+7 919 873-16-68 · Алексей</small></span><span class="arr">→</span></a>
   </div>
-  <button class="save" type="button" id="save"><span class="ic">📇</span><span>Сохранить контакт в телефон<small>Чтобы написать, когда будет удобно</small></span></button>
+  <div class="row2">
+    <button class="save" type="button" id="save"><span class="ic">📇</span><span>Сохранить контакт<small>Чтобы написать, когда удобно</small></span></button>
+    <button class="share" type="button" id="share" aria-label="Поделиться ссылкой">↗<small>Поделиться</small></button>
+  </div>
+
+  <p class="label">Свежие выдачи 🔑</p>
+  <div class="strip">
+    <a href="../#gallery"><img src="../img/h4.jpg" alt="Выдача автомобиля в гараже" loading="lazy"></a>
+    <a href="../#gallery"><img src="../img/w4.jpg" alt="Выдача Volkswagen клиентке" loading="lazy"></a>
+    <a href="../#gallery"><img src="../img/h7.jpg" alt="Выдача Volkswagen" loading="lazy"></a>
+    <a href="../#gallery"><img src="../img/w6.jpg" alt="Клиентка с новой машиной" loading="lazy"></a>
+  </div>
+  <a class="rev" href="https://yandex.ru/maps/org/chestny_avtomobil/226227269441/reviews/" target="_blank" rel="noopener">
+    <span class="stars">★★★★★</span>
+    <q>Цены на фоне конкурентов всегда давали итоговые, без каких-то доплат. Особая благодарность Алексею — человеческое отношение и профессионализм — это про него!</q>
+    <small>Максим, отзыв на Яндекс Картах · все отзывы →</small>
+  </a>
 
   <p class="label">Посмотреть до звонка</p>
   <div class="links">
@@ -115,7 +174,12 @@ footer a{text-decoration:underline}
     <a class="l" href="../#video"><span class="e">🎬</span><span>Видеоотзывы клиентов<small>Сняты в день выдачи</small></span><span class="arr">→</span></a>
     <a class="l" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener"><span class="e">📢</span><span>Канал в MAX<small>Выдачи и цены · 1 400+ подписчиков</small></span><span class="arr">→</span></a>
     <a class="l pink" href="../women/"><span class="e">💖</span><span>Для девушек<small>Машина мечты без нервов</small></span><span class="arr">→</span></a>
-    <a class="l" href="https://yandex.ru/maps/org/chestny_avtomobil/226227269441/reviews/" target="_blank" rel="noopener"><span class="e">⭐</span><span>Отзывы на Яндекс Картах<small>Рейтинг 4,8</small></span><span class="arr">→</span></a>
+  </div>
+
+  <div class="official">
+    <div><b>📄</b>Официальный договор на ИП</div>
+    <div><b>🏦</b>Оплата за машину через банк ВТБ</div>
+    <div><b>🛡️</b>Авто застраховано на всех этапах</div>
   </div>
 
   <footer>
@@ -140,6 +204,17 @@ const src = new URLSearchParams(location.search).get("src");
 const from = SOURCES[src] || "по ссылке-визитке";
 const msg = `Здравствуйте! Я ${from} 👋 Хочу подобрать машину.`;
 document.querySelector('[data-m="wa"]').href = "https://wa.me/79198731668?text=" + encodeURIComponent(msg);
+
+// «Поделиться» — системное меню телефона, иначе копируем ссылку
+const toast = Object.assign(document.createElement("div"), {className: "toast", role: "status"});
+document.body.appendChild(toast);
+let tt; const say = t => {toast.textContent = t; toast.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => toast.classList.remove("on"), 3000)};
+document.getElementById("share").addEventListener("click", async () => {
+  const url = location.origin + location.pathname;
+  const data = {title: "Честный автомобиль", text: "Авто из Китая под ключ в Ростове — все контакты здесь 👇", url};
+  try { if (navigator.share) { await navigator.share(data); return } } catch (e) { if (e.name === "AbortError") return }
+  try { await navigator.clipboard.writeText(url); say("Ссылка скопирована 👍") } catch (e) { say(url) }
+});
 
 // «Сохранить контакт» — карточка vCard для телефонной книги
 document.getElementById("save").addEventListener("click", () => {
