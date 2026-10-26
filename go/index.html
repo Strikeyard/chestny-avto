@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Честный автомобиль — все контакты</title>
+<meta name="description" content="Авто из Китая, Кореи и Киргизии под ключ в Ростове. Напишите в удобный мессенджер — подберём машину и посчитаем итоговую цену.">
+<meta name="theme-color" content="#121417">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23121417'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FF7A1A'/%3E%3C/svg%3E">
+<!-- Ссылка-визитка для QR-кодов. Источник отмечается параметром ?src=… (см. SOURCES ниже) и попадает в текст сообщения. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Честный автомобиль">
+<meta property="og:title" content="Честный автомобиль — напишите нам 👋">
+<meta property="og:description" content="Авто из Китая, Кореи и Киргизии под ключ в Ростове. WhatsApp, Telegram, MAX — где вам удобно.">
+<meta property="og:image" content="https://strikeyard.github.io/chestny-avto/img/og.jpg">
+<meta property="og:url" content="https://strikeyard.github.io/chestny-avto/go/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
+  --accent:#FF7A1A; --on-accent:#121417; --text:#FFFFFF; --muted:#A9B0BA;
+  --wa:#25D366; --tg:#2AABEE; --max:#6B4BFF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.page{max-width:480px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom,0px))}
+
+/* обложка с машиной и аватар */
+.cover{position:relative;height:190px;margin:0 -16px;background:url(../img/hero.jpg) 68% 62%/cover no-repeat}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,20,23,.15) 0%,rgba(18,20,23,.55) 55%,var(--bg) 100%)}
+.head{position:relative;margin-top:-64px;text-align:center;display:grid;justify-items:center;gap:10px}
+.ava{width:104px;height:104px;border-radius:50%;padding:3px;background:linear-gradient(135deg,var(--accent),#ffb36b);box-shadow:0 10px 30px -10px var(--accent)}
+.ava img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--bg);display:block}
+h1{font-family:Manrope,"Segoe UI",sans-serif;font-weight:800;font-size:26px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+h1 i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.sub{color:var(--muted);font-size:15px;line-height:1.45;max-width:34ch}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:4px}
+.trust span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--muted)}
+.trust b{color:var(--text)}
+.trust .star{color:var(--accent)}
+
+/* главные кнопки — мессенджеры */
+.label{margin:26px 0 10px;text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.msgs{display:grid;gap:10px}
+.m{display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:18px;background:var(--c);color:#fff;font-weight:800;font-family:Manrope,"Segoe UI",sans-serif;font-size:18px;box-shadow:0 12px 28px -14px var(--c);transition:transform .15s}
+.m:active{transform:scale(.98)}
+.m .ic{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}
+.m svg{width:26px;height:26px;fill:#fff}
+.m small{display:block;font-family:"Segoe UI",sans-serif;font-weight:600;font-size:13px;opacity:.85}
+.m .arr{margin-left:auto;font-size:20px;opacity:.8}
+.m.wa{--c:var(--wa)} .m.tg{--c:var(--tg)} .m.max{--c:var(--max)}
+.m.call{--c:transparent;background:var(--card);border:1px solid var(--line);box-shadow:none}
+.m.call .ic{background:var(--card2)}
+.m.call svg{fill:var(--accent)}
+.wa-pulse{position:relative}
+.wa-pulse::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(37,211,102,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{80%,100%{box-shadow:0 0 0 12px rgba(37,211,102,0)}}
+
+/* ссылки на сайт */
+.links{display:grid;gap:8px}
+.l{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line);font-weight:700;transition:border-color .2s,transform .15s}
+.l:hover{border-color:var(--accent)}
+.l:active{transform:scale(.98)}
+.l .e{font-size:22px;width:28px;text-align:center;flex:none}
+.l small{display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:2px}
+.l .arr{margin-left:auto;color:var(--muted)}
+.l.hl{border-color:rgba(255,122,26,.55);background:linear-gradient(120deg,rgba(255,122,26,.16),rgba(255,122,26,.04)),var(--card)}
+.l.pink{border-color:rgba(255,95,168,.5);background:linear-gradient(120deg,rgba(255,95,168,.16),rgba(180,85,255,.10)),var(--card)}
+
+.save{margin-top:14px;width:100%;padding:14px;border-radius:16px;border:1px dashed var(--line);background:transparent;color:var(--text);font:inherit;font-weight:700;cursor:pointer}
+.save:hover{border-color:var(--accent)}
+
+footer{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6}
+footer a{text-decoration:underline}
+.m:focus-visible,.l:focus-visible,.save:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.wa-pulse::after{animation:none}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="cover" aria-hidden="true"></div>
+  <div class="head">
+    <div class="ava"><img src="../img/team/aleksey.jpg" alt="Алексей Клещёв, основатель"></div>
+    <h1><i></i>Честный автомобиль</h1>
+    <p class="sub">Привозим машины из Китая, Кореи и Киргизии. Одна итоговая цена под ключ в Ростове — без доплат по ходу.</p>
+    <div class="trust">
+      <span><b class="star">★ 4,8</b> Яндекс Карты</span>
+      <span><b>1 800+</b> авто выдано</span>
+      <span><b>Договор</b> · ВТБ</span>
+    </div>
+  </div>
+
+  <p class="label">Напишите, где удобно 👇</p>
+  <div class="msgs">
+    <a class="m wa wa-pulse" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-wa"/></svg></span><span>WhatsApp<small>Консультации 24/7</small></span><span class="arr">→</span></a>
+    <a class="m tg" href="https://t.me/+79198731668" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-tg"/></svg></span><span>Telegram<small>+7 919 873-16-68</small></span><span class="arr">→</span></a>
+    <a class="m max" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener"><span class="ic"><svg><use href="#i-max"/></svg></span><span>MAX<small>Наш канал и сообщения</small></span><span class="arr">→</span></a>
+    <a class="m call" href="tel:+79198731668"><span class="ic"><svg><use href="#i-call"/></svg></span><span>Позвонить<small>+7 919 873-16-68 · Алексей</small></span><span class="arr">→</span></a>
+  </div>
+
+  <p class="label">Посмотреть до звонка</p>
+  <div class="links">
+    <a class="l hl" href="../#cases"><span class="e">💰</span><span>Цены на машины под ключ<small>Реальные расчёты: от 1 597 000 ₽</small></span><span class="arr">→</span></a>
+    <a class="l" href="../#quiz"><span class="e">⚡</span><span>Подобрать авто за 1 минуту<small>4 вопроса — пришлём варианты</small></span><span class="arr">→</span></a>
+    <a class="l" href="../#video"><span class="e">🎬</span><span>Видеоотзывы клиентов<small>Сняты в день выдачи</small></span><span class="arr">→</span></a>
+    <a class="l" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener"><span class="e">📢</span><span>Канал в MAX<small>Выдачи и цены · 1 400+ подписчиков</small></span><span class="arr">→</span></a>
+    <a class="l pink" href="../women/"><span class="e">💖</span><span>Для девушек<small>Машина мечты без нервов</small></span><span class="arr">→</span></a>
+    <a class="l" href="https://yandex.ru/maps/org/chestny_avtomobil/226227269441/reviews/" target="_blank" rel="noopener"><span class="e">⭐</span><span>Отзывы на Яндекс Картах<small>Рейтинг 4,8</small></span><span class="arr">→</span></a>
+  </div>
+
+  <button class="save" type="button" id="save">📇 Сохранить контакт в телефон</button>
+
+  <footer>
+    Ростов-на-Дону, ул. Красноармейская, 200<br>
+    ИП Клещёв А. В. · ИНН 261806972222<br>
+    <a href="../">Сайт</a> · <a href="../privacy.html">Политика конфиденциальности</a>
+  </footer>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.3 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.5c.2.6.4.8.8.8s.6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.4-1.4zM9.9 14.6l-.4 4-1.5-4.7 10.4-6.6z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 2.5c-5.3 0-9.5 4-9.5 9 0 2.6 1.1 4.9 3 6.5l-.6 3.3 3.4-1.6c1.1.4 2.4.7 3.7.7 5.3 0 9.5-4 9.5-9s-4.2-8.9-9.5-8.9zM7.6 15V8.6h1.7l2.7 3.6 2.7-3.6h1.7V15h-1.8v-3.7L12 14.6l-2.6-3.3V15z"/></symbol>
+  <symbol id="i-call" viewBox="0 0 24 24"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></symbol>
+</svg>
+
+<script>
+// Откуда пришёл человек: ?src=card (визитка), car (наклейка), flyer (листовка), ig, vk.
+// Помечаем это в первом сообщении в WhatsApp, чтобы было видно, какой QR работает.
+const SOURCES = {card: "с визитки", car: "с наклейки на машине", flyer: "с листовки", banner: "с баннера", ig: "из Instagram", vk: "из ВКонтакте", max: "из канала MAX"};
+const src = new URLSearchParams(location.search).get("src");
+const from = SOURCES[src] || "по ссылке-визитке";
+const msg = `Здравствуйте! Я ${from} 👋 Хочу подобрать машину.`;
+document.querySelector('[data-m="wa"]').href = "https://wa.me/79198731668?text=" + encodeURIComponent(msg);
+
+// «Сохранить контакт» — карточка vCard для телефонной книги
+document.getElementById("save").addEventListener("click", () => {
+  const vcf = ["BEGIN:VCARD", "VERSION:3.0", "N:Клещёв;Алексей;;;", "FN:Алексей — Честный автомобиль",
+    "ORG:Честный автомобиль", "TITLE:Авто из Китая, Кореи и Киргизии под ключ",
+    "TEL;TYPE=CELL:+79198731668", "URL:" + new URL("../", location.href).href,
+    "ADR;TYPE=WORK:;;ул. Красноармейская, 200;Ростов-на-Дону;;;Россия", "END:VCARD"].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([vcf], {type: "text/vcard"}));
+  a.download = "Честный автомобиль.vcf";
+  document.body.appendChild(a); a.click(); a.remove();
+});
+</script>
+</body>
+</html>
