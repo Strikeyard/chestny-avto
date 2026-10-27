@@ -396,6 +396,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .reveal.in{transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{transform:none}.marquee div{animation:none}}
 
+/* brands ticker */
+.brands-tk{padding:64px 0 0;text-align:center}
+.brands-tk .eyebrow{justify-content:center;margin-bottom:22px}
+.brands-tk .bt{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.brands-tk .btr{display:flex;width:max-content;animation:brandsTick 45s linear infinite}
+.brands-tk .btr span{font:800 clamp(22px,2.6vw,34px)/1 Manrope,"Segoe UI",sans-serif;letter-spacing:-.02em;text-transform:uppercase;color:rgba(255,255,255,.14);padding:0 34px;white-space:nowrap;transition:color .3s}
+.brands-tk .btr span:hover{color:var(--accent)}
+@keyframes brandsTick{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.brands-tk .btr{animation:none}}
+
 .hello{margin-top:clamp(40px,7vw,80px);border-radius:calc(var(--r) + 12px);padding:clamp(26px,5vw,56px);background:radial-gradient(90% 120% at 100% 0%,rgba(180,85,255,.35),transparent 60%),radial-gradient(70% 100% at 0% 100%,rgba(255,95,168,.25),transparent 60%),var(--card);border:1px solid rgba(255,95,168,.35);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,40px);align-items:center}
 .hello .wave{font-size:clamp(48px,7vw,84px);line-height:1}
 .hello h2{margin:0 0 14px;font-size:clamp(28px,4.4vw,52px);text-transform:none}
@@ -713,6 +723,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       </div>
     </div>
   </div>
+  <div class="brands-tk" aria-label="Привозим любые марки">
+    <div class="eyebrow">Привозим любые марки</div>
+    <div class="bt"><div class="btr"><span>BMW</span><span>Mercedes-Benz</span><span>Audi</span><span>Porsche</span><span>Lexus</span><span>Volkswagen</span><span>Genesis</span><span>Kia</span><span>Hyundai</span><span>Zeekr</span><span>Changan</span><span>Geely</span><span>Toyota</span><span>BMW</span><span>Mercedes-Benz</span><span>Audi</span><span>Porsche</span><span>Lexus</span><span>Volkswagen</span><span>Genesis</span><span>Kia</span><span>Hyundai</span><span>Zeekr</span><span>Changan</span><span>Geely</span><span>Toyota</span></div></div>
+  </div>
+
 </section>
 
 <section id="steps">
