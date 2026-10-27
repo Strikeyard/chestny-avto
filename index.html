@@ -395,6 +395,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .reveal{transform:translateY(24px);transition:transform .8s}
 .reveal.in{transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{transform:none}.marquee div{animation:none}}
+
+/* brands ticker */
+.brands-tk{padding:56px 0 8px;text-align:center}
+.brands-tk .eyebrow{justify-content:center;margin-bottom:22px}
+.brands-tk .bt{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.brands-tk .btr{display:flex;width:max-content;animation:brandsTick 45s linear infinite}
+.brands-tk .btr span{font:800 clamp(22px,2.6vw,34px)/1 Manrope,"Segoe UI",sans-serif;letter-spacing:-.02em;text-transform:uppercase;color:rgba(255,255,255,.14);padding:0 34px;white-space:nowrap;transition:color .3s}
+.brands-tk .btr span:hover{color:var(--accent)}
+@keyframes brandsTick{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.brands-tk .btr{animation:none}}
 </style>
 </head>
 <body>
@@ -442,6 +452,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div><span>Китай</span><span>Корея</span><span>Киргизия</span><span>Новые</span><span>С пробегом</span><span>Под ключ</span><span>Китай</span><span>Корея</span><span>Киргизия</span><span>Новые</span><span>С пробегом</span><span>Под ключ</span></div>
   </div>
 </section>
+
+<div class="brands-tk" aria-label="Привозим любые марки">
+  <div class="eyebrow">Привозим любые марки</div>
+  <div class="bt"><div class="btr"><span>BMW</span><span>Mercedes-Benz</span><span>Audi</span><span>Porsche</span><span>Lexus</span><span>Volkswagen</span><span>Genesis</span><span>Kia</span><span>Hyundai</span><span>Zeekr</span><span>Changan</span><span>Geely</span><span>Toyota</span><span>BMW</span><span>Mercedes-Benz</span><span>Audi</span><span>Porsche</span><span>Lexus</span><span>Volkswagen</span><span>Genesis</span><span>Kia</span><span>Hyundai</span><span>Zeekr</span><span>Changan</span><span>Geely</span><span>Toyota</span></div></div>
+</div>
 
 <section id="cases">
   <div class="wrap">
