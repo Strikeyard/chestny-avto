@@ -1,0 +1,25 @@
+# chestny-avto.ru — «Честный автомобиль», авто из Китая, Кореи и Киргизии под ключ в Ростове-на-Дону.
+# Поисковикам и ИИ-ассистентам (ChatGPT, Алиса, GigaChat, Perplexity, Claude) открыт весь сайт,
+# кроме служебной короткой ссылки /krasotka/ (она перекидывает на /women/).
+
+User-agent: *
+Allow: /
+Disallow: /krasotka/
+
+User-agent: Yandex
+Allow: /
+Disallow: /krasotka/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://chestny-avto.ru/sitemap.xml
