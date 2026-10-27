@@ -10,8 +10,8 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Угадай цену под ключ: машины из Китая и Кореи">
 <meta property="og:description" content="Сколько стоит Audi из Китая под ключ в Ростове? Угадай за 2 минуты, набей очки и забери приз 🎁">
-<meta property="og:image" content="https://strikeyard.github.io/chestny-avto/img/og.jpg">
-<meta property="og:url" content="https://strikeyard.github.io/chestny-avto/game.html">
+<meta property="og:image" content="https://chestny-avto.ru/img/og.jpg">
+<meta property="og:url" content="https://chestny-avto.ru/game.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -256,13 +256,13 @@ form input:focus{border-color:var(--accent)}
     </div>
   </section>
 
-  <p class="foot">Цены — из наших публикаций в канале MAX на дату поста; «в России» — такая же машина на российском рынке. Перед заказом скинем тебе точный расчёт на сегодня 😉<br><a href="./">strikeyard.github.io/chestny-avto</a> · +7 919 873-16-68</p>
+  <p class="foot">Цены — из наших публикаций в канале MAX на дату поста; «в России» — такая же машина на российском рынке. Перед заказом скинем тебе точный расчёт на сегодня 😉<br><a href="./">chestny-avto.ru</a> · +7 919 873-16-68</p>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 // Если страницу открыли не с сайта (файлом, в превью, пересланной), берём фото с опубликованного сайта
-const LIVE = 'https://strikeyard.github.io/chestny-avto/';
+const LIVE = 'https://chestny-avto.ru/';
 function fixImg(img){ const s = img.getAttribute('src'); if(s && !/^(https?:|data:)/.test(s)) img.src = LIVE + s; }
 document.addEventListener('error', e=>{ if(e.target.tagName==='IMG') fixImg(e.target); }, true);
 document.querySelectorAll('img').forEach(i=>{ if(i.complete && !i.naturalWidth) fixImg(i); });
