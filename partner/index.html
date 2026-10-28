@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Партнёрам — 30 000 ₽ за рекомендацию · Честный автомобиль</title>
+<meta name="description" content="Рекомендуйте «Честный автомобиль» знакомым и получайте 30 000 ₽ за каждого клиента, которому мы выкупили машину. Разбираться в машинах не нужно.">
+<!-- Превью ссылки в WhatsApp, Telegram и MAX. После публикации сайта
+     замените img/h9.jpg на полный адрес, например https://сайт.ru/img/h9.jpg -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="30 000 ₽ за рекомендацию — партнёрам «Честного автомобиля»">
+<meta property="og:description" content="Ищете дополнительный доход? Минута в день — и 30 000 ₽ за каждого знакомого, которому мы выкупили машину. Без вложений и без продаж.">
+<meta property="og:url" content="https://chestny-avto.ru/partner/">
+<meta property="og:image" content="https://chestny-avto.ru/partner/img/h9.jpg">
+<meta name="theme-color" content="#121417">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23FF7A1A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
+  --accent:#FF7A1A; --on-accent:#121417; --text:#FFFFFF; --muted:#A9B0BA;
+  --wa:#25D366; --max:#6B4BFF;
+  --r:28px; --gut:clamp(16px,4vw,64px); color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",Manrope,system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+h1,h2,h3{font-family:Manrope,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
+h2{font-size:clamp(30px,5vw,60px);margin:18px 0 28px}
+h2 em,h1 em{font-style:normal;color:var(--accent)}
+section{padding:clamp(64px,10vw,120px) 0}
+.sub{color:var(--muted);font-size:18px;max-width:60ch;margin:-8px 0 36px}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--accent);color:var(--on-accent);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:15px;padding:18px 30px;border-radius:999px;border:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px -10px var(--accent)}
+.btn:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);box-shadow:none}
+.btn svg{width:20px;height:20px;fill:currentColor}
+
+/* header */
+header{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(18,20,23,.85);backdrop-filter:blur(12px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-family:Manrope,sans-serif;font-size:18px}
+.logo i{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent)}
+.logo small{font-weight:500;color:var(--muted);font-size:14px;margin-left:4px}
+.nav ul{display:flex;gap:32px;list-style:none;font-size:14px;color:var(--muted)}
+.nav ul a:hover{color:var(--text)}
+.nav .btn{padding:12px 20px;font-size:13px}
+@media(max-width:1180px){.nav ul{display:none}}
+@media(max-width:520px){.nav .btn{display:none}.logo small{display:none}}
+
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 0 0;position:relative;overflow:hidden}
+.hero .bg{position:absolute;inset:0;background:url(img/h9.jpg) 70% 50%/cover no-repeat;transform:scale(1.05);animation:zoom 18s ease-out forwards}
+.hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,20,23,.95) 0%,rgba(18,20,23,.7) 42%,rgba(18,20,23,.15) 75%),linear-gradient(0deg,var(--bg) 0%,transparent 35%)}
+@keyframes zoom{to{transform:scale(1)}}
+@media(max-width:900px){
+  .hero{padding-top:calc(40px + 56vw)}
+  .hero .bg{bottom:auto;height:calc(76px + 66vw)}
+  .hero .bg::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(18,20,23,0) 50%),linear-gradient(180deg,rgba(18,20,23,.7) 0%,rgba(18,20,23,0) 30%)}
+}
+.hero .wrap{position:relative}
+.hero h1{font-size:clamp(34px,7.4vw,108px);max-width:13ch}
+.hero p.lead{color:var(--muted);font-size:clamp(17px,2vw,21px);max-width:44ch;margin:24px 0 36px}
+.hero p.lead b{color:var(--text)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:14px}
+.ask{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);border-radius:22px 22px 22px 6px;padding:10px 18px;font-weight:700;font-size:clamp(16px,2vw,20px);margin-bottom:22px}
+.ask::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);flex:none}
+.paid{display:flex;gap:14px;align-items:center;background:rgba(28,32,38,.88);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:22px;padding:12px 18px 12px 12px;margin-top:24px;width:max-content;max-width:100%;transition:border-color .2s,transform .2s}
+.paid:hover{border-color:var(--accent);transform:translateY(-2px)}
+.paid img{width:64px;height:64px;border-radius:14px;object-fit:cover;flex:none;background:#fff}
+.paid span{display:flex;flex-direction:column;font-size:14px;color:var(--muted);line-height:1.3}
+.paid small{font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+.paid b{font-family:Manrope,sans-serif;font-size:24px;color:var(--accent);line-height:1.15}
+.paid i{font-style:normal;color:var(--text);font-weight:700;font-size:13px;margin-top:4px}
+@media(min-width:1181px){.paid{position:absolute;right:var(--gut);bottom:0;margin:0}}
+.micro{color:var(--muted);font-size:14px;margin-top:14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vs-c{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;gap:16px}
+.vs-c p{color:var(--muted);font-size:17px}
+.vs-t{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.vs-r{margin-top:auto;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(22px,2.6vw,30px);text-transform:uppercase;line-height:1.1;color:var(--muted)}
+.vs-c.on{border-color:var(--accent);box-shadow:0 30px 60px -30px rgba(255,122,26,.45)}
+.vs-c.on .vs-t,.vs-c.on .vs-r{color:var(--accent)}
+.vs-c.on p{color:var(--text)}
+@media(max-width:760px){.vs{grid-template-columns:1fr}}
+.role{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:30px;display:flex;flex-direction:column;gap:12px}
+.rl .n{font-family:Manrope,sans-serif;font-weight:800;color:var(--accent);font-size:14px;text-transform:uppercase;letter-spacing:.08em}
+.rl h3{font-size:24px}
+.rl p{color:var(--muted)}
+.rl.key{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.rl.key .n,.rl.key p{color:var(--on-accent)}
+.role-sum{margin-top:12px;background:var(--card);border-left:4px solid var(--accent);border-radius:20px;padding:24px 28px;display:grid;gap:8px}
+.role-sum b{font-size:clamp(18px,2.2vw,22px)}
+.role-sum span{color:var(--muted)}
+@media(max-width:900px){.role{grid-template-columns:1fr}}
+.proof{list-style:none;display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:28px;color:var(--muted);font-size:14px}
+.proof li{display:flex;align-items:center;gap:6px}
+.proof b{color:var(--text);font-weight:800}
+.proof li+li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:16px}
+@media(max-width:520px){.proof{display:grid;grid-template-columns:1fr 1fr;gap:10px}.proof li+li::before{display:none}}
+.money{display:inline-flex;align-items:baseline;gap:10px;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:8px 20px;font-weight:800;font-family:Manrope,sans-serif;margin-top:18px}
+.money b{font-size:clamp(22px,3vw,30px)}
+.marquee{margin-top:clamp(56px,9vw,100px);border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:22px 0}
+.marquee div{display:inline-flex;gap:48px;animation:run 30s linear infinite;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(20px,3vw,34px);text-transform:uppercase}
+.marquee span{display:inline-flex;align-items:center;gap:48px}
+.marquee span::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent)}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:32px;min-height:280px;display:flex;flex-direction:column}
+.step .n{font-family:Manrope,sans-serif;font-weight:800;color:var(--accent);font-size:15px}
+.step h3{font-size:24px;margin:auto 0 12px;padding-top:40px}
+.step p{color:var(--muted)}
+.step.hl{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.step.hl .n,.step.hl p{color:var(--on-accent)}
+.quote-line{margin-top:24px;background:var(--card);border-radius:var(--r);padding:24px 28px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:18px}
+.quote-line b{color:var(--accent)}
+@media(max-width:900px){.steps{grid-template-columns:1fr}.step{min-height:0}}
+
+/* calculator */
+.calc{background:var(--card);border-radius:calc(var(--r) + 12px);padding:clamp(28px,6vw,72px);display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,64px);position:relative;overflow:hidden}
+.calc::after{content:"";position:absolute;width:560px;height:560px;right:-180px;bottom:-240px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.32),transparent 65%);pointer-events:none}
+.calc h2{margin-top:18px}
+.calc p{color:var(--muted);font-size:17px}
+.ctrl{position:relative;z-index:1;display:grid;gap:28px;align-content:center}
+.ctrl label{display:flex;justify-content:space-between;gap:12px;font-weight:700;margin-bottom:12px}
+.ctrl label output{color:var(--accent);font-family:Manrope,sans-serif;font-weight:800;font-size:20px}
+input[type=range]{width:100%;appearance:none;-webkit-appearance:none;height:8px;border-radius:999px;background:linear-gradient(90deg,var(--accent) var(--p,10%),var(--line) var(--p,10%));outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--text);border:6px solid var(--accent);box-shadow:0 4px 14px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--text);border:6px solid var(--accent)}
+input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+.result{background:var(--bg);border-radius:var(--r);padding:28px}
+.result span{display:block;color:var(--muted);text-transform:uppercase;font-size:13px;letter-spacing:.12em}
+.result b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(40px,6vw,72px);line-height:1.05;color:var(--accent);margin-top:8px;white-space:nowrap}
+.result small{display:block;color:var(--muted);margin-top:8px;font-size:14px}
+.calc .calc-note{font-size:13px;margin-top:-12px}
+@media(max-width:900px){.calc{grid-template-columns:1fr}}
+
+/* trust */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--card);border-radius:var(--r);padding:32px 28px}
+.stat b{display:block;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(40px,5vw,64px);line-height:1;color:var(--accent)}
+.stat span{display:block;margin-top:12px;color:var(--muted);text-transform:uppercase;font-size:13px;letter-spacing:.1em}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}}
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.trust .photo{border-radius:var(--r);overflow:hidden;min-height:340px}
+.trust .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.checks{list-style:none;display:grid;gap:12px;align-content:start}
+.checks li{display:flex;gap:16px;align-items:flex-start;background:var(--card);border-radius:20px;padding:18px 22px}
+.checks li::before{content:"✓";flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-size:14px}
+.checks li b{display:block}
+.checks li span{color:var(--muted);font-size:15px}
+@media(max-width:900px){.trust{grid-template-columns:1fr}.trust .photo{min-height:240px}}
+
+/* cases */
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.case{background:var(--card);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;gap:18px;border:1px solid var(--line)}
+.case .sum{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(34px,4vw,48px);color:var(--accent);line-height:1}
+.case .sum small{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:8px;text-transform:uppercase;letter-spacing:.1em}
+.case p{color:var(--muted)}
+.case p b{color:var(--text)}
+.vid .dur{position:absolute;top:16px;right:16px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border-radius:999px;padding:4px 10px;font-size:12px}
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:960px}
+.vphoto{border-radius:var(--r);overflow:hidden;position:relative;aspect-ratio:9/16;margin:0}
+.vphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.vphoto figcaption{position:absolute;inset:auto 0 0;padding:40px 22px 22px;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);font-weight:700}
+.vphoto figcaption b{color:var(--accent)}
+.vphoto figcaption small{display:block;color:var(--muted);font-weight:500;font-size:13px;margin-top:6px}
+@media(max-width:900px){.voices{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(280px,74%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.voices>*{scroll-snap-align:start}}
+.tq{margin:12px 0 0;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:clamp(24px,4vw,40px);display:grid;gap:20px}
+.tq blockquote{margin:0;display:grid;gap:14px;font-size:clamp(16px,1.8vw,19px);line-height:1.55}
+.tq blockquote p:first-child::before{content:"«";color:var(--accent);font-size:44px;line-height:0;vertical-align:-.35em;margin-right:4px}
+.tq blockquote b{color:var(--accent)}
+.tq figcaption{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:14px}
+.tq figcaption b{display:block;color:var(--text);font-size:16px}
+.tq .avatar{width:44px;height:44px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-weight:800;color:var(--accent);flex:none}
+.resp{margin:-12px 0 32px;background:var(--card);border:1px solid var(--accent);border-radius:22px;padding:22px 26px;display:grid;gap:8px;max-width:900px}
+.resp b{font-size:clamp(18px,2.2vw,22px)}
+.resp span{color:var(--muted)}
+.resp q{color:var(--text);quotes:"«" "»"}
+.proofchat{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(24px,4vw,40px);display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(24px,4vw,48px);align-items:center}
+.proofchat h3{font-size:clamp(22px,2.6vw,30px);margin-bottom:18px}
+.proofchat ol{padding-left:22px;display:grid;gap:10px;font-size:17px}
+.proofchat ol li::marker{color:var(--accent);font-weight:800}
+.proofchat p{margin-top:20px;color:var(--accent);font-weight:700}
+.proofchat img{width:100%;border-radius:20px;display:block}
+@media(max-width:900px){.proofchat{grid-template-columns:1fr}}
+.receipts-head{margin:48px 0 20px}
+.receipts-head h3{font-size:clamp(22px,2.6vw,30px)}
+.receipts-head p{color:var(--muted);margin-top:8px}
+.receipts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.rc:hover{border-color:var(--accent);transform:translateY(-4px)}
+.rc img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#fff}
+.rc span{padding:16px 20px;color:var(--muted);font-size:14px}
+.rc span b{color:var(--accent);font-family:Manrope,sans-serif;font-size:18px;margin-right:6px}
+@media(max-width:900px){.receipts{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(320px,82%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.rc{scroll-snap-align:start}}
+.case.next{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.case.next .sum,.case.next .sum small,.case.next p{color:var(--on-accent)}
+.case.next .btn{background:var(--bg);color:var(--text);margin-top:auto;align-self:flex-start}
+@media(max-width:900px){.cases{grid-template-columns:1fr}}
+
+/* phrases */
+.phrases{margin-top:24px;background:var(--card);border-radius:var(--r);padding:clamp(24px,4vw,36px)}
+.phrases h3{font-size:20px;margin-bottom:6px}
+.phrases > p{color:var(--muted);margin-bottom:20px}
+.ph-list{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ph{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:16px;text-align:left;color:var(--text);font:inherit;font-size:16px;cursor:pointer;transition:border-color .2s}
+.ph:hover,.ph:focus-visible{border-color:var(--accent);outline:none}
+.ph q{quotes:"«" "»"}
+.ph span{margin-top:auto;color:var(--accent);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:900px){.ph-list{grid-template-columns:1fr}}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--card2);border:1px solid var(--line);padding:14px 20px;border-radius:16px;font-size:15px;max-width:calc(100% - 32px);z-index:70;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* group */
+.group{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.group p{color:var(--muted);font-size:18px;margin-bottom:24px}
+.chat{justify-self:center;width:min(400px,100%);border-radius:32px;overflow:hidden;background:#0B141A;border:1px solid var(--line);box-shadow:0 40px 80px -30px rgba(37,211,102,.25)}
+.chat-h{display:flex;gap:12px;align-items:center;padding:16px 20px;background:#1F2C34}
+.chat-h i{font-style:normal;width:40px;height:40px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-size:20px}
+.chat-h b{display:block;font-size:15px}
+.chat-h small{color:var(--muted);font-size:12px}
+.chat-b{padding:18px 16px 8px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(circle at 20% 10%,rgba(255,255,255,.03),transparent 40%),#0B141A}
+.msg{background:#1F2C34;border-radius:4px 18px 18px 18px;padding:8px 10px 6px;max-width:88%;font-size:14px;line-height:1.45;position:relative}
+.msg em{display:block;font-style:normal;color:var(--accent);font-weight:700;font-size:13px;margin-bottom:4px}
+.msg img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:block;margin-bottom:6px}
+.msg p{padding:0 2px}
+.msg time{display:block;text-align:right;color:#8696A0;font-size:11px;margin-top:2px}
+.msg.pay{border-left:3px solid var(--accent)}
+.react{align-self:flex-start;background:#1F2C34;border-radius:999px;padding:3px 10px;font-size:13px;margin:-6px 0 6px 12px}
+.chat figcaption{text-align:center;color:var(--muted);font-size:13px;padding:12px 16px 16px;background:#0B141A}
+@media(max-width:900px){.group{grid-template-columns:1fr}.chat{order:2}}
+
+/* video */
+.vids{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:12px}
+.vid{position:relative;border-radius:var(--r);overflow:hidden;background:var(--card);aspect-ratio:9/16;cursor:pointer}
+.vid video{width:100%;height:100%;object-fit:cover;display:block}
+.vid .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 45%,transparent 70%);transition:opacity .3s}
+.vid.playing .ov{opacity:0;pointer-events:none}
+.vid .play{position:absolute;top:50%;left:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;background:var(--accent);display:grid;place-items:center;animation:pulse 2s infinite}
+.vid .play::before{content:"";border-left:20px solid var(--on-accent);border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,122,26,.6)}70%{box-shadow:0 0 0 18px rgba(255,122,26,0)}100%{box-shadow:0 0 0 0 rgba(255,122,26,0)}}
+.vid .ov q{font-weight:700;font-size:16px;line-height:1.35;quotes:"«" "»"}
+.vid .ov small{display:block;color:var(--muted);margin-top:10px;font-size:13px}
+.vid .ov small b{color:var(--accent)}
+.vrow{display:grid;grid-template-columns:auto 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.vrow p{color:var(--muted);font-size:18px;margin-bottom:18px;max-width:46ch}
+.vrow p b{color:var(--text)}
+@media(max-width:900px){.vrow{grid-template-columns:1fr}.vids{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* channel */
+.chan{background:var(--card);border:1px solid var(--line);border-radius:calc(var(--r) + 12px);padding:clamp(28px,6vw,64px);display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(28px,5vw,64px);align-items:center;position:relative;overflow:hidden}
+.chan::after{content:"";position:absolute;width:480px;height:480px;left:-200px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(107,75,255,.28),transparent 65%);pointer-events:none}
+.chan-l{position:relative;z-index:1}
+.chan-l p{color:var(--muted);font-size:18px;margin-bottom:28px;max-width:52ch}
+.max-btn{background:var(--max);color:#fff}
+.max-btn:hover{box-shadow:0 12px 30px -10px var(--max)}
+.chan-r{display:grid;gap:12px;position:relative;z-index:1}
+.cstat{background:var(--bg);border-radius:22px;padding:22px 26px;display:flex;align-items:baseline;gap:14px}
+.cstat b{font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(30px,4vw,44px);line-height:1;color:var(--accent);min-width:3.6ch}
+.cstat span{color:var(--muted);text-transform:uppercase;font-size:13px;letter-spacing:.1em}
+@media(max-width:900px){.chan{grid-template-columns:1fr}}
+
+/* who */
+.who-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.w{background:var(--card);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);transition:border-color .2s,transform .2s}
+.w:hover{border-color:var(--accent);transform:translateY(-4px)}
+.w i{font-style:normal;font-size:28px}
+.w b{font-family:Manrope,sans-serif;text-transform:uppercase;font-size:17px;line-height:1.15}
+.w span{color:var(--muted);font-size:14px}
+@media(max-width:1000px){.who-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.who-grid{grid-template-columns:1fr}}
+
+
+/* faq */
+.faq{display:grid;gap:10px;max-width:900px}
+details{background:var(--card);border-radius:22px;padding:4px 28px}
+summary{list-style:none;cursor:pointer;padding:22px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-size:26px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding:0 0 24px;max-width:70ch}
+
+/* final */
+.final{background:var(--accent);color:var(--on-accent);border-radius:calc(var(--r) + 12px);padding:clamp(36px,7vw,90px);text-align:center;position:relative;overflow:hidden}
+.final h2{margin:0 auto 18px;max-width:16ch}
+.final p{font-size:19px;max-width:48ch;margin:0 auto 32px;font-weight:500}
+.final .btn{background:var(--bg);color:var(--text)}
+.final .btn:hover{box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
+.guar{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:0 auto 32px;max-width:900px}
+.guar li{display:flex;align-items:center;gap:8px;background:rgba(18,20,23,.12);border-radius:999px;padding:9px 16px;font-weight:700;font-size:15px}
+.guar li::before{content:"✓";width:20px;height:20px;border-radius:50%;background:var(--bg);color:var(--accent);display:grid;place-items:center;font-size:12px;font-weight:800}
+@media(max-width:600px){.guar{display:grid;justify-items:start;width:max-content;max-width:100%;text-align:left}}
+.final .after{display:block;margin-top:14px;font-size:14px;font-weight:600;opacity:.85}
+.final .alt{display:block;margin-top:18px;font-size:15px;font-weight:600}
+.final .alt a{text-decoration:underline}
+
+.fab{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);opacity:0;transition:transform .4s,opacity .4s;z-index:60;width:max-content;max-width:calc(100% - 32px)}
+.fab.on{transform:translate(-50%,0);opacity:1}
+.fab .btn{box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
+@media(min-width:901px){.fab{display:none}}
+
+footer{border-top:1px solid var(--line);padding:32px 0 96px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a:hover{color:var(--text)}
+@media(min-width:901px){footer{padding-bottom:32px}}
+
+.reveal{transform:translateY(24px);transition:transform .8s}
+.reveal.in{transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{transform:none}.marquee div,.hero .bg,.vid .play{animation:none}}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#" class="logo"><i></i>Честный автомобиль<small>· партнёрам</small></a>
+    <ul>
+      <li><a href="#how">Как это работает</a></li>
+      <li><a href="#cases">Выплаты</a></li>
+      <li><a href="#voices">Отзывы</a></li>
+      <li><a href="#calc">Доход</a></li>
+      <li><a href="#faq">Вопросы</a></li>
+    </ul>
+    <a href="#" class="btn" data-join>Вступить в группу</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="ask">Ищете дополнительный доход?</div>
+    <h1>Минута в день — <em>30 000 ₽</em> за каждого клиента</h1>
+    <p class="lead">Заглядываете в нашу группу, советуете нас знакомым и передаёте контакт. Когда мы выкупаем машину, платим вам 30 000 ₽. <b>Без вложений и без продаж</b> — всё остальное делаем мы.</p>
+    <div class="cta">
+      <a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Вступить в группу партнёров</a>
+      <a href="#how" class="btn ghost">Как это работает</a>
+    </div>
+    <p class="micro">Бесплатно · Ничего покупать не нужно · Выйти можно в любой момент</p>
+    <ul class="proof">
+      <li><b>С 2022 года</b> возим авто</li>
+      <li><b>1 800+</b> машин выдали</li>
+      <li><b>★ 4,9</b> на Яндекс Картах</li>
+      <li><b>300+</b> партнёров в группе</li>
+    </ul>
+    <a href="#cases" class="paid" aria-label="Недавняя выплата партнёру: 30 000 ₽ Светлане 28 сентября. Смотреть чеки">
+      <img src="img/pay2.jpg" alt="">
+      <span><small>Недавняя выплата партнёру</small><b>30 000 ₽</b>Светлане · 28 сентября<i>Смотреть чеки →</i></span>
+    </a>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div><span>Минута в день</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span><span>Минута в день</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span></div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="eyebrow">Подумайте</div>
+    <h2>Ваши знакомые <em>всё равно</em> покупают машины</h2>
+    <p class="sub">Каждый год кто-то из вашего окружения меняет машину: коллега, сосед, родственник, клиент. Вопрос только в том, получите ли вы за свой совет что-нибудь, кроме «спасибо».</p>
+    <div class="vs">
+      <div class="vs-c reveal"><span class="vs-t">Как обычно</span><p>Знакомый сам ищет машину, рискует нарваться на битую или переплатить. Вы, может быть, что-то посоветовали.</p><b class="vs-r">Вам: «спасибо»</b></div>
+      <div class="vs-c on reveal"><span class="vs-t">С нами</span><p>Знакомый получает честную итоговую цену, проверку до покупки и договор. Вы только передали контакт.</p><b class="vs-r">Вам: 30 000 ₽ и «спасибо»</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="role" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Ваша роль</div>
+    <h2>Почему решает <em>именно ваш совет</em></h2>
+    <p class="sub">Машину из Китая или Кореи хотят многие, а заказывают единицы. Мешают две вещи, и одну из них можете убрать только вы.</p>
+    <div class="role">
+      <div class="rl reveal"><span class="n">01</span><h3>Не знают</h3><p>Многие просто не знают, что машину можно привезти под заказ, с договором и по честной цене.</p></div>
+      <div class="rl key reveal"><span class="n">02 · главное</span><h3>Не доверяют</h3><p>Нет надёжного человека, который привезёт машину и не обманет. Поэтому компанию выбирают сначала по надёжности, а уже потом по цене.</p></div>
+      <div class="rl reveal"><span class="n">03</span><h3>А цена у нас уже лучшая</h3><p>Мы возим напрямую, без посредников, поэтому цена ниже, чем у конкурентов. Её не нужно продавать, достаточно доверия.</p></div>
+    </div>
+    <div class="role-sum reveal"><b>Ваша задача — одна фраза: «Это надёжные ребята, к ним можно обращаться».</b><span>Клиент приходит к нам, и дальше мы работаем с ним сами: подбор, расчёт, договор, доставка, выдача.</span></div>
+  </div>
+</section>
+
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Как это работает</div>
+    <h2>Три шага до <em>30 000 ₽</em></h2>
+    <div class="steps">
+      <div class="step reveal"><span class="n">01</span><h3>Вступаете в группу</h3><p>В закрытом чате партнёров каждый день выходят машины из Китая и Кореи с ценой под ключ, а раз в неделю — истории выплат партнёрам. Вы своими глазами видите, что это работает.</p></div>
+      <div class="step reveal"><span class="n">02</span><h3>Рассказываете о нас</h3><p>Зашёл разговор о машинах — скажите, что знаете надёжную команду, и пришлите Алексею имя и телефон человека. Так мы сразу видим, что клиент от вас. Статусы и посты — по желанию.</p></div>
+      <div class="step hl reveal"><span class="n">03</span><h3>Получаете 30 000 ₽</h3><p>Подбираем, считаем, привозим и выдаём машину сами. Через 1–2 дня после выкупа автомобиля платим вам 30 000 ₽.</p></div>
+    </div>
+    <div class="phrases reveal">
+      <h3>Что сказать знакомому</h3>
+      <p>Продавать не нужно, хватит одной фразы. Нажмите, чтобы скопировать.</p>
+      <div class="ph-list">
+        <button class="ph" type="button"><q>Знаю надёжных ребят, возят машины из Китая и Кореи под ключ. Дай свой номер — они всё посчитают.</q><span>Скопировать</span></button>
+        <button class="ph" type="button"><q>Через них уже 1 800 человек машины взяли. Цена сразу итоговая, без доплат по ходу.</q><span>Скопировать</span></button>
+        <button class="ph" type="button"><q>Посмотри их канал в MAX, там каждый день выдачи: max.ru/id261806972222_biz</q><span>Скопировать</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="who" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Кому подходит</div>
+    <h2>Подходит всем, у кого <em>есть знакомые</em></h2>
+    <p class="sub">Не нужно работать в автосфере. У каждого есть кто-то, кто сейчас ищет машину: коллега, сосед, родственник, клиент. Вам достаточно рассказать о нас.</p>
+    <div class="who-grid">
+      <div class="w reveal"><i>💇</i><b>Парикмахер или мастер красоты</b><span>Клиенты весь день рассказывают вам о своих планах и покупках.</span></div>
+      <div class="w reveal"><i>💼</i><b>Работаете в найме</b><span>Коллеги регулярно меняют машины и спрашивают совета.</span></div>
+      <div class="w reveal"><i>🏡</i><b>Домохозяйка или мама в декрете</b><span>Большой круг общения: родители, соседи, подруги, чаты.</span></div>
+      <div class="w reveal"><i>👵</i><b>Пенсионер</b><span>Дети и внуки покупают машины, а вы знаете, кому можно доверять.</span></div>
+      <div class="w reveal"><i>🔑</i><b>Наш клиент</b><span>Вы уже купили у нас машину, и знакомые спрашивают, где брали.</span></div>
+      <div class="w reveal"><i>🚗</i><b>Автоподбор, автосервис, перекуп</b><span>Клиенту нужна машина из Китая или Кореи — передайте его нам. Так работает автоподборщик Александр.</span></div>
+      <div class="w reveal"><i>🚕</i><b>Таксист или водитель</b><span>Всегда в теме машин и общаетесь с людьми весь день.</span></div>
+      <div class="w reveal"><i>💬</i><b>Любой, кто общается с людьми</b><span>Страховой агент, риелтор, тренер, продавец — знакомые найдутся у всех.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="cases" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Наши партнёры</div>
+    <h2>Они уже <em>заработали</em></h2>
+    <div class="cases">
+      <div class="case reveal"><div class="sum">120 000 ₽<small>4 клиента за год</small></div><p>Партнёр просто советовал нас знакомым, когда разговор заходил о машинах. <b>Четыре выкупленных автомобиля — четыре выплаты.</b></p></div>
+      <div class="case reveal"><div class="sum">90 000 ₽<small>3 клиента</small></div><p>Партнёр из Сальского района. <b>Сама машину у нас не покупала</b> — пришла по совету знакомой и начала рекомендовать нас своим.</p></div>
+      <div class="case next reveal"><div class="sum">Ваша<br>выплата<small>может быть следующей</small></div><p>Каждую неделю публикуем в группе новую историю: от кого пришёл клиент, договор и выдача.</p><a href="#" class="btn" data-join>Вступить в группу →</a></div>
+    </div>
+    <div class="receipts-head reveal">
+      <h3>Настоящие чеки выплат</h3>
+      <p>Перевод партнёру и машина, за которую он получил 30 000 ₽. Личные данные скрыты.</p>
+    </div>
+    <div class="receipts">
+      <a class="rc reveal" href="img/pay1.jpg" target="_blank" rel="noopener"><img src="img/pay1.jpg" alt="Чек Сбербанка: перевод 30 000 ₽ партнёру Дмитрию и Volkswagen, за который выплата" loading="lazy"><span><b>30 000 ₽</b> Дмитрию · Volkswagen · 24 сентября</span></a>
+      <a class="rc reveal" href="img/pay2.jpg" target="_blank" rel="noopener"><img src="img/pay2.jpg" alt="Чек Сбербанка: перевод 30 000 ₽ партнёру Светлане и Kia Seltos, за который выплата" loading="lazy"><span><b>30 000 ₽</b> Светлане · Kia Seltos · 28 сентября</span></a>
+      <a class="rc reveal" href="img/pay3.jpg" target="_blank" rel="noopener"><img src="img/pay3.jpg" alt="Квитанция Т-Банка: перевод 30 000 ₽ партнёру Дмитрию и Mazda CX-5, за которую выплата" loading="lazy"><span><b>30 000 ₽</b> Дмитрию · Mazda CX-5 · сентябрь</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="voices" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Партнёры о нас</div>
+    <h2>Слово <em>партнёрам</em></h2>
+    <p class="sub">Это записали сами партнёры, без нашего сценария.</p>
+    <div class="voices">
+      <div class="vid reveal"><video src="video/partner1.mp4?v=2" poster="video/partner1.jpg" preload="none" playsinline></video><span class="dur">0:43</span><div class="ov"><span class="play"></span><q>Не особо много это время занимает, как оказывается. Партнёры, действуйте — у вас тоже получится.</q><small><b>Сергей</b> · получил выплату за знакомого</small></div></div>
+      <div class="vid reveal"><video src="video/partner2.mp4?v=2" poster="video/partner2.jpg" preload="none" playsinline></video><span class="dur">0:31</span><div class="ov"><span class="play"></span><q>Самая лёгкая и самая приятная работа — просто репостить объявление в свой WhatsApp.</q><small><b>Дмитрий</b> · «еду снимать денежку»</small></div></div>
+      <figure class="vphoto reveal"><img src="img/partner-photo.jpg" alt="Алексей вручает партнёру Александру выплату в рамке" loading="lazy"><figcaption><b>Александр</b>, автоподбор<br><small>Вручили выплату в рамке 🖼</small></figcaption></figure>
+    </div>
+    <figure class="tq reveal">
+      <blockquote>
+        <p>С самого детства автомобили были для меня не просто средством передвижения, а настоящим увлечением — могла часами рассматривать журналы «За рулём» 😅 Я поняла, что могу превратить свою страсть в дело, которое приносит не только деньги за приведённого клиента, но и удовольствие.</p>
+        <p>Алексея я знаю как честного и добросовестного человека, которому можно доверять. Ничего сложного в том, чтобы выставлять статусы, нет. <b>Я просто помогаю людям получить машину мечты, в которой они будут уверены на все сто процентов.</b> Мои клиенты остались довольны, а я радуюсь деньгам за приведённого клиента.</p>
+      </blockquote>
+      <figcaption><span class="avatar">Т</span><span><b>Татьяна</b>Ростовская область · привела 2 клиентов</span></figcaption>
+    </figure>
+    <div class="proofchat reveal">
+      <div>
+        <h3>Как это выглядит в переписке</h3>
+        <ol>
+          <li>Партнёр Влад присылает контакты знакомых.</li>
+          <li>Мы выкупаем машину — Toyota BRZ.</li>
+          <li>Спрашиваем, куда перевести, и отправляем деньги.</li>
+        </ol>
+        <p>«Благодарю за комиссию 🤝» — Влад</p>
+      </div>
+      <a href="img/partner-chat.jpg" target="_blank" rel="noopener"><img src="img/partner-chat.jpg" alt="Переписка с партнёром Владом: выкупили Toyota BRZ, перевели вознаграждение, Влад благодарит" loading="lazy"></a>
+    </div>
+  </div>
+</section>
+
+<section id="group" style="padding-top:0">
+  <div class="wrap group">
+    <div class="reveal">
+      <div class="eyebrow">Партнёрская группа</div>
+      <h2>В группе <em>всё видно</em></h2>
+      <p>Каждый день, кроме воскресенья, в группе выходит машина: фото, параметры и итоговая цена под ключ в Ростове. Раз в неделю рассказываем, кто из партнёров получил выплату и за какую машину. Вы знаете, что рекомендуете, и видите, что деньги реально платят.</p>
+      <ul class="checks" style="margin-bottom:32px">
+        <li><div><b>Статусы — по желанию</b><span>Хотите — ставьте машину из группы в статус, картинка уже готова. Не хотите — просто рассказывайте о нас в разговоре.</span></div></li>
+        <li><div><b>Объясняем и считаем сами</b><span>Вопросы о моделях, сроках и ценах берём на себя.</span></div></li>
+      </ul>
+      <a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Хочу в группу</a>
+    </div>
+    <figure class="chat reveal" aria-label="Пример сообщений в группе партнёров">
+      <div class="chat-h"><i>🚗</i><div><b>Партнёры · Честный автомобиль</b><small>300+ участников</small></div></div>
+      <div class="chat-b">
+        <div class="msg"><em>Алексей</em><img src="img/h5.jpg" alt="" loading="lazy"><p>🚗 <b>Машина дня</b> из Китая<br>Год, пробег, двигатель<br>💰 Итоговая цена под ключ в Ростове</p><time>10:02</time></div>
+        <div class="msg pay"><em>Алексей</em><p>💰 <b>Ещё одна выплата партнёру!</b><br>Порекомендовал знакомого — подобрали машину, договор подписан, авто выкуплено. Партнёр получил <b>30 000 ₽</b> 🙌</p><time>18:40</time></div>
+        <div class="react">🔥 👏 💪</div>
+      </div>
+      <figcaption>Так выглядит группа: машины и истории выплат</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="calc" style="padding-top:0">
+  <div class="wrap">
+    <div class="calc reveal">
+      <div style="position:relative;z-index:1">
+        <div class="eyebrow">Калькулятор</div>
+        <h2>Сколько можно заработать</h2>
+        <p>Подумайте, сколько ваших знакомых поменяют машину в этом году. Наш партнёр Дмитрий получил за год 4 выплаты — просто советовал нас, когда заходил разговор о машинах.</p>
+        <p style="margin-top:14px">Ограничений нет: платим за каждого клиента, которому выкупили машину.</p>
+      </div>
+      <div class="ctrl">
+        <div>
+          <label for="per">Знакомых купят машину за год <output id="perOut">4</output></label>
+          <input type="range" id="per" min="1" max="20" value="4">
+        </div>
+        <div class="result">
+          <span>Ваш доход за год</span>
+          <b id="sum">120 000 ₽</b>
+          <small id="sumNote">4 клиента × 30 000 ₽ · в среднем 10 000 ₽ в месяц</small>
+        </div>
+        <p class="calc-note">Это пример расчёта, а не обещание. Платим только за клиентов, которым выкупили машину.</p>
+        <a href="#" class="btn" data-join style="justify-content:center"><svg><use href="#i-wa"/></svg>Начать зарабатывать</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Почему нам верят</div>
+    <h2>Вы рекомендуете <em>проверенную</em> команду</h2>
+    <p class="sub">Знакомому не будет стыдно за ваш совет. Вот что получает человек, которого вы к нам привели.</p>
+    <div class="resp reveal">
+      <b>Рекомендуя нас, вы ручаетесь за нас перед друзьями. Мы это понимаем.</b>
+      <span>Поэтому к каждому, кого привёл партнёр, — особое внимание: договор, проверка машины до покупки, личная приёмка и выдача. Наш самый активный партнёр Дмитрий говорит так: <q>Это мои друзья, я за них отвечаю. Ещё ни одного случая не было, чтобы кто-то пожаловался — все, кто заказывали, остались довольны</q>.</span>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><b data-count="1800" data-suffix="+">0</b><span>авто подобрано и выдано</span></div>
+      <div class="stat reveal"><b data-count="4.9" data-dec="1">0</b><span>рейтинг на Яндекс Картах</span></div>
+      <div class="stat reveal"><b data-count="95" data-suffix="%">0</b><span>клиентов приходят по рекомендации</span></div>
+      <div class="stat reveal"><b data-count="300" data-suffix="+">0</b><span>человек уже в группе партнёров</span></div>
+    </div>
+    <div class="trust">
+      <div class="photo reveal"><img src="img/h1.jpg" alt="Выдача автомобиля клиентам в гараже" loading="lazy"></div>
+      <ul class="checks reveal">
+        <li><div><b>Официальный договор</b><span>Оплата за машину идёт через банк ВТБ, курс фиксируется.</span></div></li>
+        <li><div><b>Одна цена под ключ</b><span>Авто, доставка, таможня, ЭПТС и наши услуги уже в цене, без доплат по ходу.</span></div></li>
+        <li><div><b>Проверка до покупки</b><span>Выездная диагностика на месте, выкуп только после неё.</span></div></li>
+        <li><div><b>Выдача как для себя</b><span>Мойка, полный бак и подарок «на обмыть» каждому клиенту.</span></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="video" style="padding-top:0">
+  <div class="wrap vrow">
+    <div class="vids">
+      <div class="vid reveal"><video src="video/review2.mp4" poster="video/review2.jpg" preload="none" playsinline></video><div class="ov"><span class="play"></span><q>Посоветовали знакомые — поэтому не было страха, было доверие.</q><small><b>Максим</b> · Renault Samsung из Кореи</small></div></div>
+      <div class="vid reveal"><video src="video/review1.mp4" poster="video/review1.jpg" preload="none" playsinline></video><div class="ov"><span class="play"></span><q>Уже второй автомобиль заказываем у ребят. Всё чётко.</q><small><b>Евгений</b> · Toyota</small></div></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Рекомендации работают</div>
+      <h2>Совет знакомого — <em>главная причина</em> купить</h2>
+      <p>95% наших клиентов приходят по рекомендации. Человек, которому нас посоветовал знакомый, <b>доверяет заранее</b>, поэтому ваша рекомендация так часто заканчивается покупкой.</p>
+      <p>Эти видео сняты в день выдачи, без сценария.</p>
+    </div>
+  </div>
+</section>
+
+<section id="channel" style="padding-top:0">
+  <div class="wrap">
+    <div class="chan reveal">
+      <div class="chan-l">
+        <div class="eyebrow">Наш канал в MAX</div>
+        <h2>Загляните, <em>как мы работаем</em></h2>
+        <p>Каждый день выдачи клиентам, видео с таможни и реальные цены под ключ. Никаких красивых обещаний, просто живая работа. Посмотрите сами, а потом смело показывайте знакомым.</p>
+        <a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener" class="btn max-btn"><svg><use href="#i-max"/></svg>Смотреть канал</a>
+      </div>
+      <div class="chan-r">
+        <div class="cstat"><b>1 290+</b><span>подписчиков</span></div>
+        <div class="cstat"><b>~2</b><span>поста в день</span></div>
+        <div class="cstat"><b>~630</b><span>просмотров на пост</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Вопросы</div>
+    <h2>Частые вопросы</h2>
+    <div class="faq">
+      <details><summary>Нужно ли разбираться в машинах?</summary><p>Нет. Подбор, расчёт, проверку и все разговоры о моделях и ценах мы берём на себя. От вас нужен только контакт человека.</p></details>
+      <details><summary>Мне неудобно «продавать» знакомым</summary><p>И не нужно. Вы не продаёте, а помогаете: знакомый получает честную итоговую цену, проверку машины до покупки и договор. Многие потом благодарят того, кто посоветовал. Ваша задача — только рассказать, что мы есть.</p></details>
+      <details><summary>Обязательно ставить статусы и посты?</summary><p>Нет. Достаточно быть в группе и рассказывать о нас, когда кто-то из знакомых ищет машину. Статусы помогают, но это по желанию.</p></details>
+      <details><summary>Нужно ли покупать машину самому?</summary><p>Нет. Многие партнёры у нас машину не покупали, они просто рекомендуют нас знакомым.</p></details>
+      <details><summary>Когда и за что платите?</summary><p>30 000 ₽ за каждого клиента, которому мы выкупили автомобиль. Выплата через 1–2 дня после выкупа.</p></details>
+      <details><summary>Как вы узнаете, что клиент от меня?</summary><p>Вы сами присылаете Алексею имя и телефон человека, и мы фиксируем, от кого он пришёл. Поэтому лучше прислать контакт нам, а не давать наш номер: так клиент не потеряется и выплата точно будет вашей.</p></details>
+      <details><summary>Сколько клиентов можно привести?</summary><p>Сколько угодно. Ограничений нет, за каждого выкупленного автомобиля вы получаете 30 000 ₽.</p></details>
+      <details><summary>Я не из Ростова. Можно участвовать?</summary><p>Да. Клиенту из другого города доставим машину эвакуатором, а рекомендовать нас можно откуда угодно.</p></details>
+      <details><summary>Сколько стоит вступить?</summary><p>Нисколько. Группа бесплатная, вложений нет.</p></details>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="final reveal">
+      <h2>Начните зарабатывать с нами</h2>
+      <p>Вступайте в группу партнёров: машины с ценами, истории выплат и 30 000 ₽ за каждого клиента, которого вы порекомендовали.</p>
+      <ul class="guar">
+        <li>Бесплатно и без вложений</li>
+        <li>Клиента закрепляем за вами</li>
+        <li>Выплата за 1–2 дня после выкупа</li>
+        <li>Выйти из группы можно в любой момент</li>
+      </ul>
+      <a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Вступить в группу</a>
+      <span class="after">Откроется WhatsApp — нажмите «Вступить в группу». Это займёт 10 секунд.</span>
+      <span class="alt">Сначала хотите посмотреть? <a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener">Наш канал в MAX</a> · Вопросы: <a href="tel:+79198731668">+7 919 873-16-68</a></span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>© 2026 Честный автомобиль · Ростов-на-Дону</span><a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener">Наш канал в MAX</a></div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="fab" id="fab"><a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Вступить в группу</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.3 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M12 2.5c-5.3 0-9.5 4-9.5 9 0 2.6 1.1 4.9 3 6.5l-.6 3.3 3.4-1.6c1.1.4 2.4.7 3.7.7 5.3 0 9.5-4 9.5-9s-4.2-8.9-9.5-8.9zM7.6 15V8.6h1.7l2.7 3.6 2.7-3.6h1.7V15h-1.8v-3.7L12 14.6l-2.6-3.3V15z"/></symbol>
+</svg>
+
+<script>
+// Ссылка-приглашение в партнёрскую группу WhatsApp
+// (группа → «Пригласить по ссылке» → скопировать). Если пусто, кнопки
+// открывают чат с Алексеем с готовым сообщением «Хочу в группу партнёров».
+const GROUP_URL='https://chat.whatsapp.com/LJBARz3g3vQILTeUQI5zXp';
+const JOIN_URL=GROUP_URL||'https://wa.me/79198731668?text='+encodeURIComponent('Здравствуйте! Хочу в партнёрскую группу «Честного автомобиля».');
+// Яндекс Метрика: впишите номер счётчика (metrika.yandex.ru → «Добавить счётчик»).
+// Цели для настройки в счётчике (тип «JavaScript-событие»): join — нажали «Вступить»,
+// phrase — скопировали фразу, video — включили видео. Пока пусто, ничего не отправляется.
+const YM_ID='';
+if(YM_ID){
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+  ym(+YM_ID,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+}
+const goal=g=>{if(YM_ID&&window.ym)ym(+YM_ID,'reachGoal',g)};
+
+document.querySelectorAll('[data-join]').forEach(a=>{a.href=JOIN_URL;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>goal('join'))});
+
+const hdr=document.getElementById('top'),fab=document.getElementById('fab');
+// Плавающая кнопка прячется, когда на экране финальный блок со своей кнопкой
+const finalBox=document.querySelector('.final');let finalSeen=false;
+new IntersectionObserver(([e])=>{finalSeen=e.isIntersecting;onScroll()}).observe(finalBox);
+function onScroll(){hdr.classList.toggle('scrolled',scrollY>40);fab.classList.toggle('on',scrollY>innerHeight*.8&&!finalSeen)}
+addEventListener('scroll',onScroll,{passive:true});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  e.target.classList.add('in');
+  if(e.target.matches('[data-count]'))count(e.target);
+  e.target.querySelectorAll('[data-count]').forEach(count);
+  io.unobserve(e.target);
+}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function count(el){
+  if(el.dataset.done)return;el.dataset.done=1;
+  const to=+el.dataset.count,dec=+(el.dataset.dec||0),suf=el.dataset.suffix||'',t0=performance.now();
+  (function f(t){const p=Math.min((t-t0)/1400,1),v=to*(1-Math.pow(1-p,3));
+    el.textContent=v.toLocaleString('ru-RU',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suf;
+    if(p<1)requestAnimationFrame(f)})(t0);
+}
+
+// Готовые фразы: копируются по нажатию
+const toast=document.getElementById('toast');let tt;
+const say=t=>{toast.textContent=t;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),3000)};
+document.querySelectorAll('.ph').forEach(b=>b.addEventListener('click',()=>{
+  const text=b.querySelector('q').textContent;goal('phrase');
+  try{navigator.clipboard.writeText(text).then(()=>say('Фраза скопирована — вставьте её в чат'),()=>say('Не получилось скопировать, выделите текст вручную'))}
+  catch(_){say('Не получилось скопировать, выделите текст вручную')}
+}));
+
+// Калькулятор
+const per=document.getElementById('per');
+const word=n=>{const a=n%10,b=n%100;return a===1&&b!==11?'клиент':a>=2&&a<=4&&(b<12||b>14)?'клиента':'клиентов'};
+const rub=v=>Math.round(v).toLocaleString('ru-RU')+' ₽';
+function calc(){
+  const n=+per.value;
+  document.getElementById('perOut').textContent=n;
+  document.getElementById('sum').textContent=rub(n*30000);
+  document.getElementById('sumNote').textContent=n+' '+word(n)+' × 30 000 ₽ · в среднем '+rub(n*30000/12)+' в месяц';
+  per.style.setProperty('--p',((n-per.min)/(per.max-per.min)*100)+'%');
+}
+per.oninput=calc;calc();
+
+document.querySelectorAll('.vid').forEach(card=>{
+  const v=card.querySelector('video');
+  card.addEventListener('click',()=>{
+    if(v.paused){
+      document.querySelectorAll('.vid video').forEach(o=>{if(o!==v&&!o.paused)o.pause()});
+      v.controls=true;v.play();goal('video');
+    }else if(!v.controls)v.pause();
+  });
+  v.addEventListener('play',()=>card.classList.add('playing'));
+  v.addEventListener('pause',()=>{card.classList.remove('playing');v.controls=false});
+  v.addEventListener('ended',()=>{card.classList.remove('playing');v.controls=false});
+});
+</script>
+</body>
+</html>
