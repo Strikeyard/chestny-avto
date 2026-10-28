@@ -226,8 +226,24 @@ textarea{min-height:100px;resize:vertical}
 .gal-more{display:flex;justify-content:center;margin-top:24px}
 .vids.feed-x{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:calc((100% - 36px)/4);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;padding-bottom:8px}
 .vids.feed-x .vid{scroll-snap-align:start}
-@media(max-width:1000px){.vids.feed-x{grid-auto-columns:min(280px,72%)}}
-.vids-hint{margin-top:10px;font-size:14px;color:var(--muted)}
+.vids.feed-x{grid-auto-columns:calc((100% - 36px)/3.6);scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent)}
+.vids.feed-x::-webkit-scrollbar{display:none}
+.vids.feed-x.nudge .vid{animation:vnudge 1.4s ease-in-out}
+@keyframes vnudge{0%,100%{transform:translateX(0)}35%,55%{transform:translateX(-90px)}}
+.vids.feed-x.end{-webkit-mask-image:none;mask-image:none}
+@media(max-width:1000px){.vids.feed-x{grid-auto-columns:min(260px,68%)}}
+.varrows button{position:relative}
+.varrows button[data-vdir="1"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.varrows button[data-vdir="1"]:hover{color:var(--on-accent);filter:brightness(1.1)}
+.varrows button:disabled{opacity:.35;cursor:default}
+.varrows button[data-vdir="1"]:not(:disabled){animation:vpulse 1.8s ease-out infinite}
+@keyframes vpulse{0%{box-shadow:0 0 0 0 rgba(255,122,26,.55)}70%,100%{box-shadow:0 0 0 14px rgba(255,122,26,0)}}
+.vids-hint{margin-top:14px;font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.vids-hint .swipe{display:inline-block;font-size:20px;animation:vswipe 1.6s ease-in-out infinite}
+@keyframes vswipe{0%,100%{transform:translateX(0) rotate(-10deg)}50%{transform:translateX(-14px) rotate(-10deg)}}
+.vprog{flex:1;min-width:80px;max-width:260px;height:4px;border-radius:4px;background:var(--line);overflow:hidden}
+.vprog i{display:block;height:100%;width:30%;background:var(--accent);border-radius:4px;transition:width .2s}
+@media(max-width:640px){.varrows{display:none}}
 @media(max-width:900px){.gal:not(.open) a:nth-child(n+9){display:none}}
 .gal-all{display:none}
 @media(max-width:900px){.gal-all{display:inline-flex}.gal.open~.gal-more .gal-all{display:none}}
@@ -599,9 +615,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section id="video">
   <div class="wrap">
-    <div class="eyebrow">Видеоотзывы</div>
-    <h2>Снято в день выдачи</h2>
-    
+    <div class="rev-top">
+      <div><div class="eyebrow">Видеоотзывы</div><h2>Снято в день выдачи</h2></div>
+      <div class="arrows varrows"><button aria-label="Назад" data-vdir="-1" disabled>←</button><button aria-label="Вперёд" data-vdir="1">→</button></div>
+    </div>
     <div class="vids feed-x">
       <div class="vid reveal"><video src="video/review1.mp4" poster="video/review1.jpg" preload="none" playsinline></video><span class="dur">0:41</span><div class="ov"><span class="play"></span><q>Уже второй автомобиль заказываем у ребят. Всё чётко, даже раньше, чем планировали.</q><small><b>Евгений</b> · Toyota</small></div></div>
       <div class="vid reveal"><video src="video/w-review4.mp4" poster="video/w-review4.jpg" preload="none" playsinline></video><span class="dur">1:53</span><div class="ov"><span class="play"></span><q>Страха не было. Всё ясно, чётко, понятно, полное сопровождение от начала до конца. Я в восторге!</q><small><b>Светлана</b> · Mazda</small></div></div>
@@ -615,7 +632,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="vid reveal"><video src="video/w-review6.mp4" poster="video/w-review6.jpg" preload="none" playsinline></video><span class="dur">0:55</span><div class="ov"><span class="play"></span><q>Всё супер, всё классно, всё доходчиво, всё понятно. Спасибо, что судьба нас свела — теперь у нас новый автомобиль!</q><small><b>Юля</b> · Volkswagen</small></div></div>
       <div class="vid reveal"><video src="video/w-review2.mp4" poster="video/w-review2.jpg" preload="none" playsinline></video><span class="dur">0:30</span><div class="ov"><span class="play"></span><q>Всё быстро, очень красивая машина. У меня уже сегодня два человека ваш номер спросили!</q><small><b>Клиентка</b> · Hyundai</small></div></div>
     </div>
-    <p class="vids-hint">Листайте → 11 отзывов, сняты в день выдачи</p>
+    <p class="vids-hint"><span class="swipe" aria-hidden="true">👆</span>Листайте в сторону — всего 11 видеоотзывов<span class="vprog"><i></i></span></p>
   </div>
 </section>
 
@@ -900,9 +917,23 @@ function count(el){
 }
 
 const revs=document.getElementById('revs');
-document.querySelectorAll('.arrows button').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('#reviews .arrows button').forEach(b=>b.onclick=()=>{
   const card=revs.querySelector('.review');
   revs.scrollBy({left:+b.dataset.dir*(card.offsetWidth+12),behavior:'smooth'});
+});
+
+// лента видеоотзывов: стрелки, полоска прогресса, подсказка-движение при первом показе
+document.querySelectorAll('.vids.feed-x').forEach(feed=>{
+  const sec=feed.closest('section'),btns=sec.querySelectorAll('[data-vdir]'),bar=sec.querySelector('.vprog i');
+  const step=()=>{const c=feed.querySelector('.vid');return c?c.offsetWidth+12:300};
+  const upd=()=>{const max=feed.scrollWidth-feed.clientWidth,x=feed.scrollLeft;
+    btns.forEach(b=>b.disabled=+b.dataset.vdir<0?x<4:x>max-4);
+    feed.classList.toggle('end',x>max-4);
+    if(bar)bar.style.width=Math.min(100,(feed.clientWidth+x)/feed.scrollWidth*100)+'%'};
+  btns.forEach(b=>b.onclick=()=>feed.scrollBy({left:+b.dataset.vdir*step(),behavior:'smooth'}));
+  feed.addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting||feed.scrollLeft>4)return;io.disconnect();
+    setTimeout(()=>{feed.classList.add('nudge');setTimeout(()=>feed.classList.remove('nudge'),1500)},400)},{threshold:.5});io.observe(feed)}
 });
 
 document.querySelectorAll('.vid').forEach(card=>{
