@@ -224,6 +224,11 @@ textarea{min-height:100px;resize:vertical}
 @media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}.gal a .cap{opacity:1}}
 .gal a::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:inherit}
 .gal-more{display:flex;justify-content:center;margin-top:24px}
+.arts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.art{display:flex;flex-direction:column;gap:6px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);color:var(--text);text-decoration:none;transition:border-color .2s}
+.art b{font-size:18px;line-height:1.25}.art span{color:var(--muted);font-size:14px}
+.art:hover{border-color:var(--accent)}.art.all b{color:var(--accent)}
+@media(max-width:900px){.arts{grid-template-columns:1fr}}
 .vids.feed-x{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:calc((100% - 36px)/4);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;padding-bottom:8px}
 .vids.feed-x .vid{scroll-snap-align:start}
 .vids.feed-x{grid-auto-columns:calc((100% - 36px)/3.6);scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent)}
@@ -801,6 +806,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <img src="video/review3.jpg" alt="" loading="lazy">
         <img src="video/review4.jpg" alt="" loading="lazy">
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="stati" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Полезно знать</div>
+    <h2>Статьи с реальными ценами</h2>
+    <div class="arts">
+      <a class="art reveal" href="stati/avto-iz-kitaya-do-1-5-mln/"><b>Что привезти из Китая за 1,5 млн ₽</b><span>Три правила бюджета и машины-ловушки</span></a>
+      <a class="art reveal" href="stati/elektromobil-ili-benzin-iz-kitaya/"><b>Электричка или бензин: что выгоднее</b><span>bZ3X, Changan Q05 и Corolla в цифрах</span></a>
+      <a class="art reveal" href="stati/semeynaya-mashina-iz-kitaya/"><b>Семейная машина в разумный бюджет</b><span>Octavia, Tharu, Tayron, Tiguan L</span></a>
+      <a class="art reveal" href="stati/toyota-bz3x-iz-kitaya/"><b>Toyota bZ3X из Китая</b><span>Цена под ключ и из чего она</span></a>
+      <a class="art reveal" href="stati/changan-q05-iz-kitaya/"><b>Changan Q05 из Китая</b><span>Цена под ключ и нюанс с мощностью</span></a>
+      <a class="art all reveal" href="stati/"><b>Все статьи →</b><span>Новые — по вашим вопросам</span></a>
     </div>
   </div>
 </section>

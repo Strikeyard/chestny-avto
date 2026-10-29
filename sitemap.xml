@@ -5,4 +5,10 @@
   <url><loc>https://chestny-avto.ru/go/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://chestny-avto.ru/game.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://chestny-avto.ru/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/avto-iz-kitaya-do-1-5-mln/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/elektromobil-ili-benzin-iz-kitaya/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/semeynaya-mashina-iz-kitaya/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/toyota-bz3x-iz-kitaya/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://chestny-avto.ru/stati/changan-q05-iz-kitaya/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
