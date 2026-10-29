@@ -202,7 +202,7 @@ footer a{text-decoration:underline}
 <script>
 // Откуда пришёл человек: ?src=card (визитка), car (наклейка), flyer (листовка), ig, vk.
 // Помечаем это в первом сообщении в WhatsApp, чтобы было видно, какой QR работает.
-const SOURCES = {card: "с визитки", car: "с наклейки на машине", flyer: "с листовки", banner: "с баннера", ig: "из Instagram", vk: "из ВКонтакте", max: "из канала MAX"};
+const SOURCES = {card: "с визитки", car: "с наклейки на машине", flyer: "с листовки", banner: "с баннера", ig: "из Instagram", vk: "из ВКонтакте", max: "из канала MAX", tg: "из Telegram-канала", wa: "из WhatsApp", status: "из статуса"};
 const src = new URLSearchParams(location.search).get("src");
 const from = SOURCES[src] || "по ссылке-визитке";
 const msg = `Здравствуйте! Я ${from} 👋 Хочу подобрать машину.`;
