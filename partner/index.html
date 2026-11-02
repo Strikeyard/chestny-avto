@@ -9,7 +9,7 @@
      замените img/h9.jpg на полный адрес, например https://сайт.ru/img/h9.jpg -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="30 000 ₽ за рекомендацию — партнёрам «Честного автомобиля»">
-<meta property="og:description" content="Ищете дополнительный доход? Минута в день — и 30 000 ₽ за каждого знакомого, которому мы выкупили машину. Без вложений и без продаж.">
+<meta property="og:description" content="Ищете дополнительный доход? 30 000 ₽ за каждого знакомого, которому мы выкупили машину. Без вложений и без продаж.">
 <meta property="og:url" content="https://chestny-avto.ru/partner/">
 <meta property="og:image" content="https://chestny-avto.ru/partner/img/h9.jpg">
 <meta name="theme-color" content="#121417">
@@ -341,11 +341,11 @@ footer a:hover{color:var(--text)}
   <div class="bg" aria-hidden="true"></div>
   <div class="wrap">
     <div class="ask">Ищете дополнительный доход?</div>
-    <h1>Минута в день — <em>30 000 ₽</em> за каждого клиента</h1>
+    <h1><em>30 000 ₽</em> за каждого знакомого, которому мы выкупили машину</h1>
     <p class="lead">Заглядываете в нашу группу, советуете нас знакомым и передаёте контакт. Когда мы выкупаем машину, платим вам 30 000 ₽. <b>Без вложений и без продаж</b> — всё остальное делаем мы.</p>
     <div class="cta">
       <a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Вступить в группу партнёров</a>
-      <a href="#how" class="btn ghost">Как это работает</a>
+      <a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener" class="btn max-btn"><svg><use href="#i-max"/></svg>Нет WhatsApp? Канал в MAX</a> <a href="#how" class="btn ghost">Как это работает</a>
     </div>
     <p class="micro">Бесплатно · Ничего покупать не нужно · Выйти можно в любой момент</p>
     <ul class="proof">
@@ -360,7 +360,7 @@ footer a:hover{color:var(--text)}
     </a>
   </div>
   <div class="marquee" aria-hidden="true">
-    <div><span>Минута в день</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span><span>Минута в день</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span></div>
+    <div><span>Продавать не нужно</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span><span>Продавать не нужно</span><span>30 000 ₽ за клиента</span><span>Без вложений</span><span>Выплата за 1–2 дня</span></div>
   </div>
 </section>
 
@@ -647,7 +647,7 @@ footer a:hover{color:var(--text)}
 const GROUP_URL='https://chat.whatsapp.com/LJBARz3g3vQILTeUQI5zXp';
 const JOIN_URL=GROUP_URL||'https://wa.me/79198731668?text='+encodeURIComponent('Здравствуйте! Хочу в партнёрскую группу «Честного автомобиля».');
 // Яндекс Метрика: впишите номер счётчика (metrika.yandex.ru → «Добавить счётчик»).
-// Цели для настройки в счётчике (тип «JavaScript-событие»): join — нажали «Вступить»,
+// Цели для настройки в счётчике (тип «JavaScript-событие»): join — нажали «Вступить», max — перешли в MAX,
 // phrase — скопировали фразу, video — включили видео. Пока пусто, ничего не отправляется.
 const YM_ID='113881059';
 if(YM_ID){
@@ -659,6 +659,7 @@ if(YM_ID){
 const goal=g=>{if(YM_ID&&window.ym)ym(+YM_ID,'reachGoal',g)};
 
 document.querySelectorAll('[data-join]').forEach(a=>{a.href=JOIN_URL;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>goal('join'))});
+document.querySelectorAll('a[href*="max.ru/"]').forEach(a=>a.addEventListener('click',()=>goal('max')));
 
 const hdr=document.getElementById('top'),fab=document.getElementById('fab');
 // Плавающая кнопка прячется, когда на экране финальный блок со своей кнопкой
