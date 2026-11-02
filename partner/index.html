@@ -310,6 +310,15 @@ details p{color:var(--muted);padding:0 0 24px;max-width:70ch}
 .fab.on{transform:translate(-50%,0);opacity:1}
 .fab .btn{box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
 @media(min-width:901px){.fab{display:none}}
+.next{width:min(480px,calc(100% - 32px));max-height:calc(100dvh - 32px);margin:auto;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;overflow:auto}
+.next::backdrop{background:rgba(0,0,0,.72)}
+.next h3{font-size:26px;margin-bottom:18px}
+.next ol{list-style:none;counter-reset:n;display:grid;gap:14px;margin-bottom:24px}
+.next li{counter-increment:n;display:grid;grid-template-columns:32px 1fr;gap:12px;font-size:16px;line-height:1.4}
+.next li::before{content:counter(n);width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:800;display:grid;place-items:center}
+.next .alt-t{font-weight:700;margin-bottom:12px}
+.next .btn{width:100%;justify-content:center;margin-bottom:10px;padding:15px 18px;font-size:14px}
+.next .close{position:absolute;top:12px;right:12px;width:40px;height:40px;border:0;border-radius:50%;background:var(--card2);color:var(--text);font-size:22px;line-height:1;cursor:pointer}
 
 footer{border-top:1px solid var(--line);padding:32px 0 96px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -633,6 +642,18 @@ footer a:hover{color:var(--text)}
 </footer>
 
 <div class="toast" id="toast" role="status"></div>
+<dialog class="next" id="nextDlg" aria-labelledby="nextTitle">
+  <button class="close" type="button" id="nextClose" aria-label="Закрыть">×</button>
+  <h3 id="nextTitle">Что дальше</h3>
+  <ol>
+    <li><span>В открывшемся WhatsApp нажмите «Вступить в группу».</span></li>
+    <li><span>Поставьте машину дня из группы к себе в статус.</span></li>
+    <li><span>Знакомый ищет машину? Пришлите Алексею его контакт. Выкупим авто — 30&nbsp;000&nbsp;₽ ваши.</span></li>
+  </ol>
+  <p class="alt-t">WhatsApp не открылся?</p>
+  <a href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener" class="btn max-btn"><svg><use href="#i-max"/></svg>Наш канал в MAX</a>
+  <a href="https://chestny-avto.ru/m" target="_blank" rel="noopener" class="btn ghost" id="nextWrite">Написать Алексею</a>
+</dialog>
 <div class="fab" id="fab"><a href="#" class="btn" data-join><svg><use href="#i-wa"/></svg>Вступить в группу</a></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -658,7 +679,9 @@ if(YM_ID){
 }
 const goal=g=>{if(YM_ID&&window.ym)ym(+YM_ID,'reachGoal',g)};
 
-document.querySelectorAll('[data-join]').forEach(a=>{a.href=JOIN_URL;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>goal('join'))});
+document.querySelectorAll('[data-join]').forEach(a=>{a.href=JOIN_URL;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{goal('join');const d=document.getElementById('nextDlg');if(d.showModal&&!d.open)d.showModal()})});
+document.getElementById('nextClose').addEventListener('click',()=>document.getElementById('nextDlg').close());
+document.getElementById('nextWrite').addEventListener('click',()=>goal('max'));
 document.querySelectorAll('a[href*="max.ru/"]').forEach(a=>a.addEventListener('click',()=>goal('max')));
 
 const hdr=document.getElementById('top'),fab=document.getElementById('fab');
