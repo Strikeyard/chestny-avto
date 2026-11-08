@@ -226,6 +226,9 @@ textarea{min-height:100px;resize:vertical}
 @media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}.gal a .cap{opacity:1}}
 .gal a::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:inherit}
 .gal-more{display:flex;justify-content:center;margin-top:24px}
+.office{margin:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.office img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.office figcaption{padding:10px 14px;font-size:14px;color:var(--muted)}
 .anketa-link{display:inline-block;margin-top:14px;font-weight:700;font-size:15px;color:var(--text);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
 .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .art{display:flex;flex-direction:column;gap:6px;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--card);color:var(--text);text-decoration:none;transition:border-color .2s}
@@ -917,6 +920,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="info reveal">
       <div><div class="eyebrow">Контакты</div><h2>Пиши — поболтаем и всё расскажем ☕</h2></div>
       <div><span>Адрес</span><b>Ростов-на-Дону, ул. Красноармейская, 200</b></div>
+      <figure class="office"><img src="../img/office.jpg" alt="Офис «Честный автомобиль» на Красноармейской, 200" loading="lazy"><figcaption>Наш офис: ул. Красноармейская, 200</figcaption></figure>
       <div><span>Телефон</span><b><a href="tel:+79198731668">+7 919 873-16-68</a></b><small style="display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:4px">Тот же номер: 8 919 873-16-68, 8 (919) 873-16-68, 89198731668</small></div>
       <div class="msgr">
         <a class="mb wa" data-m="wa" href="https://wa.me/79198731668" target="_blank" rel="noopener"><i><svg><use href="#i-wa"/></svg></i>WhatsApp</a>
