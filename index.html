@@ -25,7 +25,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"AutoDealer","name":"Честный автомобиль","alternateName":"Честный автоподбор","sameAs":["https://vk.ru/chestnyi_auto"],
+{"@context":"https://schema.org","@type":"AutoDealer","name":"Честный автомобиль","alternateName":"Честный автоподбор","sameAs":["https://vk.ru/chestnyi_auto","https://t.me/chestnyi_auto","https://max.ru/id261806972222_biz","https://www.instagram.com/alexey.kleshev/","https://yandex.ru/maps/org/chestny_avtomobil/226227269441/"],"hasMap":"https://yandex.ru/maps/org/chestny_avtomobil/226227269441/",
  "description":"Подбор и привоз автомобилей из Китая, Кореи и Киргизии под ключ",
  "telephone":"+79198731668","image":"https://chestny-avto.ru/img/og.jpg","url":"https://chestny-avto.ru/",
  "address":{"@type":"PostalAddress","streetAddress":"ул. Красноармейская, 200","addressLocality":"Ростов-на-Дону","addressCountry":"RU"},
@@ -226,6 +226,7 @@ textarea{min-height:100px;resize:vertical}
 @media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}.gal a .cap{opacity:1}}
 .gal a::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:inherit}
 .gal-more{display:flex;justify-content:center;margin-top:24px}
+.maplink{display:inline-block;margin-top:6px;font-size:14px;font-weight:700;color:var(--accent);text-decoration:none}
 .office{margin:0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--card)}
 .office img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
 .office figcaption{padding:10px 14px;font-size:14px;color:var(--muted)}
@@ -709,7 +710,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </div>
     <div class="steps">
       <div class="step reveal"><span class="n">01</span><h3>Анкета и расчёт</h3><p>Вы говорите, какую машину и в какой бюджет хотите. Мы присылаем 1–2 варианта с итоговой ценой под ключ.</p></div>
-      <div class="step reveal"><span class="n">02</span><h3>Договор и задаток</h3><p>Официальный договор, задаток 100 000 ₽. Если машину не нашли или она не устроила — возвращаем задаток.</p></div>
+      <div class="step reveal"><span class="n">02</span><h3>Договор и задаток</h3><p>Официальный договор, задаток 100 000 ₽. Если машину не нашли или она не устроила — возвращаем задаток. Удерживаем только 10 000 ₽ за выездную диагностику, если она уже была.</p></div>
       <div class="step reveal"><span class="n">03</span><h3>Проверка до покупки</h3><p>Выездная диагностика на месте: толщиномер, электрика, ошибки, кузов, двигатель. Только потом выкуп.</p></div>
       <div class="step reveal"><span class="n">04</span><h3>Оплата через ВТБ</h3><p>~80% — по инвойсу через банк, курс фиксируется. Остаток ~20% — таможенные платежи по приезду, они уже в цене.</p></div>
       <div class="step reveal"><span class="n">05</span><h3>Доставка и растаможка</h3><p>Логистика, таможня, лаборатория и ЭПТС — берём на себя. Каждый этап — фото и видео в группе.</p></div>
@@ -810,7 +811,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="review"><q>Выдали авто чистое, с полным баком бензина и ещё приятным бонусом на обмыть.</q><div class="who"><div class="avatar">В</div><div><b>Виктория</b>Яндекс Карты</div></div></div>
       <div class="review"><q>Цены на фоне конкурентов всегда давали итоговые, без каких-то доплат.</q><div class="who"><div class="avatar">М</div><div><b>Максим</b>машина для жены из Кореи</div></div></div>
       <div class="review"><q>Если бы не ребята, я точно бы влетел на какой-то хлам, оказывается столько битых машин.</q><div class="who"><div class="avatar">А</div><div><b>Алексан</b>Infiniti, пришёл по совету друзей</div></div></div>
-      <div class="review"><q>Мы заказывали максимальную комплектацию из Киргизии — и ребята справились всего за 10 дней!</q><div class="who"><div class="avatar">A</div><div><b>Клиент</b>Audi Q3 2026 из Киргизии</div></div></div>
+      <div class="review"><q>Мы заказывали максимальную комплектацию из Киргизии — и ребята справились всего за 10 дней!</q><div class="who"><div class="avatar">К</div><div><b>Клиент</b>Audi Q3 2026 из Киргизии</div></div></div>
     </div>
   </div>
 </section>
@@ -872,7 +873,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <div class="wrap contact">
     <div class="info reveal">
       <div><div class="eyebrow">Контакты</div><h2>Обсудим ваш автомобиль</h2></div>
-      <div><span>Адрес</span><b>Ростов-на-Дону, ул. Красноармейская, 200</b></div>
+      <div><span>Адрес</span><b>Ростов-на-Дону, ул. Красноармейская, 200</b><a class="maplink" href="https://yandex.ru/maps/org/chestny_avtomobil/226227269441/" target="_blank" rel="noopener">Открыть на Яндекс Картах и построить маршрут →</a></div>
       <figure class="office"><img src="img/office.jpg" alt="Офис «Честный автомобиль» на Красноармейской, 200" loading="lazy"><figcaption>Наш офис: ул. Красноармейская, 200</figcaption></figure>
       <div><span>Телефон</span><b><a href="tel:+79198731668">+7 919 873-16-68</a></b><small style="display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:4px">Тот же номер: 8 919 873-16-68, 8 (919) 873-16-68, 89198731668</small></div>
       <div class="msgr">
@@ -885,7 +886,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <form id="lead" class="reveal" novalidate>
       <div class="form-body">
         <h3>Оставить заявку</h3>
-        <p style="color:var(--muted);margin-bottom:10px">Оставьте телефон — менеджер свяжется и пришлёт варианты с ценой под ключ.</p>
+        <p style="color:var(--muted);margin-bottom:10px">Оставьте имя и телефон, затем отправьте заявку нам в WhatsApp — текст заполнится сам. Ответим и пришлём варианты с ценой под ключ.</p>
         <div style="display:grid;gap:14px">
           <input id="l-name" name="name" aria-label="Ваше имя" placeholder="Ваше имя" autocomplete="given-name" required>
           <input id="l-phone" name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required>
