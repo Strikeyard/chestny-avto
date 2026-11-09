@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вы в двух шагах от 30 000 ₽ — Честный автомобиль</title>
+<meta name="description" content="Форма для партнёров: передайте контакт знакомого, и он закрепится за вами.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#121417">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23FF7A1A'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#121417;--card:#1C2026;--card2:#232831;--line:#2A3039;--accent:#FF7A1A;--on:#121417;--text:#fff;--muted:#A9B0BA;--err:#FF6B6B;--money:#3DE56F;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.42;font-size:17px;overflow-x:hidden}
+main{max-width:520px;margin:0 auto;padding-bottom:40px}
+h1,h2,.sum{font-weight:900;letter-spacing:-.02em}
+
+/* первый экран */
+.hero{position:relative;height:470px;overflow:hidden}
+.hero>img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,var(--bg) 0%,rgba(18,20,23,.62) 34%,rgba(18,20,23,0) 62%),linear-gradient(180deg,rgba(18,20,23,.72) 0%,rgba(18,20,23,0) 22%)}
+.logo{position:absolute;z-index:2;left:16px;top:16px;display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px}
+.logo i{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}
+.title{position:absolute;z-index:2;left:16px;right:16px;bottom:6px}
+h1{font-size:33px;line-height:1.06;white-space:nowrap}
+h1 span{display:block;color:var(--money);font-size:66px;line-height:1.02;text-shadow:0 4px 30px rgba(61,229,111,.35)}
+.paid{position:absolute;z-index:3;left:12px;bottom:118px;width:150px;background:#fff;color:#121417;border-radius:16px;padding:9px 11px;transform:rotate(-3deg);box-shadow:0 16px 34px -8px rgba(0,0,0,.65);font-size:12px;line-height:1.25;animation:float 4s ease-in-out infinite}
+.paid b{display:block;font-size:24px;font-weight:900;line-height:1.1}
+.paid em{font-style:normal;color:#0B8F3C;font-weight:800}
+@keyframes float{50%{transform:rotate(-1deg) translateY(-7px)}}
+
+.wrap{padding:0 16px}
+/* два шага */
+.steps{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;align-items:stretch;margin-top:20px}
+.st{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:11px 9px;font-size:13px;line-height:1.22;font-weight:600;color:#DDE1E6;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.st b{display:grid;place-items:center;width:26px;height:26px;margin:0 auto;border-radius:50%;background:var(--accent);color:var(--on);font-weight:900;font-size:15px}
+.st.pay{background:var(--money);border-color:var(--money);color:var(--on);font-weight:800}
+.st.pay big{font-size:17px;font-weight:900;line-height:1.05;white-space:nowrap}
+.arrow{display:grid;place-items:center;color:var(--accent);font-weight:900}
+.note-pay{color:var(--muted);font-size:14px;margin-top:10px}
+
+/* форма */
+.box{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:20px 16px;margin-top:18px;box-shadow:0 30px 60px -36px rgba(255,122,26,.5)}
+.box h2{font-size:25px;line-height:1.12;margin-bottom:12px}
+.meter{height:10px;background:var(--bg);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--money));border-radius:99px;transition:width .35s}
+.meter-t{display:block;min-height:20px;margin:6px 0 16px;font-size:14px;font-weight:700;color:var(--muted)}
+.meter-t.full{color:var(--money)}
+label.f{display:block;font-weight:700;margin-bottom:14px}
+label.f small{font-weight:500;color:var(--muted)}
+input[type=text],input[type=tel]{display:block;width:100%;margin-top:6px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:18px;font-weight:500}
+input:focus{outline:none;border-color:var(--accent)}
+::placeholder{color:#6F7782}
+.check{display:flex;gap:12px;align-items:flex-start;margin:2px 0 16px;font-size:15px;color:#DDE1E6;cursor:pointer}
+.check input{flex:none;width:24px;height:24px;margin-top:1px;accent-color:var(--accent)}
+.check a{color:var(--text)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+button{width:100%;background:var(--accent);color:var(--on);border:0;border-radius:999px;padding:18px;font:inherit;font-weight:900;font-size:19px;cursor:pointer;box-shadow:0 14px 30px -12px var(--accent);transition:transform .15s}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.6;cursor:default}
+button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.msg{min-height:24px;margin-top:12px;color:var(--err);font-weight:700;font-size:15px}
+.msg a,.alt a{color:var(--text)}
+.alt{color:var(--muted);font-size:14px;text-align:center}
+
+/* успех */
+.done{display:none;background:var(--card);border:2px solid var(--money);border-radius:24px;padding:24px 18px;margin-top:18px;text-align:center;outline:none;box-shadow:0 30px 60px -30px rgba(61,229,111,.55)}
+.done .tick{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 12px;border-radius:50%;background:var(--money);color:var(--on);font-size:32px;font-weight:900}
+.done h2{font-size:26px;line-height:1.14;margin-bottom:10px}
+.done p{color:#DDE1E6;margin-bottom:12px}
+.done .left{background:var(--bg);border-radius:14px;padding:12px;font-weight:700;margin-bottom:16px}
+.done .left b{color:var(--money)}
+.done button{background:transparent;color:var(--text);border:1.5px solid var(--line);padding:15px;font-size:17px;box-shadow:none}
+.bill{position:fixed;top:-60px;z-index:9;width:58px;height:30px;border-radius:4px;background:linear-gradient(135deg,#3DE56F,#16A34A);border:2px solid #0B7A34;color:#06381A;font:900 16px/26px "Segoe UI",sans-serif;text-align:center;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(var(--r))}}
+
+/* доказательства */
+.sec{margin-top:30px}
+.sec h2{font-size:25px;line-height:1.12;margin-bottom:12px}
+.sec h2 em{font-style:normal;color:var(--money)}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.p{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;background:var(--card2)}
+.p img{width:100%;height:100%;object-fit:cover;display:block}
+.p span{position:absolute;inset:auto 0 0;padding:26px 8px 8px;background:linear-gradient(0deg,#121417 40%,rgba(18,20,23,0));font-size:13px;font-weight:700}
+.p b{display:block;color:var(--money);font-size:17px;font-weight:900;white-space:nowrap}
+.proof{display:grid;grid-template-columns:1.9fr 1fr;gap:8px;margin-top:8px}
+.proof div{border-radius:16px;overflow:hidden;position:relative;background:#fff}
+.proof img{width:100%;height:100%;object-fit:cover;display:block}
+.proof small{position:absolute;left:8px;bottom:8px;background:var(--bg);color:#fff;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}
+.reel{display:flex;gap:8px;margin:0 -16px;padding:0 16px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+.reel::-webkit-scrollbar{display:none}
+.reel img{flex:none;width:250px;height:173px;object-fit:cover;border-radius:16px;scroll-snap-align:center}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.facts div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 6px;text-align:center;font-size:12px;line-height:1.2;color:var(--muted)}
+.facts b{display:block;color:var(--accent);font-size:19px;font-weight:900;margin-bottom:2px}
+.up{margin-top:22px}
+.alt{margin-top:14px}
+@media(prefers-reduced-motion:reduce){.paid{animation:none}.meter i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="hero">
+    <img src="img/hero.jpg" alt="Рукопожатие у машины на выдаче" width="1040" height="1040">
+    <div class="logo"><i></i>Честный автомобиль</div>
+    <div class="paid" aria-hidden="true">Перевод партнёру<b>30 000 ₽</b><em>✓ Успешно</em></div>
+    <div class="title"><h1>Вы в двух шагах от <span>30 000 ₽</span></h1></div>
+  </div>
+
+  <div class="wrap">
+    <div class="steps" aria-label="Как получить выплату">
+      <div class="st"><b>1</b>Вы передаёте контакт</div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="st"><b>2</b>Мы выкупаем машину</div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="st pay"><big>30 000 ₽</big>вам за 1–2 дня</div>
+    </div>
+    <p class="note-pay">Платим за каждого знакомого, которому выкупили машину. Если покупки нет, выплаты нет.</p>
+
+    <div class="box" id="formBox">
+      <h2>Шаг 1: передайте контакт</h2>
+      <div class="meter" aria-hidden="true"><i id="bar"></i></div>
+      <span class="meter-t" id="barT" aria-live="polite">Займёт 20 секунд</span>
+      <form id="f" novalidate>
+        <label class="f">Ваше имя
+          <input type="text" id="partner" maxlength="80" autocomplete="name" placeholder="Как вас зовут">
+        </label>
+        <label class="f">Имя знакомого
+          <input type="text" id="name" maxlength="80" autocomplete="off" placeholder="Кому нужна машина">
+        </label>
+        <label class="f">Телефон знакомого
+          <input type="tel" id="phone" maxlength="24" autocomplete="off" inputmode="tel" placeholder="+7 900 000-00-00">
+        </label>
+        <label class="f">Какую машину ищет <small>(если знаете)</small>
+          <input type="text" id="car" maxlength="200" autocomplete="off" placeholder="Например, кроссовер до 2,5 млн">
+        </label>
+        <div class="hp" aria-hidden="true"><input type="text" id="site" tabindex="-1" autocomplete="off"></div>
+        <label class="check"><input type="checkbox" id="consent"><span>Знакомый знает, что с ним свяжутся, и согласен на это. Данные обрабатываем по <a href="/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
+        <button type="submit" id="send">Закрепить за мной</button>
+        <p class="msg" id="msg" role="alert"></p>
+      </form>
+      <p class="alt">Удобнее лично? <a href="https://chestny-avto.ru/w">Напишите Алексею</a>, так тоже можно.</p>
+    </div>
+
+    <div class="done" id="done" role="status" tabindex="-1">
+      <div class="tick" aria-hidden="true">✓</div>
+      <h2>Готово, клиент закреплён за вами</h2>
+      <p>Алексей или его представитель свяжутся с ним в ближайшее время. Всё остальное мы берём на себя.</p>
+      <div class="left">Первый шаг пройден. Выкупим машину — <b>30 000 ₽</b> ваши.</div>
+      <button type="button" id="again">Передать ещё одного</button>
+    </div>
+
+    <section class="sec">
+      <h2>Они уже <em>получили</em></h2>
+      <div class="people">
+        <div class="p"><img src="img/dmitry.jpg" alt="Дмитрий, партнёр" loading="lazy"><span>Дмитрий<b>120 000 ₽</b></span></div>
+        <div class="p"><img src="img/aleksandr.jpg" alt="Александр, партнёр, с выплатой в рамке" loading="lazy"><span>Александр<b>60 000 ₽</b></span></div>
+        <div class="p"><img src="img/sergey.jpg" alt="Сергей, партнёр" loading="lazy"><span>Сергей<b>60 000 ₽</b></span></div>
+      </div>
+      <div class="proof">
+        <div><img src="img/check.jpg" alt="Чек: перевод партнёру 30 000 ₽" loading="lazy"><small>Настоящий чек</small></div>
+        <div><img src="img/money.jpg" alt="Выплата партнёру в рамке" loading="lazy"><small>В рамке</small></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>Ваши знакомые будут такими же</h2>
+      <div class="reel" tabindex="0" aria-label="Фотографии с выдачи машин">
+        <img src="img/g3.jpg" alt="Выдача машины клиенту" loading="lazy">
+        <img src="img/g10.jpg" alt="Выдача машины клиенту" loading="lazy">
+        <img src="img/h1.jpg" alt="Выдача машины клиентам" loading="lazy">
+        <img src="img/g6.jpg" alt="Выдача машины клиентам" loading="lazy">
+        <img src="img/g7.jpg" alt="Выдача машины клиенту" loading="lazy">
+        <img src="img/g5.jpg" alt="Выдача машины клиенту" loading="lazy">
+      </div>
+      <div class="facts">
+        <div><b>1 800+</b>машин выдали</div>
+        <div><b>★ 4,9</b>на Яндекс Картах</div>
+        <div><b>С 2022</b>возим авто</div>
+      </div>
+    </section>
+
+    <div class="up"><button type="button" id="toForm">Передать контакт</button></div>
+  </div>
+</main>
+<script>
+// Адрес функции Yandex Cloud, см. tools/partner-form/README.md
+const API_URL='https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
+const $=id=>document.getElementById(id);
+const store={get(){try{return localStorage.getItem('partnerName')||''}catch(_){return ''}},set(v){try{localStorage.setItem('partnerName',v)}catch(_){}}};
+$('partner').value=store.get();
+const fail=t=>{$('msg').textContent=t};
+const failLink=()=>{$('msg').innerHTML='Не отправилось. Данные на месте: попробуйте ещё раз или <a href="https://chestny-avto.ru/w">напишите Алексею</a>.'};
+const phoneOk=()=>$('phone').value.replace(/\D/g,'').length>=10;
+function meter(){
+  const n=[$('partner').value.trim(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
+  $('bar').style.width=n*25+'%';
+  $('barT').textContent=n===4?'Осталось нажать кнопку':n?'Заполнено '+n+' из 4':'Займёт 20 секунд';
+  $('barT').classList.toggle('full',n===4);
+}
+$('f').addEventListener('input',meter);
+meter();
+function check(){
+  if(!$('partner').value.trim())return ['partner','Напишите своё имя'];
+  if(!$('name').value.trim())return ['name','Напишите имя знакомого'];
+  if(!phoneOk())return ['phone','Проверьте номер знакомого'];
+  if(!$('consent').checked)return ['consent','Подтвердите, что знакомый знает, что с ним свяжутся'];
+  return null;
+}
+// Купюры падают один раз после отправки, только для радости
+function bills(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  for(let i=0;i<22;i++){
+    const b=document.createElement('span');b.className='bill';b.textContent='₽';b.setAttribute('aria-hidden','true');
+    b.style.left=Math.random()*94+'%';b.style.setProperty('--r',(Math.random()*720-360)+'deg');
+    b.style.animationDuration=(1.6+Math.random()*1.6)+'s';b.style.animationDelay=Math.random()*.7+'s';
+    b.addEventListener('animationend',()=>b.remove());document.body.append(b);
+  }
+}
+$('f').addEventListener('submit',async e=>{
+  e.preventDefault();fail('');
+  const bad=check();
+  if(bad){$(bad[0]).focus();return fail(bad[1])}
+  if(!API_URL)return failLink();
+  $('send').disabled=true;$('send').textContent='Отправляем…';
+  try{
+    // text/plain: браузер не делает лишний предварительный запрос к функции
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({
+      partner:$('partner').value,name:$('name').value,phone:$('phone').value,car:$('car').value,site:$('site').value,consent:$('consent').checked})});
+    const data=await r.json().catch(()=>({}));
+    if(r.ok&&data.ok){
+      store.set($('partner').value.trim());
+      $('formBox').style.display='none';$('done').style.display='block';$('done').focus();$('done').scrollIntoView({block:'center'});bills();
+    }else if(data.error){fail(data.error)}else{failLink()}
+  }catch(_){failLink()}
+  $('send').disabled=false;$('send').textContent='Закрепить за мной';
+});
+$('again').addEventListener('click',()=>{
+  ['name','phone','car'].forEach(i=>{$(i).value=''});$('consent').checked=false;fail('');meter();
+  $('done').style.display='none';$('formBox').style.display='block';$('name').focus();
+});
+$('toForm').addEventListener('click',()=>{
+  const box=$('formBox').style.display==='none'?$('done'):$('formBox');
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+});
+</script>
+</body>
+</html>
