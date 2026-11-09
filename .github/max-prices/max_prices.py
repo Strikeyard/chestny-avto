@@ -207,6 +207,9 @@ def main():
         msgs = json.loads(Path(a.sample).read_text(encoding="utf-8"))
         run(site, msgs, fetch_photos=False)
         return
+    if not os.environ.get("MAX_TOKEN"):
+        print("Токен бота ещё не добавлен в секреты репозитория (MAX_TOKEN) — жду, ничего не меняю.")
+        return
     cid = find_chat_id(site)
     msgs = api("/messages", chat_id=cid, count=100).get("messages", [])
     run(site, msgs)
