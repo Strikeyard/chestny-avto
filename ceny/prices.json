@@ -1,4 +1,402 @@
 {
- "updated": 1794230257718,
- "cars": []
+ "updated": 1794231773888,
+ "cars": [
+  {
+   "title": "Посмотри, какая ласточка: 🚀 Volkswagen T-Roc",
+   "year": 2022,
+   "price": 1847501,
+   "chips": [
+    "2022",
+    "1.4 · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1bf2cb8a367b0",
+   "mid": "mid.ffffbcbea42b1a2201a1bf2cb8a367b0",
+   "ts": 1794208741539
+  },
+  {
+   "title": "Смотри, какой аппарат! 🚀 Volkswagen Tiguan 2-го поколения, 2",
+   "year": 2019,
+   "price": 2860000,
+   "chips": [
+    "2019",
+    "2.0T"
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a1b541bd8f0005",
+   "mid": "mid.ffffbcbea42b1a2201a1b541bd8f0005",
+   "ts": 1794042346895
+  },
+  {
+   "title": "Знаешь, что тут интересного? Audi Q3",
+   "year": 2021,
+   "price": 2530000,
+   "chips": [
+    "2021",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1afc58c925d66",
+   "mid": "mid.ffffbcbea42b1a2201a1afc58c925d66",
+   "ts": 1793950321810
+  },
+  {
+   "title": "Смотри, какой шустрый вариант! 🔥 Kia Morning",
+   "year": 2023,
+   "price": 1620000,
+   "chips": [
+    "2023",
+    "1.0 · 76 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a1aa916fea77de",
+   "mid": "mid.ffffbcbea42b1a2201a1aa916fea77de",
+   "ts": 1793863020522
+  },
+  {
+   "title": "Вот смотри, какой вариант! 🔥 Jetta VS5",
+   "year": 2022,
+   "price": 1832000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1a56dd6164fc8",
+   "mid": "mid.ffffbcbea42b1a2201a1a56dd6164fc8",
+   "ts": 1793776801302
+  },
+  {
+   "title": "Кроссовер Hyundai или Kia до 2,5 млн и без вариатора — что р",
+   "year": 0,
+   "price": 2082000,
+   "chips": [
+    "1.4T · 161 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1a1f96d9f38bd",
+   "mid": "mid.ffffbcbea42b1a2201a1a1f96d9f38bd",
+   "ts": 1793718840735
+  },
+  {
+   "title": "Слушай, а вот это уже серьёзный аппарат! 🚀 Audi A6 40 TDI Pr",
+   "year": 2022,
+   "price": 4800000,
+   "chips": [
+    "2022",
+    "2.0T · 204 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a1a063dd8e69e5",
+   "mid": "mid.ffffbcbea42b1a2201a1a063dd8e69e5",
+   "ts": 1793692261774
+  },
+  {
+   "title": "Пришли к нам с запросом: нужен небольшой кроссовер, размером",
+   "year": 0,
+   "price": 1793000,
+   "chips": [
+    "1.5 · 160 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1929b67164a05",
+   "mid": "mid.ffffbcbea42b1a2201a1929b67164a05",
+   "ts": 1793461020438
+  },
+  {
+   "title": "Вот смотри, что тут интересного. Jetta VA3",
+   "year": 2023,
+   "price": 1602860,
+   "chips": [
+    "2023",
+    "1.5 · 112 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a186a237ae41be",
+   "mid": "mid.ffffbcbea42b1a2201a186a237ae41be",
+   "ts": 1793260140462
+  },
+  {
+   "title": "Кроссовер размером с Creta, без турбины, до 3 млн — что реал",
+   "year": 0,
+   "price": 2288000,
+   "chips": [
+    "новая",
+    "1.5 · 171 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a183151a5a2d4a",
+   "mid": "mid.ffffbcbea42b1a2201a183151a5a2d4a",
+   "ts": 1793200560730
+  },
+  {
+   "title": "Вот смотри, что тут интересного. Nissan Qashqai",
+   "year": 2022,
+   "price": 2161000,
+   "chips": [
+    "2022",
+    "2.0 · 151 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1815bd65669cf",
+   "mid": "mid.ffffbcbea42b1a2201a1815bd65669cf",
+   "ts": 1793171641942
+  },
+  {
+   "title": "Вот смотри, что тут интересного. Skoda Karoq",
+   "year": 2022,
+   "price": 2630000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a17c2b68f01a92",
+   "mid": "mid.ffffbcbea42b1a2201a17c2b68f01a92",
+   "ts": 1793084582128
+  },
+  {
+   "title": "Вот смотри, что тут интересного. Mazda CX-30",
+   "year": 2021,
+   "price": 2395000,
+   "chips": [
+    "2021",
+    "2.0 · 158 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1772d51cc251f",
+   "mid": "mid.ffffbcbea42b1a2201a1772d51cc251f",
+   "ts": 1793000821196
+  },
+  {
+   "title": "Слушай, а вот это уже серьёзная рабочая лошадка. Nissan Nava",
+   "year": 2026,
+   "price": 3360000,
+   "chips": [
+    "2026",
+    "новая",
+    "2.3T · 106 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a171e0814a47d0",
+   "mid": "mid.ffffbcbea42b1a2201a171e0814a47d0",
+   "ts": 1792911901002
+  },
+  {
+   "title": "Слушай, вот честно — за эти деньги это, наверное, самый боль",
+   "year": 2023,
+   "price": 1723000,
+   "chips": [
+    "2023",
+    "новая",
+    "1.5T · 143 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a162777d813777",
+   "mid": "mid.ffffbcbea42b1a2201a162777d813777",
+   "ts": 1792653360513
+  },
+  {
+   "title": "Audi Q3",
+   "year": 2023,
+   "price": 2924000,
+   "chips": [
+    "2023",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a158379e197f06",
+   "mid": "mid.ffffbcbea42b1a2201a158379e197f06",
+   "ts": 1792481402393
+  },
+  {
+   "title": "Mazda CX-50 Xingye",
+   "year": 2023,
+   "price": 3150000,
+   "chips": [
+    "2023",
+    "2.0 · 155 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a15309edc3022d",
+   "mid": "mid.ffffbcbea42b1a2201a15309edc3022d",
+   "ts": 1792394522051
+  },
+  {
+   "title": "Kia KX1 Sunroof Edition Новая",
+   "year": 0,
+   "price": 1790000,
+   "chips": [
+    "новая",
+    "1.4 · 100 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a143aea60c16b2",
+   "mid": "mid.ffffbcbea42b1a2201a143aea60c16b2",
+   "ts": 1792136881676
+  },
+  {
+   "title": "Volkswagen Tharu XR Ruixiang Edition (Sharp)",
+   "year": 2026,
+   "price": 2378000,
+   "chips": [
+    "2026",
+    "новая",
+    "1.5 · 110 л.с.",
+    "автомат",
+    "передний"
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a13e6afc820be0",
+   "mid": "mid.ffffbcbea42b1a2201a13e6afc820be0",
+   "ts": 1792048561282
+  },
+  {
+   "title": "Mazda 3 Angkesaila",
+   "year": 2022,
+   "price": 2318000,
+   "chips": [
+    "2022",
+    "2.0 · 158 л.с.",
+    "автомат",
+    "передний"
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a12f0b242d5f63",
+   "mid": "mid.ffffbcbea42b1a2201a12f0b242d5f63",
+   "ts": 1791790621741
+  },
+  {
+   "title": "Changan Hunter K50",
+   "year": 2026,
+   "price": 4500000,
+   "chips": [
+    "2026",
+    "гибрид · 2.0T"
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a129d70a837384",
+   "mid": "mid.ffffbcbea42b1a2201a129d70a837384",
+   "ts": 1791703321219
+  },
+  {
+   "title": "Mercedes-Benz GLC-Class",
+   "year": 2021,
+   "price": 5907033,
+   "chips": [
+    "2021",
+    "гибрид · 2.0 · 320 л.с.",
+    "автомат",
+    "полный"
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a1207e6d627a67",
+   "mid": "mid.ffffbcbea42b1a2201a1207e6d627a67",
+   "ts": 1791546518882
+  },
+  {
+   "title": "Wuling Jiachen",
+   "year": 2022,
+   "price": 1720000,
+   "chips": [
+    "2022",
+    "1.5 · 147 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a11f82fe810ee6",
+   "mid": "mid.ffffbcbea42b1a2201a11f82fe810ee6",
+   "ts": 1791530040961
+  },
+  {
+   "title": "Volkswagen Tharu",
+   "year": 2022,
+   "price": 2248000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a11a7905de6dba",
+   "mid": "mid.ffffbcbea42b1a2201a11a7905de6dba",
+   "ts": 1791445501406
+  },
+  {
+   "title": "Kia K5 3-го поколения 2.0 Prestige – легендарный корейский с",
+   "year": 2024,
+   "price": 3167939,
+   "chips": [
+    "2024",
+    "2.0 · 160 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a115498178721e",
+   "mid": "mid.ffffbcbea42b1a2201a115498178721e",
+   "ts": 1791358501240
+  },
+  {
+   "title": "Audi Q2L",
+   "year": 2022,
+   "price": 2375000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1102e1fb64d33",
+   "mid": "mid.ffffbcbea42b1a2201a1102e1fb64d33",
+   "ts": 1791272820662
+  },
+  {
+   "title": "Nissan X-Trail",
+   "year": 2026,
+   "price": 2806000,
+   "chips": [
+    "2026",
+    "новая",
+    "2.0 · 151 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a105e5fef1533f",
+   "mid": "mid.ffffbcbea42b1a2201a105e5fef1533f",
+   "ts": 1791100321521
+  },
+  {
+   "title": "Chevrolet Cruze",
+   "year": 2023,
+   "price": 1597000,
+   "chips": [
+    "2023",
+    "гибрид · 1.5 · 113 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0fb860ed04cad",
+   "mid": "mid.ffffbcbea42b1a2201a0fb860ed04cad",
+   "ts": 1790926261968
+  },
+  {
+   "title": "Hyundai Elantra",
+   "year": 2023,
+   "price": 2074000,
+   "chips": [
+    "2023",
+    "1.5 · 115 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0f66c823d3e3a",
+   "mid": "mid.ffffbcbea42b1a2201a0f66c823d3e3a",
+   "ts": 1790840701501
+  },
+  {
+   "title": "Volkswagen Lamando L",
+   "year": 0,
+   "price": 2250000,
+   "chips": [
+    "1.4 · 150 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a0f2e971c73613",
+   "mid": "mid.ffffbcbea42b1a2201a0f2e971c73613",
+   "ts": 1790781780423
+  }
+ ]
 }
