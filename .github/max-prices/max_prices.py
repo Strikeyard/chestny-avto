@@ -101,7 +101,7 @@ def short(s):
 
 def api(path, **params):
     import requests
-    r = requests.get(API + path, params=params, timeout=40, verify=str(HERE / "ru-ca.pem"),
+    r = requests.get(API + path, params=params, timeout=40, verify=os.environ.get("CA_BUNDLE") or str(HERE / "ru-ca.pem"),
                      headers={"Authorization": os.environ["MAX_TOKEN"]})
     r.raise_for_status()
     return r.json()
