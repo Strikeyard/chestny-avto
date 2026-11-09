@@ -250,7 +250,7 @@ def main():
             break
         msgs += new
         oldest = min(m.get("timestamp") or 0 for m in new)
-        if len(batch) < 100 or oldest < cutoff:
+        if oldest < cutoff:
             break
         to = oldest - 1
     print("сообщений из канала:", len(msgs))
