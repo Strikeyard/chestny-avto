@@ -238,7 +238,22 @@ def main():
         print("Токен бота ещё не добавлен в секреты репозитория (MAX_TOKEN) — жду, ничего не меняю.")
         return
     cid = find_chat_id(site)
-    msgs = api("/messages", chat_id=cid, count=100).get("messages", [])
+    # API отдаёт не больше 100 сообщений за раз — листаем назад, пока не дойдём до постов старше срока
+    msgs, to, cutoff = [], None, time.time() * 1000 - KEEP_DAYS * 864e5
+    for _ in range(20):
+        params = {"chat_id": cid, "count": 100}
+        if to:
+            params["to"] = to
+        batch = api("/messages", **params).get("messages", [])
+        new = [m for m in batch if (m.get("body") or {}).get("mid") not in {(x.get("body") or {}).get("mid") for x in msgs}]
+        if not new:
+            break
+        msgs += new
+        oldest = min(m.get("timestamp") or 0 for m in new)
+        if len(batch) < 100 or oldest < cutoff:
+            break
+        to = oldest - 1
+    print("сообщений из канала:", len(msgs))
     run(site, msgs)
 
 
