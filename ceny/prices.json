@@ -1,5 +1,5 @@
 {
- "updated": 1794231937813,
+ "updated": 1794232887871,
  "parser": 2,
  "cars": [
   {
@@ -333,6 +333,113 @@
    "id": "midffffbcbea42b1a2201a0f66c823d3e3a",
    "mid": "mid.ffffbcbea42b1a2201a0f66c823d3e3a",
    "ts": 1790840701501
+  },
+  {
+   "title": "Mercedes-Benz A-Class",
+   "year": 2023,
+   "price": 2678000,
+   "chips": [
+    "2023",
+    "1.3 · 136 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0f14b9f905ccc",
+   "mid": "mid.ffffbcbea42b1a2201a0f14b9f905ccc",
+   "ts": 1790754660240
+  },
+  {
+   "title": "Audi A3L",
+   "year": 2023,
+   "price": 2375000,
+   "chips": [
+    "2023",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0ec1edf5a5128",
+   "mid": "mid.ffffbcbea42b1a2201a0ec1edf5a5128",
+   "ts": 1790667841370
+  },
+  {
+   "title": "Chevrolet Equinox",
+   "year": 2020,
+   "price": 2200000,
+   "chips": [
+    "2020",
+    "гибрид · 1.6 · 137 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a0e6d2122578ae",
+   "mid": "mid.ffffbcbea42b1a2201a0e6d2122578ae",
+   "ts": 1790578922021
+  },
+  {
+   "title": "Leapmotor A10",
+   "year": 2026,
+   "price": 2273000,
+   "chips": [
+    "2026",
+    "новая",
+    "95 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0dcaadc4a1a03",
+   "mid": "mid.ffffbcbea42b1a2201a0dcaadc4a1a03",
+   "ts": 1790408580170
+  },
+  {
+   "title": "Changan Q07",
+   "year": 2026,
+   "price": 3810000,
+   "chips": [
+    "2026",
+    "новая",
+    "гибрид · 1.5 · 374 л.с."
+   ],
+   "country": "Киргизия",
+   "id": "midffffbcbea42b1a2201a0d7839ba927fc",
+   "mid": "mid.ffffbcbea42b1a2201a0d7839ba927fc",
+   "ts": 1790322121641
+  },
+  {
+   "title": "Honda XR-V",
+   "year": 2023,
+   "price": 2215000,
+   "chips": [
+    "2023",
+    "1.5 · 124 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0d25e2ae7492b",
+   "mid": "mid.ffffbcbea42b1a2201a0d25e2ae7492b",
+   "ts": 1790235781863
+  },
+  {
+   "title": "Nissan Teana",
+   "year": 2026,
+   "price": 2450000,
+   "chips": [
+    "2026",
+    "новая",
+    "2.0 · 156 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0cd2a11794d04",
+   "mid": "mid.ffffbcbea42b1a2201a0cd2a11794d04",
+   "ts": 1790148481401
+  },
+  {
+   "title": "Kia K3",
+   "year": 0,
+   "price": 2242147,
+   "chips": [
+    "новая",
+    "1.6 · 123 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a0c7fc61994523",
+   "mid": "mid.ffffbcbea42b1a2201a0c7fc61994523",
+   "ts": 1790061601177
   }
  ]
 }
