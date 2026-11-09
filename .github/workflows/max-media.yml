@@ -1,0 +1,46 @@
+# Видео и фото с выдач из канала MAX → сайт. Копия в Strikeyard/chestny-avto: .github/workflows/max-media.yml
+name: Видео и фото из канала MAX
+on:
+  schedule:
+    - cron: "37 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "probe — только посмотреть, run — разместить"
+        default: run
+permissions:
+  contents: write
+concurrency:
+  group: max-site-content
+  cancel-in-progress: false
+jobs:
+  media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pillow
+      - name: Сертификат Минцифры
+        run: |
+          for f in root sub; do
+            curl -sfL "https://gu-st.ru/content/lending/russian_trusted_${f}_ca_pem.crt" -o "/tmp/$f.crt"
+            openssl x509 -in "/tmp/$f.crt" -out "/tmp/$f.pem" 2>/dev/null || openssl x509 -inform DER -in "/tmp/$f.crt" -out "/tmp/$f.pem"
+          done
+          cat /tmp/root.pem /tmp/sub.pem > /tmp/ru-ca.pem
+      - name: Видео и фото
+        env:
+          MAX_TOKEN: ${{ secrets.MAX_TOKEN }}
+          CA_BUNDLE: /tmp/ru-ca.pem
+        run: python .github/max-prices/max_media.py ${{ github.event.inputs.mode || 'run' }}
+      - name: Сохранить изменения
+        run: |
+          git config user.name "max-media bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add media 2>/dev/null || true
+          if git diff --cached --quiet; then echo "Без изменений"; exit 0; fi
+          git commit -m "Видео и фото из канала MAX"
+          git pull --rebase -q
+          git push
