@@ -45,6 +45,22 @@ h1{font-size:clamp(30px,6vw,48px);line-height:1.1;font-weight:800;margin:14px 0 
 .dt{font-size:13px;color:var(--muted)}
 .btn{display:block;text-align:center;background:var(--accent);color:var(--on);font-weight:800;text-decoration:none;padding:14px;border-radius:999px;text-transform:uppercase;font-size:14px;letter-spacing:.05em;margin-top:6px}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.budget{margin:28px 0 0;padding:20px 22px 22px;background:var(--card);border:1px solid var(--line);border-radius:22px}
+.budget .row{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+.budget h2{font-size:18px}
+.budget .val{font-size:22px;font-weight:800;color:var(--accent)}
+.budget .val b{white-space:nowrap}
+.budget .cnt{font-size:14px;color:var(--muted);margin-top:4px}
+.rng{position:relative;height:36px;margin-top:14px}
+.rng .tr,.rng .fill{position:absolute;top:15px;height:6px;border-radius:3px}
+.rng .tr{left:0;right:0;background:var(--line)}.rng .fill{background:var(--accent)}
+.rng input{position:absolute;left:0;top:0;width:100%;height:36px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.rng input::-webkit-slider-runnable-track{background:none;border:0}
+.rng input::-moz-range-track{background:none;border:0}
+.rng input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid var(--accent);cursor:grab;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.rng input::-moz-range-thumb{pointer-events:auto;width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--accent);cursor:grab}
+.budget .edge{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.car.off{display:none}
 .empty{color:var(--muted);padding:30px 0}
 .cta{margin:20px 0 40px;padding:26px;border-radius:22px;background:radial-gradient(120% 140% at 100% 0%,rgba(255,122,26,.25),transparent 60%),var(--card);border:1px solid rgba(255,122,26,.35)}
 .cta h2{font-size:clamp(22px,3.4vw,28px);margin-bottom:8px}
@@ -60,6 +76,9 @@ footer a{color:var(--muted)}
 <div class="crumbs"><a href="../">Главная</a> / Каталог</div>
 <h1>Каталог авто под ключ</h1>
 <p class="lead">Свежие машины из нашего канала в MAX. Цена итоговая в Ростове-на-Дону: машина, доставка, растаможка, ЭПТС и наши услуги. Раздел обновляется сам после каждого поста.</p>
+<section class="budget" id="budget" hidden><div class="row"><h2>Ваш бюджет</h2><div class="val" id="bval"></div></div>
+<div class="rng"><div class="tr"></div><div class="fill" id="bfill"></div><input type="range" id="bmin" aria-label="Бюджет от" step="100000"><input type="range" id="bmax" aria-label="Бюджет до" step="100000"></div>
+<div class="edge"><span id="blo"></span><span id="bhi"></span></div><p class="cnt" id="bcnt"></p></section>
 <div class="grid">
 {{CARDS}}
 </div>
@@ -67,6 +86,29 @@ footer a{color:var(--muted)}
 <div class="btns"><a class="btn" href="../anketa/">Заполнить анкету</a><a class="btn ghost" href="https://max.ru/id261806972222_biz" target="_blank" rel="noopener">Канал в MAX</a></div></section>
 </main>
 <footer><div class="wrap">© 2026 Честный автомобиль · Ростов-на-Дону, ул. Красноармейская, 200 · <a href="tel:+79198731668">+7 919 873-16-68</a> · <a href="../">Главная</a> · <a href="../privacy.html">Политика конфиденциальности</a></div></footer>
+<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.car[data-price]'));if(cards.length<2)return;
+  var S=100000,ps=cards.map(function(c){return +c.dataset.price}),
+      lo=Math.floor(Math.min.apply(0,ps)/S)*S,hi=Math.ceil(Math.max.apply(0,ps)/S)*S;
+  if(hi===lo)return;
+  var a=document.getElementById('bmin'),b=document.getElementById('bmax'),f=document.getElementById('bfill');
+  [a,b].forEach(function(x){x.min=lo;x.max=hi});a.value=lo;b.value=hi;
+  var m=function(v){return v.toLocaleString('ru-RU').replace(/ /g,' ')+' ₽'};
+  var w=function(n){var k=n%10,h=n%100;return k===1&&h!==11?'машина':k>=2&&k<=4&&(h<12||h>14)?'машины':'машин'};
+  document.getElementById('blo').textContent=m(lo);document.getElementById('bhi').textContent=m(hi);
+  function upd(e){
+    var x=+a.value,y=+b.value;
+    if(x>y){if(e&&e.target===a)a.value=x=y;else b.value=y=x}
+    a.style.zIndex=x>(lo+hi)/2?2:'';f.style.left=(x-lo)/(hi-lo)*100+'%';f.style.right=(hi-y)/(hi-lo)*100+'%';
+    document.getElementById('bval').innerHTML='от <b>'+m(x)+'</b> до <b>'+m(y)+'</b>';
+    var n=0;cards.forEach(function(c){var p=+c.dataset.price,on=p>=x&&p<=y;c.classList.toggle('off',!on);if(on)n++});
+    document.getElementById('bcnt').textContent=n?'В этом бюджете '+n+' '+w(n):'В этом бюджете сейчас нет машин — напишите нам, подберём под вашу сумму.';
+  }
+  a.addEventListener('input',upd);b.addEventListener('input',upd);
+  document.getElementById('budget').hidden=false;upd();
+})();
+</script>
 <!-- Яндекс Метрика 113881059: просмотры, вебвизор и цели (клики в мессенджеры, звонки, заявки, видео) -->
 <script>
 (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
