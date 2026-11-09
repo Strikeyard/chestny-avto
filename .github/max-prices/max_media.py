@@ -56,6 +56,11 @@ def probe(site):
         c[tag] += 1
     for k, v in c.most_common():
         print(f"{v:4}  {k}")
+    for m in msgs:  # начало текста постов без цены — чтобы настроить отбор (посты канала публичные)
+        text = ((m.get("body") or {}).get("text") or "").replace("\n", " ")
+        k = set(kinds(m)) - {"inline_keyboard"}
+        if k and not parse(text):
+            print("ПОСТ", ",".join(sorted(k)), "|", text[:110])
     # как выглядит вложение-видео (без ссылок и токенов)
     for m in msgs:
         for a in (m.get("body") or {}).get("attachments") or []:
