@@ -82,6 +82,40 @@ def probe(site):
 HANDOVER = re.compile(r"(?i)(вот это была выдача|сегодня выдача|очередная[^.!\n]{0,20}выдача|выдали\b|выдали [А-ЯЁA-Z]|поздравля|встречай|получил[аи]? сво|пополнени\w* в семье|снова с нами|по рекомендации|привёз (ему|ей)|отзыв на 5|благодарю за доверие|привезли нового|привозишь машину|клиент становится другом|у нас ?-? ?праздник)")
 NOT_HANDOVER = re.compile(r"(?i)не выдача|не на выдаче|к выдаче|на выдачу|забронировали|выкупили для|выкуплена")
 MAX_VIDEOS, MAX_PHOTOS = 40, 150  # чтобы сайт не разрастался
+VERSION = 2  # при смене правил отбора увеличить: всё из канала пересоберётся заново
+
+
+_CASCADE = None
+
+
+def has_people(im):
+    """Есть ли в кадре человек (лицо анфас). Нужно, чтобы в «Ключи уже у них» не попадали салоны и машины без клиентов.
+    Людей не узнаёт — только находит, что лицо в кадре есть."""
+    global _CASCADE
+    import cv2
+    import numpy as np
+    if _CASCADE is None:
+        _CASCADE = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    g = np.array(im.convert("L"))
+    scale = 900 / max(g.shape)
+    if scale < 1:
+        g = cv2.resize(g, None, fx=scale, fy=scale)
+    faces = _CASCADE.detectMultiScale(g, scaleFactor=1.1, minNeighbors=6, minSize=(24, 24))
+    return len(faces) > 0
+
+
+def video_frames(path, n=4):
+    """Несколько кадров из видео — для проверки, есть ли люди, и для обложки."""
+    import subprocess
+    from PIL import Image
+    out = []
+    for k in range(n):
+        f = Path("/tmp") / f"frame-{k}.jpg"
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(1 + k * 4), "-i", str(path), "-frames:v", "1", str(f)])
+        if f.exists() and f.stat().st_size:
+            out.append(Image.open(f).convert("RGB"))
+            f.unlink()
+    return out
 
 
 def is_handover(text):
@@ -137,7 +171,12 @@ def run(site):
     cid = (site / "ceny" / "chat_id.txt").read_text().strip()
     media = site / "media"
     data_path = media / "media.json"
-    data = json.loads(data_path.read_text(encoding="utf-8")) if data_path.exists() else {"photos": [], "videos": []}
+    data = json.loads(data_path.read_text(encoding="utf-8")) if data_path.exists() else {}
+    if data.get("v") != VERSION:  # правила отбора поменялись — пересобираем всё заново
+        for sub in ("img", "video"):
+            for f in (media / sub).glob("*"):
+                f.unlink()
+        data = {"v": VERSION, "photos": [], "videos": []}
     done = {x["mid"] for x in data["photos"]} | {x["mid"] for x in data["videos"]}
     pool = site_hashes(site) + [x["hash"] for x in data["photos"] + data["videos"] if x.get("hash")]
     msgs = sorted(history(cid, DAYS), key=lambda m: m.get("timestamp") or 0)  # от старых к новым
@@ -155,7 +194,7 @@ def run(site):
                 if a.get("type") == "image" and p.get("url"):
                     im = fetch_image(p["url"])
                     h = ahash(im)
-                    if near(h, pool):
+                    if near(h, pool) or not has_people(im):  # салон и машина без людей — не в «Ключи уже у них»
                         continue
                     im.thumbnail((1000, 1400))
                     name = f"{safe}-{i}.jpg"
@@ -182,16 +221,20 @@ def run(site):
                             for chunk in r.iter_content(1 << 20):
                                 f.write(chunk)
                     name = f"{safe}-{i}"
+                    # в отзывы — только видео с людьми (разгрузка автовоза, салон, таможня — мимо)
+                    frames = video_frames(raw)
+                    with_people = [f for f in ([poster] if poster else []) + frames if has_people(f)]
+                    if not with_people:
+                        raw.unlink(missing_ok=True)
+                        continue
                     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-vf", "scale='min(720,iw)':-2",
                                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "30", "-c:a", "aac", "-b:a", "96k",
                                     "-movflags", "+faststart", str(media / "video" / f"{name}.mp4")], check=True)
                     raw.unlink(missing_ok=True)
-                    if poster is None:
-                        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1", "-i", str(media / "video" / f"{name}.mp4"),
-                                        "-frames:v", "1", str(media / "video" / f"{name}.jpg")], check=True)
-                    else:
-                        poster.thumbnail((720, 1280))
-                        poster.save(media / "video" / f"{name}.jpg", quality=82)
+                    cover = with_people[0]
+                    cover.thumbnail((720, 1280))
+                    cover.save(media / "video" / f"{name}.jpg", quality=82)
+                    h = h or ahash(cover)
                     dur = int(v.get("duration") or a.get("duration") or 0)
                     data["videos"].append(dict(mid=mid, ts=ts, file=name, quote=quote, car=car,
                                                dur=f"{dur // 60}:{dur % 60:02d}" if dur else "", hash=h))
