@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests pillow
+      - run: sudo apt-get install -y -qq ffmpeg > /dev/null
       - name: Сертификат Минцифры
         run: |
           for f in root sub; do

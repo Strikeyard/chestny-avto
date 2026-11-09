@@ -949,7 +949,7 @@ document.querySelectorAll('.vids.feed-x').forEach(feed=>{
     setTimeout(()=>{feed.classList.add('nudge');setTimeout(()=>feed.classList.remove('nudge'),1500)},400)},{threshold:.5});io.observe(feed)}
 });
 
-document.querySelectorAll('.vid').forEach(card=>{
+function bindVid(card){
   const v=card.querySelector('video');
   card.addEventListener('click',()=>{
     if(v.paused){
@@ -960,11 +960,32 @@ document.querySelectorAll('.vid').forEach(card=>{
   v.addEventListener('play',()=>card.classList.add('playing'));
   v.addEventListener('pause',()=>{card.classList.remove('playing');v.controls=false});
   v.addEventListener('ended',()=>{card.classList.remove('playing');v.controls=false});
-});
+}
+document.querySelectorAll('.vid').forEach(bindVid);
 
-const gal=[...document.querySelectorAll('#gal a')],lb=document.getElementById('lb'),lbImg=lb.querySelector('img');let gi=0,lbList=[];
+const galBox=document.getElementById('gal'),lb=document.getElementById('lb'),lbImg=lb.querySelector('img');let gi=0,lbList=[];
 const show=i=>{gi=(i+lbList.length)%lbList.length;lbImg.src=lbList[gi];lb.classList.add('on')};
-gal.forEach((a,i)=>a.addEventListener('click',e=>{e.preventDefault();lbList=gal.map(x=>x.href);show(i)}));
+// клики по галерее через контейнер — работают и для фото, которые подгрузились из канала
+galBox.addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();const all=[...galBox.querySelectorAll('a')];lbList=all.map(x=>x.href);show(all.indexOf(a))});
+
+// Фото и видео с выдач из канала MAX (папку media/ сам наполняет GitHub Actions) — встают в начало галереи и отзывов
+(function(){
+  const MEDIA='media/';
+  if(!MEDIA)return;
+  const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  fetch(MEDIA+'media.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(d=>{
+    if(!d)return;
+    const ph=(d.photos||[]).map(x=>`<a href="${MEDIA}img/${esc(x.file)}"><img src="${MEDIA}img/${esc(x.file)}" alt="${esc(x.alt||'Выдача автомобиля клиенту')}" loading="lazy"></a>`).join('');
+    if(ph)galBox.insertAdjacentHTML('afterbegin',ph);
+    const feed=document.querySelector('.vids');
+    if(feed&&(d.videos||[]).length){
+      const html=d.videos.map(x=>`<div class="vid"><video src="${MEDIA}video/${esc(x.file)}.mp4" poster="${MEDIA}video/${esc(x.file)}.jpg" preload="none" playsinline></video>`+
+        (x.dur?`<span class="dur">${esc(x.dur)}</span>`:'')+`<div class="ov"><span class="play"></span><q>${esc(x.quote)}</q><small>${x.car?'<b>'+esc(x.car)+'</b>':'<b>Выдача</b>'}</small></div></div>`).join('');
+      feed.insertAdjacentHTML('afterbegin',html);
+      [...feed.querySelectorAll('.vid')].slice(0,d.videos.length).forEach(bindVid);
+    }
+  }).catch(()=>{});
+})();
 lb.querySelector('.x').onclick=()=>lb.classList.remove('on');
 lb.querySelector('.pv').onclick=e=>{e.stopPropagation();show(gi-1)};
 lb.querySelector('.nx').onclick=e=>{e.stopPropagation();show(gi+1)};

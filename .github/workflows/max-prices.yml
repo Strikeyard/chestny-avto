@@ -41,4 +41,5 @@ jobs:
           git add ceny
           if git diff --cached --quiet; then echo "Без изменений"; exit 0; fi
           git commit -m "Цены из канала MAX: обновление"
+          git pull --rebase -q
           git push

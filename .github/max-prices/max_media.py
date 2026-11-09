@@ -77,6 +77,144 @@ def probe(site):
                 return
 
 
+# ---------- отбор постов-выдач ----------
+
+HANDOVER = re.compile(r"(?i)(вот это была выдача|сегодня выдача|очередная[^.!\n]{0,20}выдача|выдали\b|выдали [А-ЯЁA-Z]|поздравля|встречай|получил[аи]? сво|пополнени\w* в семье|снова с нами|по рекомендации|привёз (ему|ей)|отзыв на 5|благодарю за доверие|привезли нового|привозишь машину|клиент становится другом|у нас ?-? ?праздник)")
+NOT_HANDOVER = re.compile(r"(?i)не выдача|не на выдаче|к выдаче|на выдачу|забронировали|выкупили для|выкуплена")
+MAX_VIDEOS, MAX_PHOTOS = 40, 150  # чтобы сайт не разрастался
+
+
+def is_handover(text):
+    head = text[:400]
+    return bool(HANDOVER.search(head)) and not NOT_HANDOVER.search(head[:160])
+
+
+def caption(text):
+    """«Светлана, поздравляем с приобретением Volkswagen Polo! 🔥» → цитата и подпись."""
+    from max_prices import car_name
+    first = next((l.strip() for l in text.splitlines() if l.strip()), "")
+    first = re.sub(r"[^\w\s,.!?—–«»\"'()+\-:№]", "", first).strip(" -—")
+    car = next((n for l in text.splitlines()[:6] if (n := car_name(l))), "")
+    return first[:120], car
+
+
+def ahash(im, n=12):
+    g = im.convert("L").resize((n, n))
+    px = list(g.getdata())
+    m = sum(px) / len(px)
+    return [1 if v > m else 0 for v in px]
+
+
+def near(h, pool, limit=18):
+    return any(sum(a != b for a, b in zip(h, p)) <= limit for p in pool)
+
+
+def fetch_image(url):
+    import io
+    import requests
+    from PIL import Image, ImageOps
+    r = requests.get(url, timeout=60)
+    r.raise_for_status()
+    return ImageOps.exif_transpose(Image.open(io.BytesIO(r.content))).convert("RGB")
+
+
+def site_hashes(site):
+    """Отпечатки фото, которые уже стоят на сайте (галерея, отзывы), — чтобы не дублировать."""
+    from PIL import Image, ImageOps
+    out = []
+    for d in ("img", "video"):
+        for p in (site / d).glob("*.jpg"):
+            try:
+                out.append(ahash(ImageOps.exif_transpose(Image.open(p))))
+            except Exception:
+                pass
+    return out
+
+
+def run(site):
+    import subprocess
+    import requests
+    cid = (site / "ceny" / "chat_id.txt").read_text().strip()
+    media = site / "media"
+    data_path = media / "media.json"
+    data = json.loads(data_path.read_text(encoding="utf-8")) if data_path.exists() else {"photos": [], "videos": []}
+    done = {x["mid"] for x in data["photos"]} | {x["mid"] for x in data["videos"]}
+    pool = site_hashes(site) + [x["hash"] for x in data["photos"] + data["videos"] if x.get("hash")]
+    msgs = sorted(history(cid, DAYS), key=lambda m: m.get("timestamp") or 0)  # от старых к новым
+    added_p = added_v = 0
+    for m in msgs:
+        body = m.get("body") or {}
+        mid, ts, text = str(body.get("mid") or ""), m.get("timestamp") or 0, body.get("text") or ""
+        if not mid or mid in done or parse(text) or not is_handover(text):
+            continue
+        safe = re.sub(r"[^A-Za-z0-9_-]", "", mid)[-40:]
+        quote, car = caption(text)
+        for i, a in enumerate(body.get("attachments") or []):
+            p = a.get("payload") or {}
+            try:
+                if a.get("type") == "image" and p.get("url"):
+                    im = fetch_image(p["url"])
+                    h = ahash(im)
+                    if near(h, pool):
+                        continue
+                    im.thumbnail((1000, 1400))
+                    name = f"{safe}-{i}.jpg"
+                    (media / "img").mkdir(parents=True, exist_ok=True)
+                    im.save(media / "img" / name, quality=82, optimize=True, progressive=True)
+                    data["photos"].append(dict(mid=mid, ts=ts, file=name, alt=f"Выдача {car}".strip(), hash=h))
+                    pool.append(h)
+                    added_p += 1
+                elif a.get("type") == "video" and p.get("token"):
+                    v = api(f"/videos/{p['token']}")
+                    url = (v.get("urls") or {}).get("mp4_720") or next(iter((v.get("urls") or {}).values()), "")
+                    thumb = (a.get("thumbnail") or {}).get("url") or (v.get("thumbnail") or {}).get("url") or ""
+                    if not url:
+                        continue
+                    poster = fetch_image(thumb) if thumb else None
+                    h = ahash(poster) if poster else None
+                    if h and near(h, pool, 14):
+                        continue
+                    (media / "video").mkdir(parents=True, exist_ok=True)
+                    raw = Path("/tmp") / f"{safe}-{i}.raw.mp4"
+                    with requests.get(url, timeout=300, stream=True) as r:
+                        r.raise_for_status()
+                        with open(raw, "wb") as f:
+                            for chunk in r.iter_content(1 << 20):
+                                f.write(chunk)
+                    name = f"{safe}-{i}"
+                    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-vf", "scale='min(720,iw)':-2",
+                                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "30", "-c:a", "aac", "-b:a", "96k",
+                                    "-movflags", "+faststart", str(media / "video" / f"{name}.mp4")], check=True)
+                    raw.unlink(missing_ok=True)
+                    if poster is None:
+                        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1", "-i", str(media / "video" / f"{name}.mp4"),
+                                        "-frames:v", "1", str(media / "video" / f"{name}.jpg")], check=True)
+                    else:
+                        poster.thumbnail((720, 1280))
+                        poster.save(media / "video" / f"{name}.jpg", quality=82)
+                    dur = int(v.get("duration") or a.get("duration") or 0)
+                    data["videos"].append(dict(mid=mid, ts=ts, file=name, quote=quote, car=car,
+                                               dur=f"{dur // 60}:{dur % 60:02d}" if dur else "", hash=h))
+                    if h:
+                        pool.append(h)
+                    added_v += 1
+            except Exception as ex:  # одно вложение не скачалось — остальное размещаем
+                print("пропуск вложения:", mid, type(ex).__name__, str(ex)[:120])
+        done.add(mid)
+        if added_v >= 15:  # первый разбор большой: не больше 15 видео за запуск, остальные — в следующий час
+            break
+    # новые сверху, лишнее старое — долой
+    for key, cap, sub in (("photos", MAX_PHOTOS, "img"), ("videos", MAX_VIDEOS, "video")):
+        items = sorted(data[key], key=lambda x: -x["ts"])
+        for x in items[cap:]:
+            for f in (media / sub).glob(x["file"].rsplit(".", 1)[0] + "*"):
+                f.unlink()
+        data[key] = items[:cap]
+    media.mkdir(parents=True, exist_ok=True)
+    data_path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"добавлено фото: {added_p}, видео: {added_v}; всего фото {len(data['photos'])}, видео {len(data['videos'])}")
+
+
 if __name__ == "__main__":
     sys.stdout.reconfigure(encoding="utf-8")
     site = Path(os.environ.get("SITE_DIR", "."))
@@ -86,3 +224,5 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "probe"
     if mode == "probe":
         probe(site)
+    elif mode == "run":
+        run(site)
