@@ -241,11 +241,18 @@ def main():
     # API отдаёт не больше 100 сообщений за раз — листаем назад, пока не дойдём до постов старше срока
     msgs, to, cutoff = [], None, time.time() * 1000 - KEEP_DAYS * 864e5
     for _ in range(20):
-        params = {"chat_id": cid, "count": 100}
-        if to:
-            params["to"] = to
-        batch = api("/messages", **params).get("messages", [])
-        new = [m for m in batch if (m.get("body") or {}).get("mid") not in {(x.get("body") or {}).get("mid") for x in msgs}]
+        seen = {(x.get("body") or {}).get("mid") for x in msgs}
+        new = []
+        # в документации MAX смысл from/to описан неоднозначно — пробуем оба
+        for key in (["from", "to"] if to else [None]):
+            params = {"chat_id": cid, "count": 100}
+            if key:
+                params[key] = to
+            batch = api("/messages", **params).get("messages", [])
+            new = [m for m in batch if (m.get("body") or {}).get("mid") not in seen]
+            if new:
+                print("листаю историю через", key or "начало")
+                break
         if not new:
             break
         msgs += new
