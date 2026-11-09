@@ -25,6 +25,7 @@ from pathlib import Path
 API = "https://platform-api2.max.ru"
 HERE = Path(__file__).resolve().parent
 KEEP_DAYS = 40
+PARSER = 2  # при смене правил разбора увеличить: все посты пересоберутся
 MSK = timezone(timedelta(hours=3))
 WA = "https://wa.me/79198731668?text="
 e = html.escape
@@ -57,13 +58,16 @@ def parse(text):
     if not 300_000 <= price <= 50_000_000:
         return None
     lines = [l.strip(" *_") for l in t.splitlines() if l.strip(" *_")]
+    # подборки на несколько машин («Кроссовер до 2,5 млн — что реально купить») — не одна машина, пропускаем
+    if lines and PODBORKA.search(lines[0]):
+        return None
     brand, model = field(t, "Марка"), field(t, "Модель")
     if brand or model:
         title = f"{brand} {model}".strip()
-    else:  # первая строка с латиницей: «🔥 Mercedes-Benz A-Class 2023»
-        head = next((l for l in lines[:6] if re.search(r"[A-Za-z]{2,}", l)), lines[0] if lines else "")
-        title = re.sub(r"^[^\w]+", "", head)
-        title = re.sub(r"\s*\b(19|20)\d{2}\b.*$", "", title).strip() or title
+    else:  # «Посмотри, какая ласточка: 🚀 Volkswagen T-Roc 2022» → «Volkswagen T-Roc»
+        title = next((n for l in lines[:6] if (n := car_name(l))), "")
+    if not title:
+        return None
     year = field(t, "Год выпуска", "Год")
     ym = re.search(r"\b(19|20)\d{2}\b", year or " ".join(lines[:3]))
     km_raw = field(t, "Пробег")
@@ -73,15 +77,37 @@ def parse(text):
     drive = field(t, "Привод")
     engine = field(t, "Двигатель")
     country = "Корея" if re.search(r"🇰🇷|Коре[яи]", t) else "Киргизия" if re.search(r"Киргиз|🇰🇬", t) else "Китай"
+    eng_src = engine or next((l for l in lines if re.search(r"\d\s*л\.?\s*с", l)), "")
     chips = [x for x in [ym[0] if ym else "", "новая" if new else (f"{km:,} км".replace(",", " ") if km else ""),
-                         engine_short(engine or t), gear_short(gear), short(drive)] if x]
+                         engine_short(eng_src), gear_short(gear), short(drive)] if x]
     return dict(title=title[:60], year=int(ym[0]) if ym else 0, price=price, chips=chips[:5], country=country)
+
+
+PODBORKA = re.compile(r"(?i)запрос|подборк|\bили\b|до \d+(?:[,.]\d+)?\s*млн|что реально|варианты")
+
+
+def car_name(line):
+    """Марка и модель из строки: латинские слова подряд, до 3 штук, цифры — только сразу после марки (Mazda 3)."""
+    words = re.findall(r"[^\s,()«»:—–!?.]+", re.sub(r"[^\w\s\-+,()«»:—–!?.]", " ", line))
+    out = []
+    for w in words:
+        if not out:
+            if re.fullmatch(r"[A-Z][A-Za-z\-]+", w):
+                out.append(w)
+            continue
+        if re.search(r"[А-Яа-яЁё]", w) or re.fullmatch(r"(19|20)\d{2}", w) or (re.fullmatch(r"\d+", w) and len(out) > 1):
+            break
+        out.append(w)
+        if len(out) == 3:
+            break
+    return " ".join(out) if len(out) >= 2 else ""
 
 
 def engine_short(s):
     """«1.3T M282, L4, бензин, 136 л.с.» → «1.3T · 136 л.с.», электро и гибрид подписываем словом."""
     vol = re.search(r"\b(\d\.\d)\s*(T|Т|TSI|TFSI|турбо)?", s)
-    hp = re.search(r"(\d{2,4})\s*л\.?\s*с", s)
+    hps = [int(x) for x in re.findall(r"(\d{2,4})\s*л\.?\s*с", s)]
+    hp = [None, str(max(hps))] if hps else None
     kind = "электро" if re.search(r"электро", s, re.I) and not vol else "гибрид" if re.search(r"гибрид|PHEV|HEV|EREV", s, re.I) else ""
     parts = [kind, (vol[1] + ("T" if vol[2] else "")) if vol else "", f"{hp[1]} л.с." if hp else ""]
     return " · ".join(p for p in parts if p)
@@ -167,7 +193,7 @@ def quote(s):
 def run(site, messages, fetch_photos=True):
     data_path = site / "ceny" / "prices.json"
     data = json.loads(data_path.read_text(encoding="utf-8")) if data_path.exists() else {"cars": []}
-    known = {c["id"]: c for c in data["cars"]}
+    known = {c["mid"]: c for c in data["cars"]} if data.get("parser") == PARSER else {}
     now_ms = time.time() * 1000
     for msg in messages:
         body = msg.get("body") or {}
@@ -189,11 +215,12 @@ def run(site, messages, fetch_photos=True):
         known[mid] = dict(car, id=safe, mid=mid, ts=ts)
         print("новая машина:", car["title"], money(car["price"]))
     fresh = sorted((c for c in known.values() if now_ms - c["ts"] <= KEEP_DAYS * 864e5), key=lambda c: -c["ts"])
-    for c in known.values():
-        if c not in fresh:
-            (site / "ceny" / "img" / f"{c['id']}.jpg").unlink(missing_ok=True)
+    keep = {f"{c['id']}.jpg" for c in fresh}
+    for f in (site / "ceny" / "img").glob("*.jpg"):  # фото ушедших и пересобранных машин
+        if f.name not in keep:
+            f.unlink()
     data_path.parent.mkdir(parents=True, exist_ok=True)
-    data_path.write_text(json.dumps({"updated": int(now_ms), "cars": fresh}, ensure_ascii=False, indent=1), encoding="utf-8")
+    data_path.write_text(json.dumps({"updated": int(now_ms), "parser": PARSER, "cars": fresh}, ensure_ascii=False, indent=1), encoding="utf-8")
     (site / "ceny" / "index.html").write_text(page(fresh), encoding="utf-8")
     print("в разделе:", len(fresh))
 
