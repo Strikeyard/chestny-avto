@@ -1,8 +1,9 @@
 {
- "updated": 1794231773888,
+ "updated": 1794231937813,
+ "parser": 2,
  "cars": [
   {
-   "title": "Посмотри, какая ласточка: 🚀 Volkswagen T-Roc",
+   "title": "Volkswagen T-Roc",
    "year": 2022,
    "price": 1847501,
    "chips": [
@@ -15,12 +16,11 @@
    "ts": 1794208741539
   },
   {
-   "title": "Смотри, какой аппарат! 🚀 Volkswagen Tiguan 2-го поколения, 2",
+   "title": "Volkswagen Tiguan",
    "year": 2019,
    "price": 2860000,
    "chips": [
-    "2019",
-    "2.0T"
+    "2019"
    ],
    "country": "Корея",
    "id": "midffffbcbea42b1a2201a1b541bd8f0005",
@@ -28,7 +28,7 @@
    "ts": 1794042346895
   },
   {
-   "title": "Знаешь, что тут интересного? Audi Q3",
+   "title": "Audi Q3",
    "year": 2021,
    "price": 2530000,
    "chips": [
@@ -41,7 +41,7 @@
    "ts": 1793950321810
   },
   {
-   "title": "Смотри, какой шустрый вариант! 🔥 Kia Morning",
+   "title": "Kia Morning",
    "year": 2023,
    "price": 1620000,
    "chips": [
@@ -54,7 +54,7 @@
    "ts": 1793863020522
   },
   {
-   "title": "Вот смотри, какой вариант! 🔥 Jetta VS5",
+   "title": "Jetta VS5",
    "year": 2022,
    "price": 1832000,
    "chips": [
@@ -67,24 +67,12 @@
    "ts": 1793776801302
   },
   {
-   "title": "Кроссовер Hyundai или Kia до 2,5 млн и без вариатора — что р",
-   "year": 0,
-   "price": 2082000,
-   "chips": [
-    "1.4T · 161 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a1a1f96d9f38bd",
-   "mid": "mid.ffffbcbea42b1a2201a1a1f96d9f38bd",
-   "ts": 1793718840735
-  },
-  {
-   "title": "Слушай, а вот это уже серьёзный аппарат! 🚀 Audi A6 40 TDI Pr",
+   "title": "Audi A6",
    "year": 2022,
    "price": 4800000,
    "chips": [
     "2022",
-    "2.0T · 204 л.с."
+    "204 л.с."
    ],
    "country": "Корея",
    "id": "midffffbcbea42b1a2201a1a063dd8e69e5",
@@ -92,19 +80,7 @@
    "ts": 1793692261774
   },
   {
-   "title": "Пришли к нам с запросом: нужен небольшой кроссовер, размером",
-   "year": 0,
-   "price": 1793000,
-   "chips": [
-    "1.5 · 160 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a1929b67164a05",
-   "mid": "mid.ffffbcbea42b1a2201a1929b67164a05",
-   "ts": 1793461020438
-  },
-  {
-   "title": "Вот смотри, что тут интересного. Jetta VA3",
+   "title": "Jetta VA3",
    "year": 2023,
    "price": 1602860,
    "chips": [
@@ -117,20 +93,7 @@
    "ts": 1793260140462
   },
   {
-   "title": "Кроссовер размером с Creta, без турбины, до 3 млн — что реал",
-   "year": 0,
-   "price": 2288000,
-   "chips": [
-    "новая",
-    "1.5 · 171 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a183151a5a2d4a",
-   "mid": "mid.ffffbcbea42b1a2201a183151a5a2d4a",
-   "ts": 1793200560730
-  },
-  {
-   "title": "Вот смотри, что тут интересного. Nissan Qashqai",
+   "title": "Nissan Qashqai",
    "year": 2022,
    "price": 2161000,
    "chips": [
@@ -143,7 +106,7 @@
    "ts": 1793171641942
   },
   {
-   "title": "Вот смотри, что тут интересного. Skoda Karoq",
+   "title": "Skoda Karoq",
    "year": 2022,
    "price": 2630000,
    "chips": [
@@ -156,7 +119,7 @@
    "ts": 1793084582128
   },
   {
-   "title": "Вот смотри, что тут интересного. Mazda CX-30",
+   "title": "Mazda CX-30",
    "year": 2021,
    "price": 2395000,
    "chips": [
@@ -169,21 +132,7 @@
    "ts": 1793000821196
   },
   {
-   "title": "Слушай, а вот это уже серьёзная рабочая лошадка. Nissan Nava",
-   "year": 2026,
-   "price": 3360000,
-   "chips": [
-    "2026",
-    "новая",
-    "2.3T · 106 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a171e0814a47d0",
-   "mid": "mid.ffffbcbea42b1a2201a171e0814a47d0",
-   "ts": 1792911901002
-  },
-  {
-   "title": "Слушай, вот честно — за эти деньги это, наверное, самый боль",
+   "title": "Haval M6",
    "year": 2023,
    "price": 1723000,
    "chips": [
@@ -223,7 +172,7 @@
    "ts": 1792394522051
   },
   {
-   "title": "Kia KX1 Sunroof Edition Новая",
+   "title": "Kia KX1 Sunroof",
    "year": 0,
    "price": 1790000,
    "chips": [
@@ -236,7 +185,7 @@
    "ts": 1792136881676
   },
   {
-   "title": "Volkswagen Tharu XR Ruixiang Edition (Sharp)",
+   "title": "Volkswagen Tharu XR",
    "year": 2026,
    "price": 2378000,
    "chips": [
@@ -271,8 +220,7 @@
    "year": 2026,
    "price": 4500000,
    "chips": [
-    "2026",
-    "гибрид · 2.0T"
+    "2026"
    ],
    "country": "Китай",
    "id": "midffffbcbea42b1a2201a129d70a837384",
@@ -321,7 +269,7 @@
    "ts": 1791445501406
   },
   {
-   "title": "Kia K5 3-го поколения 2.0 Prestige – легендарный корейский с",
+   "title": "Kia K5",
    "year": 2024,
    "price": 3167939,
    "chips": [
@@ -385,18 +333,6 @@
    "id": "midffffbcbea42b1a2201a0f66c823d3e3a",
    "mid": "mid.ffffbcbea42b1a2201a0f66c823d3e3a",
    "ts": 1790840701501
-  },
-  {
-   "title": "Volkswagen Lamando L",
-   "year": 0,
-   "price": 2250000,
-   "chips": [
-    "1.4 · 150 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a0f2e971c73613",
-   "mid": "mid.ffffbcbea42b1a2201a0f2e971c73613",
-   "ts": 1790781780423
   }
  ]
 }
