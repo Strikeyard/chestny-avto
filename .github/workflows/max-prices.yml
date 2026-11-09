@@ -1,0 +1,35 @@
+# Раздел «Актуальные цены» из канала MAX. Копия этого файла лежит в живом репозитории
+# Strikeyard/chestny-avto как .github/workflows/max-prices.yml. Исходник: Milliard_dollarov/tools/max-prices.
+name: Цены из канала MAX
+on:
+  schedule:
+    - cron: "17 * * * *"   # каждый час; GitHub иногда запускает с опозданием
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: max-prices
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pillow
+      - name: Забрать посты и обновить раздел
+        env:
+          MAX_TOKEN: ${{ secrets.MAX_TOKEN }}
+          MAX_CHAT_ID: ${{ vars.MAX_CHAT_ID }}
+        run: python .github/max-prices/max_prices.py
+      - name: Сохранить изменения
+        run: |
+          git config user.name "max-prices bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add ceny
+          if git diff --cached --quiet; then echo "Без изменений"; exit 0; fi
+          git commit -m "Цены из канала MAX: обновление"
+          git push
