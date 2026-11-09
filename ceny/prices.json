@@ -1,5 +1,5 @@
 {
- "updated": 1794249419220,
+ "updated": 1794249504729,
  "parser": 2,
  "cars": [
   {
@@ -440,6 +440,71 @@
    "id": "midffffbcbea42b1a2201a0c7fc61994523",
    "mid": "mid.ffffbcbea42b1a2201a0c7fc61994523",
    "ts": 1790061601177
+  },
+  {
+   "title": "VW Tayron",
+   "year": 2022,
+   "price": 2778000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0c2e93e697c35",
+   "mid": "mid.ffffbcbea42b1a2201a0c2e93e697c35",
+   "ts": 1789976460905
+  },
+  {
+   "title": "BYD Yuan UP",
+   "year": 2024,
+   "price": 2103000,
+   "chips": [
+    "2024",
+    "новая"
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0b88ec94473ac",
+   "mid": "mid.ffffbcbea42b1a2201a0b88ec94473ac",
+   "ts": 1789802760516
+  },
+  {
+   "title": "Skoda Octavia",
+   "year": 2022,
+   "price": 2450000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a0b35d70670da1",
+   "mid": "mid.ffffbcbea42b1a2201a0b35d70670da1",
+   "ts": 1789715640423
+  },
+  {
+   "title": "Kia Sportage",
+   "year": 2022,
+   "price": 3100000,
+   "chips": [
+    "2022",
+    "2.0 · 146 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a0ae44d3083413",
+   "mid": "mid.ffffbcbea42b1a2201a0ae44d3083413",
+   "ts": 1789630141192
+  },
+  {
+   "title": "Hyundai Sonata",
+   "year": 2022,
+   "price": 2862628,
+   "chips": [
+    "2022",
+    "2.0 · 160 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a08f592aa761df",
+   "mid": "mid.ffffbcbea42b1a2201a08f592aa761df",
+   "ts": 1789111380647
   }
  ]
 }
