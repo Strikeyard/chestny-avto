@@ -1,5 +1,5 @@
 {
- "updated": 1794291160557,
+ "updated": 1794296068577,
  "parser": 2,
  "cars": [
   {
@@ -492,19 +492,6 @@
    "id": "midffffbcbea42b1a2201a0ae44d3083413",
    "mid": "mid.ffffbcbea42b1a2201a0ae44d3083413",
    "ts": 1789630141192
-  },
-  {
-   "title": "Hyundai Sonata",
-   "year": 2022,
-   "price": 2862628,
-   "chips": [
-    "2022",
-    "2.0 · 160 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a08f592aa761df",
-   "mid": "mid.ffffbcbea42b1a2201a08f592aa761df",
-   "ts": 1789111380647
   }
  ]
 }
