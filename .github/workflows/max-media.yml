@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests pillow opencv-python-headless numpy
+      - run: pip install requests pillow "opencv-python-headless<5" "numpy<3"
       - run: sudo apt-get install -y -qq ffmpeg > /dev/null
       - name: Сертификат Минцифры
         run: |
@@ -43,5 +43,5 @@ jobs:
           git add media 2>/dev/null || true
           if git diff --cached --quiet; then echo "Без изменений"; exit 0; fi
           git commit -m "Видео и фото из канала MAX"
-          git pull --rebase -q
+          git pull --rebase -q -X theirs || { git rebase --abort; git pull --rebase -q -X theirs; }
           git push
