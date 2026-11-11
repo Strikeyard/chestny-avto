@@ -1,7 +1,20 @@
 {
- "updated": 1794374568390,
+ "updated": 1794382685134,
  "parser": 2,
  "cars": [
+  {
+   "title": "Toyota Levin",
+   "year": 2022,
+   "price": 1536853,
+   "chips": [
+    "2022",
+    "1.2T · 116 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1c97c310f2d59",
+   "mid": "mid.ffffbcbea42b1a2201a1c97c310f2d59",
+   "ts": 1794381721871
+  },
   {
    "title": "Volkswagen T-Roc",
    "year": 2022,
