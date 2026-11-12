@@ -226,6 +226,14 @@ textarea{min-height:100px;resize:vertical}
 @media(max-width:900px){.gal{grid-template-columns:repeat(2,1fr)}.gal a .cap{opacity:1}}
 .gal a::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);border-radius:inherit}
 .gal-more{display:flex;justify-content:center;margin-top:24px}
+.credit{background:var(--card);border:1px solid var(--line);border-radius:calc(var(--r) + 12px);padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
+.credit p{color:var(--muted);margin-top:14px;max-width:52ch}
+.banks{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.banks span{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:10px 18px;font-weight:800}
+.credit-list{list-style:none;display:grid;gap:12px;margin-bottom:22px}
+.credit-list li{position:relative;padding-left:30px}
+.credit-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--accent);font-weight:800}
+@media(max-width:900px){.credit{grid-template-columns:1fr}}
 .ceny-more{display:flex;justify-content:center;margin:22px 0 4px}
 #live-cases .pic{cursor:default}
 #live-cases .pic img{object-position:50% 55%}
@@ -750,6 +758,27 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<section id="credit" style="padding-top:0">
+  <div class="wrap">
+    <div class="credit reveal">
+      <div>
+        <div class="eyebrow">Покупка в кредит</div>
+        <h2>Не хватает части суммы — поможем с кредитом</h2>
+        <p>Работаем с банками-партнёрами: ВТБ, Т-Банк и Сбербанк. Подадим заявку сразу в несколько банков и подберём выгодные условия под твою ситуацию.</p>
+        <div class="banks"><span>ВТБ</span><span>Т-Банк</span><span>Сбербанк</span></div>
+      </div>
+      <div>
+        <ul class="credit-list">
+          <li>Одобрение получаем заранее, до выкупа машины</li>
+          <li>Заявка сразу в несколько банков — выбираешь лучшие условия</li>
+          <li>Подскажем, какой первый взнос нужен под твою машину</li>
+        </ul>
+        <a class="btn" href="https://wa.me/79198731668?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BA%D1%83%D0%BF%D0%B8%D1%82%D1%8C%20%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D1%83%20%D0%B2%20%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82.%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B5%D1%82%D0%B5%20%D1%83%D1%81%D0%BB%D0%BE%D0%B2%D0%B8%D1%8F%3F" target="_blank" rel="noopener">Узнать условия кредита →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="handover" style="padding-top:0">
   <div class="wrap">
     <div class="handover reveal">
@@ -869,6 +898,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <details><summary>Можно прийти на выдачу с мужем или подругой?</summary><p>Конечно! Выдача у нас в гараже на Красноармейской, 200. Приходи с кем хочешь — покажем машину, ответим на вопросы и сделаем фото на память 📸</p></details>
       <details><summary>Кто будет со мной на связи?</summary><p>Создаём группу сопровождения: ты, менеджер и логист. Все этапы — фото и видео прямо в чат, так что гадать, где машина, не придётся.</p></details>
       <details><summary>Машину нельзя посмотреть вживую. Как понять, что привезут то, что нужно?</summary><p>Ты выбираешь конкретную машину по фото, году и пробегу. До основной оплаты её на месте проверяет специалист, а результаты с фото и видео приходят тебе в группу. Если машина не подошла, вернём задаток: удержим только 10 000 ₽ за диагностику, если она уже прошла. <a href="../stati/kak-kupit-avto-iz-kitaya-ne-vidya/" style="color:var(--accent)">Подробнее в статье →</a></p></details>
+      <details><summary>Можно купить машину в кредит?</summary><p>Да. Работаем с банками-партнёрами: ВТБ, Т-Банк и Сбербанк. Подадим заявку сразу в несколько банков, поможем получить одобрение заранее, до выкупа машины, и подобрать выгодные условия.</p></details>
       <details><summary>Что входит в цену под ключ?</summary><p>Автомобиль, логистика до Ростова, таможенные платежи, утильсбор, брокер, ЭПТС и наши услуги. Мойка, полный бак и подарок на выдаче — тоже. Сравнивай итоговую цену в Ростове, а не отдельные статьи.</p></details>
       <details><summary>Почему чаще всего Китай?</summary><p>При тех же параметрах машина из Кореи в среднем на 15–20% дороже. Корею предлагаем, когда нужен полный привод, дизель или конкретная модель.</p></details>
       <details><summary>Может ли цена измениться?</summary><p>После оплаты через ВТБ стоимость машины, логистики и наших услуг фиксируется. Таможенные платежи (~20%) считаются по курсу евро на день растаможки — могут немного измениться и в плюс, и в минус.</p></details>
