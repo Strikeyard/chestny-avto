@@ -84,7 +84,18 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .sec{margin-top:30px}
 .sec h2{font-size:25px;line-height:1.12;margin-bottom:12px}
 .sec h2 em{font-style:normal;color:var(--money)}
-.people{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.people{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);aspect-ratio:5/8;gap:8px}
+.people .p{aspect-ratio:auto;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.people .p::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
+.people .p img{transition:transform .5s ease}
+@media (hover:hover){.people .p:hover img{transform:scale(1.05)}}
+.people .big{grid-column:1/3;grid-row:1/3;border-radius:22px}
+.people .big::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(18,20,23,.75),rgba(18,20,23,0) 42%);z-index:1}
+.paid{position:absolute;left:10px;bottom:10px;z-index:2;font-style:normal;font-size:12px;font-weight:800;color:#0d1a10;background:var(--money);border-radius:99px;padding:5px 11px;box-shadow:0 6px 18px -6px rgba(61,229,111,.7)}
+.people .sum{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6px;background:radial-gradient(120% 90% at 30% 0%,rgba(61,229,111,.28),rgba(61,229,111,.06) 60%),var(--card)}
+.people .sum b{color:var(--money);font-size:clamp(15px,4.6vw,22px);font-weight:900;line-height:1.1;white-space:nowrap}
+.people .sum span{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25}
+.pnote{margin:10px 0 0;color:var(--muted,#A9B0BA);font-size:14px;text-align:center}
 .p{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;background:var(--card2)}
 .p img{width:100%;height:100%;object-fit:cover;display:block}
 .p span{position:absolute;inset:auto 0 0;padding:26px 8px 8px;background:linear-gradient(0deg,#121417 40%,rgba(18,20,23,0));font-size:13px;font-weight:700}
@@ -163,10 +174,17 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
     <section class="sec">
       <h2>Они уже <em>получили</em></h2>
       <div class="people">
-        <div class="p"><img src="img/dmitry.jpg" alt="Дмитрий, партнёр" loading="lazy"><span>Дмитрий<b>120 000 ₽</b></span></div>
-        <div class="p"><img src="img/aleksandr.jpg" alt="Александр, партнёр, с выплатой в рамке" loading="lazy"><span>Александр<b>60 000 ₽</b></span></div>
-        <div class="p"><img src="img/sergey.jpg" alt="Сергей, партнёр" loading="lazy"><span>Сергей<b>60 000 ₽</b></span></div>
+        <div class="p big"><img src="img/p1.jpg" alt="Партнёр «Честного автомобиля»"><i class="paid">✓ Выплата получена</i></div>
+        <div class="p"><img src="img/p2.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p3.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p4.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p5.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p6.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p7.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p"><img src="img/p8.jpg" alt="Партнёр «Честного автомобиля»" loading="lazy"></div>
+        <div class="p sum"><b>30 000 ₽</b><span>за каждого клиента</span></div>
       </div>
+      <p class="pnote">Реальные партнёры, которые уже получили выплаты</p>
       <div class="proof">
         <div><img src="img/check.jpg" alt="Чек: перевод партнёру 30 000 ₽" loading="lazy"><small>Настоящий чек</small></div>
         <div><img src="img/money.jpg" alt="Выплата партнёру в рамке" loading="lazy"><small>В рамке</small></div>
