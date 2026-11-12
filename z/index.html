@@ -120,10 +120,30 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .up{margin-top:22px}
 .alt{margin-top:14px}
 @media(prefers-reduced-motion:reduce){.paid{animation:none}.meter i{transition:none}}
+/* денежный фон первых экранов: купюры за матовым стеклом (вариант Б, выбрал Алексей 12.11) */
+main{position:relative;isolation:isolate}
+.bgfx{position:absolute;left:0;right:0;top:400px;height:1700px;z-index:-1;pointer-events:none;overflow:hidden}
+
+.steps,.box{background:rgba(28,32,38,.62);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.bgfx::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 20% at 90% 6%,rgba(61,229,111,.3),transparent 70%),radial-gradient(55% 20% at 5% 42%,rgba(61,229,111,.22),transparent 70%),radial-gradient(55% 20% at 95% 78%,rgba(61,229,111,.2),transparent 70%)}
+.cash{position:absolute;width:200px;height:94px;border-radius:10px;background:linear-gradient(120deg,#46e77c 0%,#1aa952 45%,#0d7538 100%);
+ box-shadow:0 22px 44px -14px rgba(0,0,0,.7),0 0 40px -8px rgba(61,229,111,.55),inset 0 0 0 4px rgba(255,255,255,.18),inset 0 0 0 12px rgba(0,0,0,.07)}
+.cash::before{content:"₽";position:absolute;left:16px;top:10px;font:900 40px/1 'Segoe UI',sans-serif;color:rgba(255,255,255,.75)}
+.cash::after{content:"";position:absolute;right:18px;top:50%;width:54px;height:54px;margin-top:-27px;border-radius:50%;border:3px solid rgba(255,255,255,.35);
+ background:repeating-radial-gradient(circle,rgba(255,255,255,.22) 0 1px,transparent 1px 5px)}
+.cash.c1{right:-92px;top:40px;transform:rotate(28deg)}
+.cash.c2{left:-110px;top:250px;transform:rotate(-22deg);filter:blur(1px)}
+.cash.c3{right:-104px;top:520px;transform:rotate(-34deg) scale(1.15);filter:blur(1.5px)}
+.cash.c4{left:-96px;top:800px;transform:rotate(18deg)}
+.cash.c5{right:-90px;top:1080px;transform:rotate(36deg) scale(.95);filter:blur(1px)}
+.cash.c6{left:-112px;top:1360px;transform:rotate(-14deg) scale(1.1)}
+@media (prefers-reduced-motion:no-preference){.cash{animation:drift 8s ease-in-out infinite}.cash.c2{animation-delay:-2s}.cash.c3{animation-delay:-4s}.cash.c4{animation-delay:-1s}.cash.c5{animation-delay:-5s}.cash.c6{animation-delay:-3s}}
+@keyframes drift{50%{translate:0 -14px}}
 </style>
 </head>
 <body>
 <main>
+<div class="bgfx" aria-hidden="true"><i class="cash c1"></i><i class="cash c2"></i><i class="cash c3"></i><i class="cash c4"></i><i class="cash c5"></i><i class="cash c6"></i></div>
   <div class="hero">
     <img src="img/hero.jpg" alt="Рукопожатие у машины на выдаче" width="1040" height="1040">
     <div class="logo"><i></i>Честный автомобиль</div>
