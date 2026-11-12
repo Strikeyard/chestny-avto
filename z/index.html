@@ -156,13 +156,13 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
           </label>
         </div>
         <label class="f">Ваш телефон <small>(по нему узнаем вас)</small>
-          <input type="tel" id="myphone" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00">
+          <input type="tel" id="myphone" maxlength="18" autocomplete="tel" inputmode="numeric" placeholder="+7 (900) 000-00-00">
         </label>
         <label class="f"><span id="nameL">Имя знакомого</span>
           <input type="text" id="name" maxlength="80" autocomplete="off" placeholder="Кому нужна машина">
         </label>
         <label class="f"><span id="phoneL">Телефон знакомого</span>
-          <input type="tel" id="phone" maxlength="24" autocomplete="off" inputmode="tel" placeholder="+7 900 000-00-00">
+          <input type="tel" id="phone" maxlength="18" autocomplete="off" inputmode="numeric" placeholder="+7 (900) 000-00-00">
         </label>
         <label class="f" id="carWrap">Какую машину ищет <small>(если знаете)</small>
           <input type="text" id="car" maxlength="200" autocomplete="off" placeholder="Например, кроссовер">
@@ -260,9 +260,43 @@ document.querySelectorAll('.mode button').forEach(b=>b.addEventListener('click',
 const fail=t=>{$('msg').textContent=t};
 setMode(mode);
 const failLink=()=>{$('msg').innerHTML='Не отправилось. Данные на месте: попробуйте ещё раз или <a href="https://chestny-avto.ru/w">напишите Алексею</a>.'};
-const digits=id=>$(id).value.replace(/\D/g,'').replace(/^8(?=\d{10}$)/,'7');
-const phoneOk=()=>digits('phone').length>=10;
-const myPhoneOk=()=>digits('myphone').length>=10;
+// Телефоны только российские: всегда +7 и ровно 10 цифр, вид +7 (918) 111-22-33.
+// Вставленные 8 918…, +7 918…, 7918… приводятся к тому же виду.
+function national(v){
+  // «+7» убираем, где бы он ни оказался (курсор мог встать перед ним), остальное — только цифры
+  let d=String(v||'').replace('+7','').replace(/\D/g,'');
+  if(d.length>10&&/^[78]/.test(d))d=d.slice(1);
+  return d.slice(0,10);
+}
+function fmtPhone(d){
+  if(!d)return '+7 ';
+  let out='+7 ('+d.slice(0,3);
+  if(d.length>=3)out+=')';
+  if(d.length>3)out+=' '+d.slice(3,6);
+  if(d.length>6)out+='-'+d.slice(6,8);
+  if(d.length>8)out+='-'+d.slice(8,10);
+  return out;
+}
+['myphone','phone'].forEach(id=>{
+  const el=$(id);
+  let prev=national(el.value);
+  const end=()=>el.setSelectionRange(el.value.length,el.value.length);
+  el.value=prev?fmtPhone(prev):'';
+  el.addEventListener('input',e=>{
+    let d=national(el.value);
+    // стёрли скобку, пробел или дефис — стираем и цифру перед ним
+    if(prev&&d===prev&&String(e.inputType||'').startsWith('delete'))d=prev.slice(0,-1);
+    // первую набранную 8 или 7 люди пишут вместо +7 — её пропускаем
+    if(!prev&&/^[78]$/.test(d))d='';
+    prev=d;el.value=fmtPhone(d);end();
+  });
+  el.addEventListener('focus',()=>{if(!el.value)el.value='+7 ';end();setTimeout(end)});
+  el.addEventListener('click',()=>{if(el.selectionStart<3)end()});
+  el.addEventListener('blur',()=>{if(!prev)el.value=''});
+});
+const digits=id=>national($(id).value);
+const phoneOk=()=>digits('phone').length===10;
+const myPhoneOk=()=>digits('myphone').length===10;
 function meter(){
   const n=[$('partner').value.trim()&&$('surname').value.trim(),myPhoneOk(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
   $('bar').style.width=n*20+'%';
@@ -274,10 +308,10 @@ meter();
 function check(){
   if(!$('partner').value.trim())return ['partner','Напишите своё имя'];
   if(!$('surname').value.trim())return ['surname','Напишите свою фамилию'];
-  if(!myPhoneOk())return ['myphone','Проверьте свой номер телефона'];
+  if(!myPhoneOk())return ['myphone','В вашем номере нужно 10 цифр после +7'];
   if(!$('name').value.trim())return ['name','Напишите имя знакомого'];
-  if(!phoneOk())return ['phone','Проверьте номер знакомого'];
-  if(digits('phone').slice(-10)===digits('myphone').slice(-10))return ['phone','Это ваш номер, а нужен номер знакомого'];
+  if(!phoneOk())return ['phone','В номере знакомого нужно 10 цифр после +7'];
+  if(digits('phone')===digits('myphone'))return ['phone','Это ваш номер, а нужен номер знакомого'];
   if(!$('consent').checked)return ['consent',mode==='invite'?'Подтвердите, что знакомый знает о приглашении':'Подтвердите, что знакомый знает, что с ним свяжутся'];
   return null;
 }
@@ -312,7 +346,7 @@ $('f').addEventListener('submit',async e=>{
   $('send').disabled=false;$('send').textContent=MODES[mode].send;
 });
 $('again').addEventListener('click',()=>{
-  ['name','phone','car'].forEach(i=>{$(i).value=''});$('consent').checked=false;fail('');meter();
+  ['name','phone','car'].forEach(i=>{$(i).value=''});$('phone').dispatchEvent(new Event('input'));$('phone').value='';$('consent').checked=false;fail('');meter();
   $('done').style.display='none';$('formBox').style.display='block';$('name').focus();
 });
 $('toForm').addEventListener('click',()=>{
