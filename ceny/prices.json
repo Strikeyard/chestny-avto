@@ -1,7 +1,20 @@
 {
- "updated": 1794461074167,
+ "updated": 1794469253113,
  "parser": 2,
  "cars": [
+  {
+   "title": "BMW X1 sDrive20Li",
+   "year": 2022,
+   "price": 2036575,
+   "chips": [
+    "2022",
+    "1.5 · 140 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1ce93e2fe6df8",
+   "mid": "mid.ffffbcbea42b1a2201a1ce93e2fe6df8",
+   "ts": 1794467160830
+  },
   {
    "title": "Toyota Levin",
    "year": 2022,
