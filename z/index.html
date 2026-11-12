@@ -148,6 +148,9 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
         <label class="f">Ваше имя
           <input type="text" id="partner" maxlength="80" autocomplete="name" placeholder="Как вас зовут">
         </label>
+        <label class="f">Ваш телефон <small>(по нему узнаем вас)</small>
+          <input type="tel" id="myphone" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00">
+        </label>
         <label class="f"><span id="nameL">Имя знакомого</span>
           <input type="text" id="name" maxlength="80" autocomplete="off" placeholder="Кому нужна машина">
         </label>
@@ -222,8 +225,8 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 const API_URL='https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
 const $=id=>document.getElementById(id);
 const ls={get(k){try{return localStorage.getItem(k)||''}catch(_){return ''}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
-const store={get(){return ls.get('partnerName')},set(v){ls.set('partnerName',v)}};
-$('partner').value=store.get();
+// Имя и телефон партнёра запоминаем на его телефоне, чтобы в следующий раз не вводить
+$('partner').value=ls.get('partnerName');$('myphone').value=ls.get('partnerPhone');
 // Личная ссылка партнёра: chestny-avto.ru/z/?p=<id из CRM>. По id заявка точно попадёт к нему, даже если имя написано иначе.
 const pidRaw=new URLSearchParams(location.search).get('p')||'';
 const PID=/^[A-Za-z0-9_-]{1,40}$/.test(pidRaw)?pidRaw:ls.get('partnerId');
@@ -250,19 +253,23 @@ document.querySelectorAll('.mode button').forEach(b=>b.addEventListener('click',
 const fail=t=>{$('msg').textContent=t};
 setMode(mode);
 const failLink=()=>{$('msg').innerHTML='Не отправилось. Данные на месте: попробуйте ещё раз или <a href="https://chestny-avto.ru/w">напишите Алексею</a>.'};
-const phoneOk=()=>$('phone').value.replace(/\D/g,'').length>=10;
+const digits=id=>$(id).value.replace(/\D/g,'').replace(/^8(?=\d{10}$)/,'7');
+const phoneOk=()=>digits('phone').length>=10;
+const myPhoneOk=()=>digits('myphone').length>=10;
 function meter(){
-  const n=[$('partner').value.trim(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
-  $('bar').style.width=n*25+'%';
-  $('barT').textContent=n===4?'Осталось нажать кнопку':n?'Заполнено '+n+' из 4':'Займёт 20 секунд';
-  $('barT').classList.toggle('full',n===4);
+  const n=[$('partner').value.trim(),myPhoneOk(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
+  $('bar').style.width=n*20+'%';
+  $('barT').textContent=n===5?'Осталось нажать кнопку':n?'Заполнено '+n+' из 5':'Займёт 20 секунд';
+  $('barT').classList.toggle('full',n===5);
 }
 $('f').addEventListener('input',meter);
 meter();
 function check(){
   if(!$('partner').value.trim())return ['partner','Напишите своё имя'];
+  if(!myPhoneOk())return ['myphone','Проверьте свой номер телефона'];
   if(!$('name').value.trim())return ['name','Напишите имя знакомого'];
   if(!phoneOk())return ['phone','Проверьте номер знакомого'];
+  if(digits('phone').slice(-10)===digits('myphone').slice(-10))return ['phone','Это ваш номер, а нужен номер знакомого'];
   if(!$('consent').checked)return ['consent',mode==='invite'?'Подтвердите, что знакомый знает о приглашении':'Подтвердите, что знакомый знает, что с ним свяжутся'];
   return null;
 }
@@ -285,11 +292,11 @@ $('f').addEventListener('submit',async e=>{
   try{
     // text/plain: браузер не делает лишний предварительный запрос к функции
     const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({
-      kind:mode==='invite'?'invite':'partner',pid:PID,partner:$('partner').value,name:$('name').value,phone:$('phone').value,
+      kind:mode==='invite'?'invite':'partner',pid:PID,partner:$('partner').value,partnerPhone:$('myphone').value,name:$('name').value,phone:$('phone').value,
       car:mode==='invite'?'':$('car').value,site:$('site').value,consent:$('consent').checked})});
     const data=await r.json().catch(()=>({}));
     if(r.ok&&data.ok){
-      store.set($('partner').value.trim());
+      ls.set('partnerName',$('partner').value.trim());ls.set('partnerPhone',$('myphone').value.trim());
       const t=MODES[mode];$('doneT').textContent=t.doneT;$('doneP').textContent=t.doneP;$('doneL').innerHTML=t.doneL;$('again').textContent=t.again;
       $('formBox').style.display='none';$('done').style.display='block';$('done').focus();$('done').scrollIntoView({block:'center'});bills();
     }else if(data.error){fail(data.error)}else{failLink()}
