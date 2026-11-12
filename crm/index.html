@@ -1,0 +1,1544 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<script>window.CLOUD={api:"https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co"};</script>
+<script>
+// Замена базы claude.ai для CRM на сайте (chestny-avto.ru/crm): данные в Yandex Cloud,
+// вход по паролю. Тот же интерфейс, что у offline-shim.js: claude.use("db") → collection().doc().set/update/delete, onSnapshot.
+// Перед подключением задайте window.CLOUD = {api}. Сервер — action=crm в tools/partner-form/function.py.
+(function () {
+  "use strict";
+  var API = window.CLOUD.api + "?action=crm", KEY = "chestny-crm-pass", POLL_MS = 60000;
+  var cols = {}, listeners = [], t = 0, pass = "", pending = 0, ready, resolveReady;
+  ready = new Promise(function (r) { resolveReady = r; });
+
+  function rid() { return Math.random().toString(36).slice(2, 12) + Date.now().toString(36).slice(-6); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function store(name) { if (!cols[name]) cols[name] = {}; return cols[name]; }
+  function snapshot(name) { var s = store(name); return { docs: Object.keys(s).map(function (id) { var d = s[id]; return { id: id, data: function () { return clone(d); } }; }) }; }
+  function emit() { listeners.forEach(function (l) { try { l.f(snapshot(l.name)); } catch (e) { console.error(e); } }); }
+
+  function call(body) {
+    body.pass = pass;
+    // строка без заголовков — простой запрос text/plain, без предзапроса CORS
+    return fetch(API, { method: "POST", body: JSON.stringify(body) }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) { var e = new Error(j.error || "Ошибка " + r.status); e.status = r.status; throw e; } return j; });
+    });
+  }
+
+  function load() {
+    return call({ op: "load" }).then(function (j) {
+      Object.keys(j.cols).forEach(function (n) { cols[n] = j.cols[n]; });
+      t = j.t; emit();
+    });
+  }
+
+  function poll() {
+    if (!pass || pending || document.visibilityState !== "visible") return;
+    call({ op: "since", t: t }).then(function (j) {
+      if (pending) return; // пока своё сохраняется, чужие изменения подтянем следующим разом
+      Object.keys(j.ids).forEach(function (n) {
+        var s = store(n), keep = {};
+        j.ids[n].forEach(function (id) { keep[id] = true; });
+        Object.keys(s).forEach(function (id) { if (!keep[id]) delete s[id]; });
+        Object.keys(j.cols[n] || {}).forEach(function (id) { s[id] = j.cols[n][id]; });
+      });
+      t = j.t; emit(); bar("");
+    }, function (e) { if (e.status === 403) logout(); else bar("Нет связи с сервером — изменения других пока не видны", true); });
+  }
+
+  function write(name, id, mode, data) {
+    pending++; bar("Сохраняю…");
+    return call({ op: "write", col: name, id: id, mode: mode, data: data }).then(function () {
+      pending--; if (!pending) bar("Сохранено");
+    }, function (e) {
+      pending--;
+      bar("Не сохранилось: " + e.message + ". Проверьте интернет — страница загрузит данные заново", true);
+      return load().then(function () { throw e; }, function () { throw e; });
+    });
+  }
+
+  function col(name) {
+    store(name);
+    return {
+      doc: function (id) {
+        id = id || rid();
+        return {
+          id: id,
+          set: function (d) { store(name)[id] = clone(d); emit(); return write(name, id, "set", clone(d)); },
+          update: function (p) {
+            var s = store(name), d = s[id] || {};
+            Object.keys(p).forEach(function (k) { d[k] = clone(p[k]); });
+            s[id] = d; emit(); return write(name, id, "update", clone(p));
+          },
+          delete: function () { delete store(name)[id]; emit(); return write(name, id, "delete"); }
+        };
+      },
+      onSnapshot: function (f) {
+        var l = { name: name, f: f };
+        listeners.push(l); setTimeout(function () { f(snapshot(name)); }, 0);
+        return function () { listeners = listeners.filter(function (x) { return x !== l; }); };
+      }
+    };
+  }
+
+  var db = { collection: col, doc: function () { return col("default").doc(); } };
+  var user = { id: function () { return Promise.resolve("owner"); }, can: function () { return Promise.resolve(true); }, isOwner: function () { return true; } };
+  window.claude = { use: function (n) { return n === "db" ? ready.then(function () { return db; }) : Promise.resolve(n === "user" ? user : null); } };
+
+  // ---------- вход и строка состояния ----------
+  var css = ".cl-login{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:#121417;padding:16px}" +
+    ".cl-login form{width:100%;max-width:360px;background:#1C2026;border:1px solid #2A3039;border-radius:20px;padding:28px 22px;font:15px 'Segoe UI',system-ui,sans-serif;color:#fff;box-shadow:0 24px 60px -24px rgba(0,0,0,.8)}" +
+    ".cl-login h1{font-size:20px;margin:0 0 6px}.cl-login p{color:#A9B0BA;margin:0 0 18px;font-size:14px}" +
+    ".cl-login input{width:100%;box-sizing:border-box;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid #2A3039;background:#121417;color:#fff;margin-bottom:12px}" +
+    ".cl-login input:focus{outline:none;border-color:#FF7A1A}.cl-login button{width:100%;font:inherit;font-weight:700;padding:12px;border:0;border-radius:12px;background:#FF7A1A;color:#121417;cursor:pointer}" +
+    ".cl-login button:disabled{opacity:.6}.cl-login .err{color:#ff8a7a;min-height:20px;margin:10px 0 0;font-size:14px}" +
+    ".cl-bar{position:fixed;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;gap:8px;align-items:center;background:#1C2026;border:1px solid #2A3039;border-radius:999px;padding:6px 8px 6px 14px;font:13px 'Segoe UI',system-ui,sans-serif;color:#A9B0BA;max-width:calc(100% - 24px)}" +
+    ".cl-bar .warn{color:#ffb27a}.cl-bar button{font:inherit;cursor:pointer;border:1px solid #2A3039;background:transparent;color:#fff;border-radius:999px;padding:4px 10px}.cl-bar button:hover{border-color:#FF7A1A}";
+  var barEl, loginEl;
+  function bar(text, warn) { if (!barEl) return; var s = barEl.querySelector(".msg"); s.textContent = text; s.className = "msg" + (warn ? " warn" : ""); }
+
+  function logout() {
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    location.reload();
+  }
+
+  function showLogin(message) {
+    loginEl.hidden = false;
+    loginEl.querySelector(".err").textContent = message || "";
+    loginEl.querySelector("input").focus();
+  }
+
+  function start(p, remember) {
+    pass = p;
+    var button = loginEl.querySelector("button");
+    button.disabled = true;
+    return load().then(function () {
+      if (remember) { try { localStorage.setItem(KEY, p); } catch (e) {} }
+      loginEl.hidden = true; barEl.hidden = false; bar("");
+      resolveReady();
+      setInterval(poll, POLL_MS);
+      document.addEventListener("visibilitychange", poll);
+    }, function (e) {
+      pass = ""; button.disabled = false;
+      if (e.status === 403) { try { localStorage.removeItem(KEY); } catch (x) {} showLogin("Неверный пароль"); }
+      else showLogin(e.status === 429 ? "Подождите несколько секунд и попробуйте снова" : "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз");
+    });
+  }
+
+  function mount() {
+    var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+    loginEl = document.createElement("div"); loginEl.className = "cl-login"; loginEl.hidden = true;
+    loginEl.innerHTML = '<form><h1>CRM · Честный автомобиль</h1><p>Заявки, партнёры и выплаты</p>' +
+      '<input type="password" autocomplete="current-password" placeholder="Пароль" aria-label="Пароль" required>' +
+      '<button type="submit">Войти</button><div class="err" role="alert"></div></form>';
+    document.body.appendChild(loginEl);
+    loginEl.querySelector("form").onsubmit = function (ev) { ev.preventDefault(); start(loginEl.querySelector("input").value, true); };
+    barEl = document.createElement("div"); barEl.className = "cl-bar"; barEl.hidden = true;
+    barEl.innerHTML = '<span class="msg"></span><button type="button">Выйти</button>';
+    barEl.querySelector("button").onclick = logout;
+    document.body.appendChild(barEl);
+    var saved = ""; try { saved = localStorage.getItem(KEY) || ""; } catch (e) {}
+    if (saved) start(saved, false); else showLogin("");
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
+})();
+
+</script></head><body>
+<title>Заявки Честного Автомобиля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one column for the phone — numbers on top, funnel, then the working list of leads; edit opens as a bottom sheet. */
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --ink: #18202b;
+  --muted: #5d6877;
+  --line: #dde1e7;
+  --accent: #d9821e;      /* signal amber, like a road marker */
+  --accent-ink: #ffffff;
+  --accent-soft: #fbeedd;
+  --good: #23864f;
+  --good-soft: #e1f2e8;
+  --bad: #c2412d;
+  --bad-soft: #f9e3df;
+  --bar: #2f4a6b;
+  --bar-soft: #e2e8f0;
+  --shadow: 0 10px 30px rgba(20, 30, 45, .18);
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-num: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --surface: #1a212b; --ink: #e8ecf1; --muted: #9aa6b5; --line: #2c3542;
+    --accent: #f0a043; --accent-ink: #1a1206; --accent-soft: #3a2a16;
+    --good: #5cc48a; --good-soft: #17301f; --bad: #f07a66; --bad-soft: #3a1d18;
+    --bar: #7fa3cf; --bar-soft: #263140; --shadow: 0 10px 30px rgba(0, 0, 0, .5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --surface: #1a212b; --ink: #e8ecf1; --muted: #9aa6b5; --line: #2c3542;
+  --accent: #f0a043; --accent-ink: #1a1206; --accent-soft: #3a2a16;
+  --good: #5cc48a; --good-soft: #17301f; --bad: #f07a66; --bad-soft: #3a1d18;
+  --bar: #7fa3cf; --bar-soft: #263140; --shadow: 0 10px 30px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 18px 80px; display: grid; gap: 18px; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: 22px; margin: 0; letter-spacing: -.01em; }
+h2 { font-family: var(--f-display); font-weight: 500; font-size: 14px; margin: 0; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn { border: 0; border-radius: 10px; padding: 10px 16px; font-weight: 600; background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn.danger { background: var(--bad-soft); color: var(--bad); }
+.btn:disabled { opacity: .5; cursor: default; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+
+.status { padding: 12px 14px; border-radius: 10px; background: var(--surface); border: 1px dashed var(--line); color: var(--muted); }
+
+/* KPI tiles: the goal numbers are the point, so they lead */
+.kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 620px) { .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.kpi { background: var(--surface); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
+.kpi .v { font-family: var(--f-num); font-size: 26px; line-height: 1.1; }
+.kpi .l { font-size: 12.5px; color: var(--muted); }
+.kpi .goal { font-size: 12px; color: var(--muted); }
+.kpi.hit .v { color: var(--good); }
+
+.panel { background: var(--surface); border-radius: 14px; padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.seg { display: inline-flex; background: var(--bg); border-radius: 9px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; color: var(--muted); padding: 5px 10px; border-radius: 7px; font-size: 13px; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+.funnel { display: grid; gap: 7px; }
+.frow { display: grid; grid-template-columns: minmax(0, 9.5em) minmax(0, 1fr) 4.6em; gap: 10px; align-items: center; font-size: 13.5px; }
+.frow .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track { height: 14px; background: var(--bar-soft); border-radius: 4px; overflow: hidden; }
+.fill { height: 100%; background: var(--bar); border-radius: 4px; }
+.frow.deposit .fill { background: var(--accent); }
+.frow .cnt { text-align: right; font-family: var(--f-num); font-size: 12.5px; color: var(--muted); }
+.frow .cnt b { color: var(--ink); font-weight: 500; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0; }
+
+.twocol { display: grid; gap: 14px; }
+@media (min-width: 620px) { .twocol { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 4px 0; }
+td { padding: 5px 0; border-top: 1px solid var(--line); }
+td.r, th.r { text-align: right; font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+
+/* Lead list */
+.filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 5px 11px; font-size: 13px; white-space: nowrap; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip .c { font-family: var(--f-num); font-size: 11.5px; opacity: .7; margin-left: 4px; }
+.search { width: 100%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 9px 12px; font: inherit; }
+.list { display: grid; gap: 8px; }
+.lead { text-align: left; width: 100%; border: 1px solid transparent; background: var(--surface); color: var(--ink); border-radius: 12px; padding: 11px 13px; display: grid; gap: 4px; }
+.lead:hover { border-color: var(--line); }
+.lead .row1 { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.lead .who { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.lead .meta { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--bar-soft); color: var(--ink); white-space: nowrap; flex: none; }
+.pill.deposit, .pill.transit { background: var(--accent-soft); }
+.pill.delivered { background: var(--good-soft); color: var(--good); }
+.pill.lost { background: var(--bad-soft); color: var(--bad); }
+.next { font-size: 12.5px; color: var(--muted); }
+.next.late { color: var(--bad); font-weight: 600; }
+.next.today { color: var(--accent); font-weight: 600; }
+.empty { text-align: center; color: var(--muted); padding: 22px 10px; background: var(--surface); border-radius: 12px; }
+
+/* Bottom sheet editor */
+.scrim { position: fixed; inset: 0; background: rgba(10, 14, 20, .45); display: flex; align-items: flex-end; justify-content: center; z-index: 10; }
+.sheet { background: var(--surface); width: 100%; max-width: 620px; max-height: 92%; overflow-y: auto; border-radius: 16px 16px 0 0; box-shadow: var(--shadow); padding: 16px 16px calc(18px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; }
+@media (min-width: 700px) { .scrim { align-items: center; } .sheet { border-radius: 16px; } }
+.sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sheet-head h3 { font-family: var(--f-display); font-weight: 500; font-size: 17px; margin: 0; }
+.x { border: 0; background: var(--bg); color: var(--ink); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; line-height: 1; }
+.fields { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 520px) { .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fields .wide { grid-column: 1 / -1; } }
+label.f { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); min-width: 0; }
+label.f input, label.f select, label.f textarea { font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; width: 100%; min-width: 0; }
+label.f textarea { min-height: 70px; resize: vertical; }
+.stages { display: flex; flex-wrap: wrap; gap: 6px; }
+.stages button { border: 1px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 9px; padding: 6px 10px; font-size: 13.5px; }
+.stages button[aria-pressed="true"] { background: var(--bar); border-color: var(--bar); color: var(--surface); font-weight: 600; }
+.stages button.lost[aria-pressed="true"] { background: var(--bad); border-color: var(--bad); }
+.stages button.delivered[aria-pressed="true"] { background: var(--good); border-color: var(--good); }
+.hist { font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; }
+.actions .right { display: flex; gap: 8px; margin-left: auto; }
+.err { color: var(--bad); font-size: 13px; }
+.nudge { background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; display: grid; gap: 8px; }
+.nudge-t { font-weight: 600; font-size: 14px; }
+.quick { gap: 10px; }
+.quick .lead { cursor: default; }
+.quick .lead .row1 { align-items: center; }
+.ai { border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 10px; min-width: 0; }
+.ai-title { font-family: var(--f-display); font-weight: 500; font-size: 15px; }
+.chatlog { display: grid; gap: 6px; max-height: 240px; overflow-y: auto; padding: 8px; background: var(--bg); border-radius: 10px; }
+.msg { padding: 7px 10px; border-radius: 10px; font-size: 13.5px; white-space: pre-wrap; overflow-wrap: anywhere; max-width: 88%; }
+.msg.client { background: var(--surface); justify-self: start; }
+.msg.us { background: var(--accent-soft); justify-self: end; }
+.row-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn.small { padding: 6px 11px; font-size: 13px; }
+.ai-status { font-size: 13px; color: var(--muted); }
+.ai-out { display: grid; gap: 10px; }
+.ai-note { background: var(--bad-soft); color: var(--ink); border-radius: 10px; padding: 9px 11px; font-size: 13.5px; white-space: pre-wrap; }
+.ai-msgs { display: grid; gap: 8px; }
+.ai-msg { display: grid; gap: 6px; }
+.ai-msg textarea { font: inherit; font-size: 14.5px; color: var(--ink); background: var(--accent-soft); border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; width: 100%; min-height: 90px; resize: vertical; }
+.ai-msg .row-btns { justify-content: flex-end; }
+@media (prefers-reduced-motion: no-preference) { .sheet { animation: up .18s ease-out; } @keyframes up { from { transform: translateY(24px); opacity: .6; } } }
+
+/* Tabs: leads, partners with who-invited-whom, payouts of 30 000 and 5 000 */
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.tabs button { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 8px 12px; font-weight: 600; white-space: nowrap; }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tabs .c { font-family: var(--f-num); font-size: 12px; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); }
+.stack { display: grid; gap: 18px; min-width: 0; }
+#payKpis .kpi .v { font-size: 21px; white-space: nowrap; }
+.pill.bought { background: var(--accent-soft); }
+.pill.grp { background: var(--bg); border: 1px solid var(--line); }
+.pill.paid { background: var(--good-soft); color: var(--good); }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.lead .stats { font-size: 12.5px; color: var(--ink); font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+.lead .warn, .warn { font-size: 12.5px; color: var(--bad); }
+.pay .amt { font-family: var(--f-num); font-variant-numeric: tabular-nums; font-size: 17px; font-weight: 500; }
+.pay .amt.l2 { color: var(--accent); }
+.pay .row1 { align-items: center; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.toolbar .search { flex: 1 1 220px; width: auto; }
+.f-note { font-size: 12px; color: var(--muted); }
+.f-note.warn { color: var(--bad); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Заявки</h1>
+      <div class="sub" id="sub">Честный Автомобиль · заявки, партнёры и выплаты</div>
+    </div>
+    <button class="btn" id="addBtn" type="button">+ Заявка</button>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Разделы">
+    <button type="button" data-t="leads" aria-pressed="true">Заявки</button>
+    <button type="button" data-t="partners" aria-pressed="false">Партнёры</button>
+    <button type="button" data-t="payouts" aria-pressed="false">Выплаты</button>
+  </nav>
+
+  <div class="status" id="status">Загружаю заявки…</div>
+
+  <section class="stack" id="tabPartners" hidden aria-label="Партнёры">
+    <div class="toolbar">
+      <input class="search" id="pq" type="search" placeholder="Поиск партнёра: имя, телефон">
+      <button class="btn" type="button" id="pAddBtn">+ Партнёр</button>
+    </div>
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Каких партнёров показать" id="pFilter">
+        <button type="button" data-v="all" aria-pressed="true">Все</button>
+        <button type="button" data-v="paid" aria-pressed="false">Получали выплату</button>
+        <button type="button" data-v="nopaid" aria-pressed="false">Ещё не получали</button>
+      </div>
+      <button class="btn ghost small" type="button" id="pCopy">Скопировать список</button>
+    </div>
+    <p class="hint">Здесь видно, кто кого пригласил. Когда выкупаете машину клиенту партнёра, тот получает 30 000 ₽, а тот, кто пригласил этого партнёра, — 5 000 ₽. Укажите «Кто пригласил» у каждого нового партнёра.</p>
+    <div class="nudge" id="pImport" hidden>
+      <div class="nudge-t" id="pImportT"></div>
+      <div class="hint" id="pImportList"></div>
+      <div class="row-btns"><button class="btn small" type="button" id="pImportBtn">Добавить в партнёры</button></div>
+    </div>
+    <div class="list" id="partners"></div>
+  </section>
+
+  <section class="stack" id="tabPayouts" hidden aria-label="Выплаты">
+    <section class="kpis" id="payKpis" aria-label="Выплаты в цифрах"></section>
+    <p class="hint" id="payHint"></p>
+    <h2>К выплате</h2>
+    <div class="list" id="payDue"></div>
+    <h2>Выплачено</h2>
+    <div class="list" id="payDone"></div>
+  </section>
+
+  <div class="stack" id="tabLeads">
+
+  <section class="panel quick" id="quickBox" hidden aria-labelledby="qh">
+    <h2 id="qh">Быстрая заявка</h2>
+    <p class="hint">Перешлите сюда сообщение партнёра или надиктуйте: «Оксана прислала Ивана, 8 900…, хочет кроссовер за 2,5». Можно сразу несколько заявок. Диктовать: на компьютере Win + H, на телефоне — микрофон на клавиатуре.</p>
+    <textarea class="search" id="quickText" rows="3" aria-label="Текст заявки"></textarea>
+    <div class="row-btns">
+      <button class="btn" type="button" id="quickBtn">Разобрать</button>
+    </div>
+    <div class="ai-status" id="quickStatus" role="status"></div>
+    <div class="list" id="quickList"></div>
+    <div class="row-btns" id="quickActions" hidden>
+      <button class="btn" type="button" id="quickSave">Добавить</button>
+      <button class="btn ghost" type="button" id="quickCancel">Отмена</button>
+    </div>
+  </section>
+
+  <section class="kpis" id="kpis" aria-label="Главные цифры"></section>
+
+  <section class="panel" id="peopleBox" aria-labelledby="ph">
+    <div class="panel-head">
+      <h2 id="ph">Знакомства</h2>
+      <div class="seg" role="group" aria-label="Какие знакомства показать" id="pSeg">
+        <button type="button" data-v="today" aria-pressed="true">На сегодня</button>
+        <button type="button" data-v="all">Все</button>
+      </div>
+    </div>
+    <p class="hint">Люди с мероприятий — будущие партнёры. Перешлите контакт боту в Telegram и наговорите, где познакомились. Здесь появится готовый текст: скопируйте, отправьте сами и нажмите «Отправил».</p>
+    <div class="list" id="people"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="fh">
+    <div class="panel-head">
+      <h2 id="fh">Воронка</h2>
+      <div class="seg" role="group" aria-label="Период" id="period">
+        <button type="button" data-p="7">7 дней</button>
+        <button type="button" data-p="30" aria-pressed="true">30 дней</button>
+        <button type="button" data-p="0">Всё время</button>
+      </div>
+    </div>
+    <div class="funnel" id="funnel"></div>
+    <p class="hint" id="fhint"></p>
+    <div class="twocol">
+      <div style="min-width:0">
+        <h2 style="margin-bottom:6px">Откуда заявки</h2>
+        <table id="srcTable"></table>
+      </div>
+      <div style="min-width:0">
+        <h2 style="margin-bottom:6px">Почему отказ</h2>
+        <table id="lostTable"></table>
+      </div>
+    </div>
+    <div style="min-width:0">
+      <h2 style="margin-bottom:6px">Лучшие партнёры</h2>
+      <table id="partnerTable"></table>
+    </div>
+  </section>
+
+  <section style="display:grid;gap:10px" aria-labelledby="lh">
+    <h2 id="lh">Все заявки</h2>
+    <div class="filters" id="filters" role="group" aria-label="Фильтр по этапу"></div>
+    <input class="search" id="q" type="search" placeholder="Поиск: имя, телефон, машина, партнёр">
+    <div class="list" id="list"></div>
+  </section>
+  </div>
+</div>
+
+<div class="scrim" id="pscrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+    <div class="sheet-head">
+      <h3 id="pTitle">Новый партнёр</h3>
+      <button class="x" type="button" id="pClose" aria-label="Закрыть">×</button>
+    </div>
+    <form id="pform" class="fields" autocomplete="off">
+      <label class="f">Имя партнёра<input id="p_name" required></label>
+      <label class="f">Телефон<input id="p_phone" inputmode="tel"></label>
+      <label class="f">Кто пригласил<select id="p_inv"></select></label>
+      <label class="f">Выплат получил до 9 ноября<input id="p_before" type="number" min="0" step="1" inputmode="numeric" placeholder="0"><span class="f-note">Сколько раз уже платили 30 000 ₽, пока не было учёта в CRM.</span></label>
+      <label class="f">Группа<select id="p_group"><option value="">—</option><option value="A">A — самые сильные</option><option value="B">B</option><option value="C">C</option></select></label>
+      <label class="f wide">Заметки<textarea id="p_notes" placeholder="Чем занимается, как познакомились"></textarea></label>
+      <div class="hint wide" id="pInfo"></div>
+      <div class="nudge wide" id="pLinkBox" hidden>
+        <div class="nudge-t">Личная ссылка партнёра</div>
+        <div class="hint">Партнёр передаёт по ней клиентов и приглашает новых партнёров. Всё сразу записывается на него.</div>
+        <div class="hint" id="pLinkT" style="overflow-wrap:anywhere"></div>
+        <div class="row-btns"><button class="btn ghost small" type="button" id="pLink">Скопировать ссылку</button><button class="btn ghost small" type="button" id="pMsg">Скопировать сообщение партнёру</button></div>
+      </div>
+      <div class="err wide" id="pErr" hidden></div>
+      <div class="actions wide">
+        <button class="btn danger" type="button" id="pDel">Удалить</button>
+        <div class="right">
+          <button class="btn ghost" type="button" id="pCancel">Отмена</button>
+          <button class="btn" type="submit" id="pSave">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-head">
+      <h3 id="sheetTitle">Новая заявка</h3>
+      <button class="x" type="button" id="closeBtn" aria-label="Закрыть">×</button>
+    </div>
+    <form id="form" class="fields" autocomplete="off">
+      <label class="f">Имя клиента<input id="f_name" required></label>
+      <label class="f">Телефон или ник<input id="f_contact"></label>
+      <label class="f">Откуда пришёл<select id="f_source"></select></label>
+      <label class="f">Кто привёл (партнёр)<input id="f_partner" list="partnerList" placeholder="Имя партнёра"><span class="f-note" id="f_partnerNote">Партнёр сам купил машину — укажите того, кто его пригласил.</span></label>
+      <label class="f">Где переписка<select id="f_channel"></select></label>
+      <label class="f">Бюджет, млн ₽<input id="f_budget" inputmode="decimal" placeholder="2,5"></label>
+      <label class="f">Какую машину хочет<input id="f_car" placeholder="Кроссовер, гибрид…"></label>
+      <label class="f">Дата заявки<input id="f_created" type="date"></label>
+      <label class="f">Следующий шаг — когда<input id="f_next" type="date"></label>
+      <label class="f wide">Следующий шаг — что сделать<input id="f_nextText" placeholder="Позвонить, отправить варианты…"></label>
+      <div class="wide" style="display:grid;gap:6px">
+        <span style="font-size:12.5px;color:var(--muted)">Этап</span>
+        <div class="stages" id="stageBtns" role="group" aria-label="Этап"></div>
+      </div>
+      <label class="f wide" id="lostWrap" hidden>Причина отказа<select id="f_lost"></select></label>
+      <label class="f wide">Заметки<textarea id="f_notes"></textarea></label>
+      <div class="hist wide" id="hist"></div>
+      <section class="ai wide" id="aiBox" hidden aria-labelledby="aiTitle">
+        <div class="ai-title" id="aiTitle">Помощник: ответ клиенту</div>
+        <p class="hint">Вставьте, что написал клиент. Помощник напишет ответ по вашему скрипту, а вы отправите его в MAX сами.</p>
+        <div class="chatlog" id="chatLog" hidden></div>
+        <label class="f">Новое сообщение клиента<textarea id="f_incoming" placeholder="Пусто — помощник напишет первое сообщение и анкету"></textarea></label>
+        <label class="f">Подсказка помощнику, если нужно<input id="f_hint" placeholder="Например: он из Краснодара, предложи Корею"></label>
+        <div class="row-btns">
+          <button class="btn" type="button" id="aiBtn">Предложить ответ</button>
+          <button class="btn ghost" type="button" id="aiStop" hidden>Стоп</button>
+        </div>
+        <div class="ai-status" id="aiStatus" role="status"></div>
+        <div class="ai-out" id="aiOut" hidden>
+          <div class="ai-note" id="aiNote" hidden></div>
+          <div class="ai-msgs" id="aiMsgs"></div>
+          <div class="hint" id="aiCard"></div>
+          <div class="row-btns">
+            <button class="btn" type="button" id="aiSent">Отправил — сохранить</button>
+            <button class="btn ghost" type="button" id="aiAgain">Другой вариант</button>
+          </div>
+        </div>
+      </section>
+      <div class="nudge wide" id="nudgeBox" hidden>
+        <div class="nudge-t">Партнёр может помочь дожать клиента</div>
+        <div class="hint" id="nudgeText"></div>
+        <button class="btn ghost small" type="button" id="nudgeBtn">Скопировать сообщение партнёру</button>
+      </div>
+      <div class="err wide" id="formErr" hidden></div>
+      <div class="actions wide">
+        <button class="btn danger" type="button" id="delBtn">Удалить</button>
+        <div class="right">
+          <button class="btn ghost" type="button" id="cancelBtn">Отмена</button>
+          <button class="btn" type="submit" id="saveBtn">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<datalist id="partnerList"></datalist>
+<script type="text/plain" id="playbook">
+
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  // Pipeline follows .business/marketing/sales-script.md: anketa → options → decision → contract and deposit → handover to Rashid and Ivan.
+  var STAGES = [
+    { k: "new", t: "Новая" },
+    { k: "anketa_sent", t: "Анкета отправлена" },
+    { k: "anketa_done", t: "Анкета заполнена" },
+    { k: "options", t: "Варианты отправлены" },
+    { k: "thinking", t: "Думает" },
+    { k: "deposit", t: "Задаток" },
+    { k: "bought", t: "Машина выкуплена" },
+    { k: "transit", t: "Машина в пути" },
+    { k: "delivered", t: "Выдана" }
+  ];
+  var LOST = { k: "lost", t: "Отказ" };
+  var IDX = {}; STAGES.forEach(function (s, i) { IDX[s.k] = i; });
+  var DEPOSIT = IDX.deposit;
+  var BOUGHT = IDX.bought;
+  // Two-level payouts: 30 000 to the partner who brought the client, 5 000 to whoever invited that partner.
+  var PAY1 = 30000, PAY2 = 5000;
+  // Payouts for cars bought before this date were settled outside the CRM.
+  var PAY_FROM = "2026-11-09";
+  var SOURCES = ["Партнёр", "Прошлый клиент", "Канал MAX", "Instagram", "ВКонтакте", "WhatsApp-группа", "Авито / другое"];
+  var LOST_REASONS = ["Не ответил", "Не целевой (бюджет, не то ищет)", "Дорого", "Купил в другом месте", "Отложил покупку", "Другое"];
+  var CHANNELS = ["Группа клиента в MAX", "MAX, личные сообщения", "WhatsApp", "Телефон", "Другое"];
+  var GOAL_PER_DAY = 10;
+
+  var state = { leads: [], people: [], partners: [], paid: {}, tab: "leads", pq: "", pFilter: "all", pEditing: null, pConfirmDel: false, pView: "today", period: 30, filter: "active", q: "", editing: null, stage: "new", canWrite: true, uid: null, confirmDel: false };
+  var db = null, col = null, pcol = null, partCol = null, payCol = null;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function today() { var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function dayStr(iso) { return (iso || "").slice(0, 10); }
+  function addDays(ymd, n) { var d = new Date(ymd + "T12:00:00"); d.setDate(d.getDate() + n); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function short(ymd) { if (!ymd) return ""; var p = ymd.split("-"); return p[2] + "." + p[1]; }
+  function stageName(k) { return k === "lost" ? LOST.t : (STAGES[IDX[k]] || { t: k }).t; }
+
+  // Furthest pipeline stage a lead ever reached, so a lost lead still counts at the stage it got to.
+  function maxIdx(l) {
+    var m = 0;
+    (l.history || []).forEach(function (h) { if (h.s in IDX && IDX[h.s] > m) m = IDX[h.s]; });
+    if (l.stage in IDX && IDX[l.stage] > m) m = IDX[l.stage];
+    return m;
+  }
+  function inPeriod(l) {
+    if (!state.period) return true;
+    return dayStr(l.createdAt) >= addDays(today(), -(state.period - 1));
+  }
+  function pct(a, b) { return b ? Math.round(a * 100 / b) + "%" : "—"; }
+
+  // ---------- render ----------
+  function renderKpis() {
+    var t = today(), from7 = addDays(t, -6), from30 = addDays(t, -29);
+    var last7 = state.leads.filter(function (l) { return dayStr(l.createdAt) >= from7; }).length;
+    var perDay = last7 / 7;
+    var active = state.leads.filter(function (l) { return l.stage !== "lost" && l.stage !== "delivered" && IDX[l.stage] < DEPOSIT; }).length;
+    var dep30 = state.leads.filter(function (l) {
+      return (l.history || []).some(function (h) { return h.s === "deposit" && dayStr(h.at) >= from30; });
+    }).length;
+    var overdue = state.leads.filter(function (l) { return l.next && l.next < t && l.stage !== "lost" && l.stage !== "delivered"; }).length;
+
+    var box = $("kpis"); box.textContent = "";
+    function tile(v, label, goal, hit) {
+      var k = el("div", "kpi" + (hit ? " hit" : ""));
+      k.appendChild(el("div", "v", v));
+      k.appendChild(el("div", "l", label));
+      if (goal) k.appendChild(el("div", "goal", goal));
+      box.appendChild(k);
+    }
+    tile(perDay.toFixed(1).replace(".", ","), "заявок в день за 7 дней", "цель — " + GOAL_PER_DAY + " в день", perDay >= GOAL_PER_DAY);
+    tile(String(active), "в работе до задатка", null, false);
+    tile(String(dep30), "задатков за 30 дней", null, false);
+    tile(String(overdue), "просрочен следующий шаг", overdue ? "откройте и назначьте дату" : "всё вовремя", false);
+  }
+
+  function renderFunnel() {
+    var leads = state.leads.filter(inPeriod);
+    var total = leads.length;
+    var box = $("funnel"); box.textContent = "";
+    STAGES.forEach(function (s, i) {
+      var n = leads.filter(function (l) { return maxIdx(l) >= i; }).length;
+      var row = el("div", "frow" + (i === DEPOSIT ? " deposit" : ""));
+      row.appendChild(el("div", "name", s.t));
+      var tr = el("div", "track"); var f = el("div", "fill");
+      f.style.width = total ? (n * 100 / total) + "%" : "0";
+      tr.appendChild(f); row.appendChild(tr);
+      var c = el("div", "cnt"); var b = el("b", null, String(n)); c.appendChild(b); c.appendChild(document.createTextNode(" · " + pct(n, total)));
+      row.appendChild(c);
+      box.appendChild(row);
+    });
+    var dep = leads.filter(function (l) { return maxIdx(l) >= DEPOSIT; }).length;
+    var lost = leads.filter(function (l) { return l.stage === "lost"; }).length;
+    $("fhint").textContent = total
+      ? "Из " + total + " заявок за период до задатка дошли " + dep + " (" + pct(dep, total) + "), отказов " + lost + ". Полоса показывает, сколько заявок дошли хотя бы до этого этапа."
+      : "За этот период заявок нет. Добавьте первую кнопкой «+ Заявка».";
+
+    // sources
+    var bySrc = {};
+    leads.forEach(function (l) { var s = l.source || "Не указано"; bySrc[s] = bySrc[s] || { n: 0, d: 0 }; bySrc[s].n++; if (maxIdx(l) >= DEPOSIT) bySrc[s].d++; });
+    fillTable($("srcTable"), ["Источник", "Заявок", "Задаток"], Object.keys(bySrc).sort(function (a, b) { return bySrc[b].n - bySrc[a].n; })
+      .map(function (k) { return [k, bySrc[k].n, bySrc[k].d + " (" + pct(bySrc[k].d, bySrc[k].n) + ")"]; }), "Пока пусто");
+
+    var byLost = {};
+    leads.forEach(function (l) { if (l.stage === "lost") { var r = l.lostReason || "Не указана"; byLost[r] = (byLost[r] || 0) + 1; } });
+    fillTable($("lostTable"), ["Причина", "Заявок"], Object.keys(byLost).sort(function (a, b) { return byLost[b] - byLost[a]; })
+      .map(function (k) { return [k, byLost[k]]; }), "Отказов нет");
+
+    var byP = {};
+    leads.forEach(function (l) { var p = (l.partner || "").trim(); if (!p) return; byP[p] = byP[p] || { n: 0, d: 0 }; byP[p].n++; if (maxIdx(l) >= DEPOSIT) byP[p].d++; });
+    fillTable($("partnerTable"), ["Партнёр", "Заявок", "Задаток"], Object.keys(byP).sort(function (a, b) { return byP[b].n - byP[a].n || byP[b].d - byP[a].d; }).slice(0, 10)
+      .map(function (k) { return [k, byP[k].n, byP[k].d]; }), "Укажите партнёра в заявке — здесь появится рейтинг");
+
+    var dl = $("partnerList"); dl.textContent = "";
+    var all = {}; state.partners.forEach(function (p) { if (p.name) all[p.name.trim()] = 1; });
+    state.leads.forEach(function (l) { if (l.partner && !findPartner(l.partner)) all[l.partner.trim()] = 1; });
+    Object.keys(all).sort().forEach(function (p) { var o = el("option"); o.value = p; dl.appendChild(o); });
+  }
+
+  function fillTable(t, head, rows, emptyText) {
+    t.textContent = "";
+    if (!rows.length) { var tr0 = el("tr"); var td0 = el("td", null, emptyText); td0.style.color = "var(--muted)"; td0.style.borderTop = "0"; tr0.appendChild(td0); t.appendChild(tr0); return; }
+    var hr = el("tr"); head.forEach(function (h, i) { hr.appendChild(el("th", i ? "r" : null, h)); }); t.appendChild(hr);
+    rows.forEach(function (r) { var tr = el("tr"); r.forEach(function (c, i) { tr.appendChild(el("td", i ? "r" : null, String(c))); }); t.appendChild(tr); });
+  }
+
+  var FILTERS = [{ k: "active", t: "В работе" }].concat(STAGES.map(function (s) { return { k: s.k, t: s.t }; }), [{ k: "lost", t: "Отказ" }, { k: "all", t: "Все" }]);
+  function isActive(l) { return l.stage !== "lost" && l.stage !== "delivered"; }
+  function matchFilter(l, f) { return f === "all" ? true : f === "active" ? isActive(l) : l.stage === f; }
+
+  function renderFilters() {
+    var box = $("filters"); box.textContent = "";
+    FILTERS.forEach(function (f) {
+      var n = state.leads.filter(function (l) { return matchFilter(l, f.k); }).length;
+      if (n === 0 && f.k !== "active" && f.k !== "all" && f.k !== state.filter) return;
+      var b = el("button", "chip", f.t); b.type = "button";
+      b.setAttribute("aria-pressed", String(state.filter === f.k));
+      var c = el("span", "c", String(n)); b.appendChild(c);
+      b.onclick = function () { state.filter = f.k; renderFilters(); renderList(); };
+      box.appendChild(b);
+    });
+  }
+
+  function renderList() {
+    var q = state.q.toLowerCase().trim(), t = today();
+    var rows = state.leads.filter(function (l) { return matchFilter(l, state.filter); }).filter(function (l) {
+      if (!q) return true;
+      return [l.name, l.contact, l.car, l.partner, l.notes, l.source].join(" ").toLowerCase().indexOf(q) >= 0;
+    });
+    // Overdue and due-soon first, then newest.
+    rows.sort(function (a, b) {
+      var an = isActive(a) && a.next ? a.next : "9999", bn = isActive(b) && b.next ? b.next : "9999";
+      if (an !== bn) return an < bn ? -1 : 1;
+      return (b.createdAt || "") < (a.createdAt || "") ? -1 : 1;
+    });
+    var box = $("list"); box.textContent = "";
+    if (!rows.length) {
+      box.appendChild(el("div", "empty", state.leads.length ? "Под этот фильтр заявок нет." : "Заявок пока нет. Нажмите «+ Заявка», когда партнёр пришлёт контакт."));
+      return;
+    }
+    rows.forEach(function (l) {
+      var b = el("button", "lead"); b.type = "button";
+      var r1 = el("div", "row1");
+      r1.appendChild(el("span", "who", l.name || "Без имени"));
+      r1.appendChild(el("span", "pill " + l.stage, stageName(l.stage)));
+      b.appendChild(r1);
+      var bits = [];
+      if (l.car) bits.push(l.car);
+      if (l.budget) bits.push(String(l.budget).replace(".", ",") + " млн");
+      bits.push(l.partner ? "от " + l.partner : (l.source || ""));
+      b.appendChild(el("div", "meta", bits.filter(Boolean).join(" · ")));
+      var nx = "Заявка " + short(dayStr(l.createdAt));
+      var cls = "next";
+      if (isActive(l)) {
+        if (l.next) {
+          nx += " · дальше: " + (l.nextText || "шаг") + " " + short(l.next);
+          if (l.next < t) cls += " late"; else if (l.next === t) cls += " today";
+        } else nx += " · следующий шаг не назначен";
+      } else if (l.stage === "lost" && l.lostReason) nx += " · " + l.lostReason;
+      b.appendChild(el("div", cls, nx));
+      b.onclick = function () { openSheet(l); };
+      box.appendChild(b);
+    });
+  }
+
+  function renderAll() { renderKpis(); renderFunnel(); renderFilters(); renderList(); renderPeople(); renderPartners(); renderPayouts(); renderTabs(); }
+
+  // ---------- partners and two-level payouts ----------
+  function nm(s) { return String(s || "").toLowerCase().replace(/ё/g, "е").replace(/\s+/g, " ").trim(); }
+  function findPartner(name) { var k = nm(name); if (!k) return null; for (var i = 0; i < state.partners.length; i++) if (nm(state.partners[i].name) === k) return state.partners[i]; return null; }
+  function partnerById(id) { for (var i = 0; i < state.partners.length; i++) if (state.partners[i].id === id) return state.partners[i]; return null; }
+  function rub(n) { return Math.round(n).toLocaleString("ru-RU") + " ₽"; }
+  // When the car was bought: the first time the lead reached «Машина выкуплена» or a later stage.
+  function boughtAt(l) {
+    var at = "";
+    (l.history || []).forEach(function (h) { if (h.s in IDX && IDX[h.s] >= BOUGHT && (!at || h.at < at)) at = h.at; });
+    if (!at && maxIdx(l) >= BOUGHT) at = l.updatedAt || l.createdAt || "";
+    return at;
+  }
+  // Payouts follow from leads and partners; the «payouts» collection only remembers which ones are paid.
+  function computePayouts() {
+    var out = [];
+    state.leads.forEach(function (l) {
+      var name = (l.partner || "").trim();
+      if (!name || maxIdx(l) < BOUGHT) return;
+      var at = boughtAt(l);
+      if (dayStr(at) < PAY_FROM) return;
+      var p1 = findPartner(name);
+      out.push({ id: l.id + "-1", leadId: l.id, level: 1, amount: PAY1, partnerId: p1 ? p1.id : "", partnerName: p1 ? p1.name : name, client: l.name || "клиент", at: at, unknown: !p1 });
+      var inv = p1 && p1.invitedBy ? partnerById(p1.invitedBy) : null;
+      if (inv && inv.id !== p1.id) out.push({ id: l.id + "-2", leadId: l.id, level: 2, amount: PAY2, partnerId: inv.id, partnerName: inv.name, via: p1.name, client: l.name || "клиент", at: at });
+    });
+    return out;
+  }
+  function ensurePartner(name) {
+    name = (name || "").trim();
+    if (!partCol || !name || findPartner(name)) return Promise.resolve();
+    var now = new Date().toISOString(), doc = { name: name, phone: "", invitedBy: "", group: "", paidBefore: 0, notes: "", createdAt: now, updatedAt: now };
+    var ref = partCol.doc();
+    state.partners.push(Object.assign({ id: ref.id }, doc));
+    return ref.set(doc);
+  }
+
+  function renderTabs() {
+    var due = computePayouts().filter(function (p) { return !state.paid[p.id]; }).length;
+    Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) {
+      var t = b.getAttribute("data-t");
+      b.setAttribute("aria-pressed", String(state.tab === t));
+      var old = b.querySelector(".c"); if (old) old.remove();
+      if (t === "payouts" && due) b.appendChild(el("span", "c", String(due)));
+      if (t === "partners" && state.partners.length) b.appendChild(el("span", "c", String(state.partners.length)));
+    });
+    $("tabLeads").hidden = state.tab !== "leads";
+    $("tabPartners").hidden = state.tab !== "partners";
+    $("tabPayouts").hidden = state.tab !== "payouts";
+    $("addBtn").hidden = state.tab !== "leads";
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#tabs button"), function (b) {
+    b.onclick = function () { state.tab = b.getAttribute("data-t"); try { localStorage.setItem("crmTab", state.tab); } catch (e) {} renderTabs(); };
+  });
+  (function () {
+    var h = (location.hash || "").slice(1), saved = "";
+    try { saved = localStorage.getItem("crmTab") || ""; } catch (e) {}
+    var t = h === "partners" || h === "payouts" ? h : saved;
+    if (t === "partners" || t === "payouts") state.tab = t;
+  })();
+
+  // Payouts a partner has received: those before the CRM plus the ones marked paid here.
+  function paidCount(p, pays) {
+    var here = pays.filter(function (x) { return x.partnerId === p.id && state.paid[x.id]; }).length;
+    return (Number(p.paidBefore) || 0) + here;
+  }
+  function filteredPartners(pays) {
+    var q = nm(state.pq);
+    return state.partners.filter(function (p) { return !q || nm([p.name, p.phone, p.notes].join(" ")).indexOf(q) >= 0; })
+      .filter(function (p) { var n = paidCount(p, pays); return state.pFilter === "all" || (state.pFilter === "paid" ? n > 0 : n === 0); });
+  }
+  function renderPartners() {
+    var pays = computePayouts();
+    var unknown = {};
+    state.leads.forEach(function (l) { var n = (l.partner || "").trim(); if (n && !findPartner(n)) unknown[nm(n)] = n; });
+    var names = Object.keys(unknown).map(function (k) { return unknown[k]; }).sort();
+    $("pImport").hidden = !names.length || !state.canWrite;
+    $("pImportT").textContent = "В заявках есть партнёры, которых нет в списке: " + names.length;
+    $("pImportList").textContent = names.join(", ");
+    var rows = filteredPartners(pays);
+    var withPay = state.partners.filter(function (p) { return paidCount(p, pays) > 0; }).length;
+    Array.prototype.forEach.call(document.querySelectorAll("#pFilter button"), function (b) {
+      var v = b.getAttribute("data-v"), n = v === "all" ? state.partners.length : v === "paid" ? withPay : state.partners.length - withPay;
+      b.setAttribute("aria-pressed", String(state.pFilter === v));
+      b.textContent = (v === "all" ? "Все" : v === "paid" ? "Получали выплату" : "Ещё не получали") + " · " + n;
+    });
+    rows.sort(function (a, b) { return (a.group || "Z") < (b.group || "Z") ? -1 : (a.group || "Z") > (b.group || "Z") ? 1 : nm(a.name) < nm(b.name) ? -1 : 1; });
+    var box = $("partners"); box.textContent = "";
+    if (!rows.length) {
+      box.appendChild(el("div", "empty", state.partners.length ? "Под этот фильтр никого нет." : "Партнёров пока нет. Нажмите «+ Партнёр» или добавьте их из заявок выше."));
+      return;
+    }
+    rows.forEach(function (p) {
+      var k = nm(p.name), leads = state.leads.filter(function (l) { return nm(l.partner) === k; });
+      var bought = leads.filter(function (l) { return maxIdx(l) >= BOUGHT; }).length;
+      var invited = state.partners.filter(function (x) { return x.invitedBy === p.id; });
+      var mine = pays.filter(function (x) { return x.partnerId === p.id; });
+      var paid = mine.filter(function (x) { return state.paid[x.id]; }).reduce(function (s, x) { return s + x.amount; }, 0);
+      var due = mine.filter(function (x) { return !state.paid[x.id]; }).reduce(function (s, x) { return s + x.amount; }, 0);
+      var inv = p.invitedBy ? partnerById(p.invitedBy) : null;
+      var b = el("button", "lead"); b.type = "button";
+      var r1 = el("div", "row1");
+      r1.appendChild(el("span", "who", p.name || "Без имени"));
+      var pl = el("span", "pills"), pc = paidCount(p, pays);
+      if (pc) pl.appendChild(el("span", "pill paid", "Выплат: " + pc));
+      if (p.group) pl.appendChild(el("span", "pill grp", "Группа " + p.group));
+      r1.appendChild(pl);
+      b.appendChild(r1);
+      b.appendChild(el("div", "meta", [p.phone, inv ? "пришёл от: " + inv.name : ""].filter(Boolean).join(" · ") || "Пришёл сам"));
+      b.appendChild(el("div", "stats", "заявок " + leads.length + " · выкуплено " + bought + " · пригласил партнёров " + invited.length + (paid ? " · выплачено " + rub(paid) : "") + (due ? " · к выплате " + rub(due) : "")));
+      b.onclick = function () { openPartner(p); };
+      box.appendChild(b);
+    });
+  }
+  $("pq").addEventListener("input", function () { state.pq = $("pq").value; renderPartners(); });
+  Array.prototype.forEach.call(document.querySelectorAll("#pFilter button"), function (b) {
+    b.onclick = function () { state.pFilter = b.getAttribute("data-v"); renderPartners(); };
+  });
+  // Names and phones of the partners on screen, e.g. to invite those who received a payout.
+  $("pCopy").onclick = function () {
+    var rows = filteredPartners(computePayouts()).sort(function (a, b) { return nm(a.name) < nm(b.name) ? -1 : 1; });
+    var text = rows.map(function (p) { return p.name + (p.phone ? " — " + p.phone : ""); }).join(String.fromCharCode(10)), b = $("pCopy");
+    function done() { b.textContent = "Скопировано: " + rows.length; setTimeout(function () { b.textContent = "Скопировать список"; }, 2000); }
+    try { navigator.clipboard.writeText(text).then(done, function () { b.textContent = "Не скопировалось"; }); } catch (e) { b.textContent = "Не скопировалось"; }
+  };
+  $("pImportBtn").onclick = function () {
+    var names = {};
+    state.leads.forEach(function (l) { var n = (l.partner || "").trim(); if (n && !findPartner(n)) names[nm(n)] = n; });
+    $("pImportBtn").disabled = true;
+    var chain = Promise.resolve();
+    Object.keys(names).forEach(function (k) { chain = chain.then(function () { return ensurePartner(names[k]); }); });
+    chain.then(null, function () { $("pImportT").textContent = "Не всех получилось добавить. Проверьте интернет и нажмите ещё раз."; })
+      .then(function () { $("pImportBtn").disabled = false; renderAll(); });
+  };
+
+  function openPartner(p) {
+    state.pEditing = p || null; state.pConfirmDel = false;
+    var x = p || {};
+    $("pTitle").textContent = p ? p.name : "Новый партнёр";
+    $("p_name").value = x.name || ""; $("p_phone").value = x.phone || "";
+    $("p_group").value = x.group || ""; $("p_notes").value = x.notes || "";
+    $("p_before").value = x.paidBefore ? String(x.paidBefore) : "";
+    var sel = $("p_inv"); sel.textContent = "";
+    var o0 = el("option", null, "— никто, пришёл сам"); o0.value = ""; sel.appendChild(o0);
+    state.partners.filter(function (y) { return !p || y.id !== p.id; }).sort(function (a, b) { return nm(a.name) < nm(b.name) ? -1 : 1; })
+      .forEach(function (y) { var o = el("option", null, y.name); o.value = y.id; sel.appendChild(o); });
+    sel.value = x.invitedBy && partnerById(x.invitedBy) ? x.invitedBy : "";
+    var invited = p ? state.partners.filter(function (y) { return y.invitedBy === p.id; }).map(function (y) { return y.name; }) : [];
+    $("pInfo").textContent = invited.length ? "Пригласил(а) партнёров: " + invited.join(", ") + ". За каждую машину их клиентов — 5 000 ₽." : "";
+    $("pLinkBox").hidden = !p;
+    if (p) $("pLinkT").textContent = partnerLink(p);
+    $("pLink").textContent = "Скопировать ссылку"; $("pMsg").textContent = "Скопировать сообщение партнёру";
+    $("pDel").hidden = !p; $("pDel").textContent = "Удалить";
+    $("pErr").hidden = true;
+    $("pSave").disabled = !state.canWrite; $("pDel").disabled = !state.canWrite;
+    $("pscrim").hidden = false;
+    setTimeout(function () { $("p_name").focus(); }, 30);
+  }
+  function partnerLink(p) { return "https://chestny-avto.ru/z/?p=" + encodeURIComponent(p.id); }
+  function partnerMsg(p) {
+    var first = (p.name || "").trim().split(" ")[0];
+    var nl = String.fromCharCode(10);
+    return (first ? first + ", " : "") + "это твоя личная ссылка партнёра: " + partnerLink(p) + nl + nl +
+      "Знакомый ищет машину — впиши его туда, он сразу закрепится за тобой. Выкупим машину — 30 000 ₽ твои." + nl +
+      "Там же можно пригласить нового партнёра: за каждую машину его знакомым тебе 5 000 ₽.";
+  }
+  function copyBtn(btn, text) {
+    function ok() { btn.textContent = "Скопировано"; }
+    try { navigator.clipboard.writeText(text).then(ok, function () { btn.textContent = "Не скопировалось — выделите текст выше"; }); }
+    catch (e) { btn.textContent = "Не скопировалось — выделите текст выше"; }
+  }
+  $("pLink").onclick = function () { if (state.pEditing) copyBtn($("pLink"), partnerLink(state.pEditing)); };
+  $("pMsg").onclick = function () { if (state.pEditing) copyBtn($("pMsg"), partnerMsg(state.pEditing)); };
+  function closePartner() { $("pscrim").hidden = true; state.pEditing = null; }
+  function pErr(t) { $("pErr").textContent = t; $("pErr").hidden = false; }
+  $("pAddBtn").onclick = function () { openPartner(null); };
+  $("pClose").onclick = closePartner; $("pCancel").onclick = closePartner;
+  $("pscrim").addEventListener("click", function (e) { if (e.target === $("pscrim")) closePartner(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("pscrim").hidden) closePartner(); });
+
+  $("pform").addEventListener("submit", function (e) {
+    e.preventDefault(); $("pErr").hidden = true;
+    if (!partCol) return pErr("Нет связи с базой. Обновите страницу и попробуйте ещё раз.");
+    var old = state.pEditing, name = $("p_name").value.trim();
+    if (!name) return pErr("Впишите имя партнёра.");
+    var same = findPartner(name);
+    if (same && (!old || same.id !== old.id)) return pErr("Партнёр «" + same.name + "» уже есть. Если это другой человек, добавьте фамилию или город.");
+    var now = new Date().toISOString();
+    var before = Math.max(0, Math.floor(Number($("p_before").value) || 0));
+    var doc = { name: name, phone: $("p_phone").value.trim(), invitedBy: $("p_inv").value, group: $("p_group").value, paidBefore: before, notes: $("p_notes").value.trim(), createdAt: old && old.createdAt ? old.createdAt : now, updatedAt: now };
+    var ref = old ? partCol.doc(old.id) : partCol.doc();
+    $("pSave").disabled = true;
+    ref.set(doc).then(function () {
+      // Leads keep the partner's name, so a rename is carried over to them.
+      if (!old || nm(old.name) === nm(name)) return;
+      var chain = Promise.resolve();
+      state.leads.filter(function (l) { return nm(l.partner) === nm(old.name); }).forEach(function (l) {
+        var d = Object.assign({}, l); delete d.id; d.partner = name; d.updatedAt = now;
+        chain = chain.then(function () { return col.doc(l.id).set(d); });
+      });
+      return chain;
+    }).then(function () { $("pSave").disabled = false; closePartner(); }, function () { $("pSave").disabled = false; pErr("Не получилось сохранить. Проверьте интернет и нажмите ещё раз."); });
+  });
+  $("pDel").onclick = function () {
+    var p = state.pEditing; if (!p || !partCol) return;
+    if (!state.pConfirmDel) { state.pConfirmDel = true; $("pDel").textContent = "Точно удалить? Его приглашённые останутся без пригласившего"; return; }
+    var now = new Date().toISOString(), chain = partCol.doc(p.id).delete();
+    state.partners.filter(function (y) { return y.invitedBy === p.id; }).forEach(function (y) {
+      var d = Object.assign({}, y); delete d.id; d.invitedBy = ""; d.updatedAt = now;
+      chain = chain.then(function () { return partCol.doc(y.id).set(d); });
+    });
+    chain.then(closePartner, function () { pErr("Не получилось удалить. Попробуйте ещё раз."); });
+  };
+
+  function renderPayouts() {
+    var pays = computePayouts(), t = today(), from30 = addDays(t, -29);
+    var due = pays.filter(function (p) { return !state.paid[p.id]; }).sort(function (a, b) { return a.at < b.at ? -1 : 1; });
+    var done = Object.keys(state.paid).map(function (k) { return Object.assign({ id: k }, state.paid[k]); }).sort(function (a, b) { return (b.paidAt || "") < (a.paidAt || "") ? -1 : 1; });
+    var box = $("payKpis"); box.textContent = "";
+    function tile(v, l) { var k = el("div", "kpi"); k.appendChild(el("div", "v", v)); k.appendChild(el("div", "l", l)); box.appendChild(k); }
+    tile(rub(due.reduce(function (s, p) { return s + p.amount; }, 0)), "к выплате сейчас");
+    tile(String(due.length), "выплат ждут");
+    tile(rub(done.filter(function (p) { return dayStr(p.paidAt) >= from30; }).reduce(function (s, p) { return s + (p.amount || 0); }, 0)), "выплачено за 30 дней");
+    tile(String(done.filter(function (p) { return p.level === 2; }).length), "выплат второго уровня всего");
+    $("payHint").textContent = "Выплата появляется сама, когда у заявки партнёра этап «Машина выкуплена» или дальше: 30 000 ₽ партнёру, 5 000 ₽ тому, кто его пригласил. Машины, выкупленные до " + short(PAY_FROM) + ", здесь не считаются: их выплачивали раньше.";
+    var bd = $("payDue"); bd.textContent = "";
+    if (!due.length) bd.appendChild(el("div", "empty", "Сейчас никому не нужно платить."));
+    due.forEach(function (p) { bd.appendChild(payCard(p, false)); });
+    var bp = $("payDone"); bp.textContent = "";
+    if (!done.length) bp.appendChild(el("div", "empty", "Отмеченных выплат пока нет."));
+    done.slice(0, 50).forEach(function (p) { bp.appendChild(payCard(p, true)); });
+  }
+  function payCard(p, isPaid) {
+    var c = el("div", "lead pay");
+    var r1 = el("div", "row1");
+    r1.appendChild(el("span", "who", p.partnerName || "Партнёр"));
+    r1.appendChild(el("span", "amt" + (p.level === 2 ? " l2" : ""), rub(p.amount || 0)));
+    c.appendChild(r1);
+    c.appendChild(el("div", "meta", p.level === 2 ? "Второй уровень · партнёр " + (p.via || "") + " · клиент " + p.client : "За клиента: " + p.client));
+    c.appendChild(el("div", "next", isPaid ? "Выплачено " + short(dayStr(p.paidAt)) : "Машина выкуплена " + short(dayStr(p.at))));
+    if (p.unknown) c.appendChild(el("div", "warn", "Этого партнёра нет в списке, поэтому 5 000 ₽ второго уровня не посчитаны. Добавьте его во вкладке «Партнёры» и укажите, кто пригласил."));
+    var btns = el("div", "row-btns");
+    var b = el("button", isPaid ? "btn ghost small" : "btn small", isPaid ? "Отменить отметку" : "Выплачено"); b.type = "button";
+    b.disabled = !state.canWrite || !payCol;
+    b.onclick = function () {
+      b.disabled = true;
+      var job = isPaid ? payCol.doc(p.id).delete()
+        : payCol.doc(p.id).set({ leadId: p.leadId, level: p.level, amount: p.amount, partnerId: p.partnerId || "", partnerName: p.partnerName, via: p.via || "", client: p.client, boughtAt: p.at, paidAt: new Date().toISOString() });
+      job.then(null, function () { b.disabled = false; b.textContent = "Не сохранилось, ещё раз"; });
+    };
+    btns.appendChild(b); c.appendChild(btns);
+    return c;
+  }
+  $("f_partner").addEventListener("input", function () {
+    var v = $("f_partner").value.trim(), n = $("f_partnerNote");
+    var known = !v || findPartner(v);
+    n.textContent = known ? "Партнёр сам купил машину — укажите того, кто его пригласил." : "Такого партнёра нет в списке — добавлю при сохранении.";
+    n.className = "f-note" + (known ? "" : " warn");
+  });
+
+  // ---------- event contacts (tools/lead-bot/PROCESS.md, «Знакомства») ----------
+  var P_STAGES = { clarify: "Уточнить", met: "Знакомство", dialog: "В диалоге", agreed: "Партнёр", brought: "Привёл клиента", no: "Не интересно", paused: "На паузе" };
+  var P_WORKING = ["met", "dialog", "agreed", "brought"];
+  var PRIO = { high: 0, normal: 1, low: 2 };
+  function isDue(c) { return P_WORKING.indexOf(c.stage) >= 0 && c.next && c.next <= today(); }
+  // Days until the next touch after this one is sent; the same table as in PROCESS.md.
+  function gapAfter(c, sentCount) {
+    if (c.stage === "dialog") return 3;
+    if (c.stage === "agreed" || c.stage === "brought") return 30;
+    return sentCount === 1 ? 6 : sentCount === 2 ? 14 : 45;
+  }
+
+  function renderPeople() {
+    var t = today();
+    var rows = state.people.filter(function (c) { return state.pView === "all" || isDue(c); });
+    rows.sort(function (a, b) {
+      var an = a.next || "9999", bn = b.next || "9999";
+      if (an !== bn) return an < bn ? -1 : 1;
+      return (a.priority in PRIO ? PRIO[a.priority] : 1) - (b.priority in PRIO ? PRIO[b.priority] : 1);
+    });
+    var box = $("people"); box.textContent = "";
+    if (!rows.length) {
+      box.appendChild(el("div", "empty", state.people.length ? "Сегодня писать никому не нужно." : "Знакомств пока нет. Перешлите боту контакт с мероприятия."));
+      return;
+    }
+    rows.forEach(function (c) {
+      var card = el("div", "lead");
+      var r1 = el("div", "row1");
+      r1.appendChild(el("span", "who", "#" + (c.num || "?") + " " + (c.name || "Без имени")));
+      r1.appendChild(el("span", "pill", P_STAGES[c.stage] || c.stage || ""));
+      card.appendChild(r1);
+      card.appendChild(el("div", "meta", [c.occupation, c.met, c.type].filter(Boolean).join(" · ")));
+      if (c.contact) card.appendChild(el("div", "meta", (c.channel ? c.channel + ": " : "") + c.contact));
+      if (P_WORKING.indexOf(c.stage) >= 0 && c.next) {
+        var cls = "next" + (c.next < t ? " late" : c.next === t ? " today" : "");
+        card.appendChild(el("div", cls, "Касание " + ((c.touch || 0) + 1) + " · " + (c.next < t ? "просрочено с " : "") + short(c.next)));
+      }
+      if (isDue(c)) {
+        var msg = el("div", "ai-msg");
+        if (c.draft) {
+          var ta = el("textarea"); ta.value = c.draft; ta.setAttribute("aria-label", "Текст для " + (c.name || "знакомого"));
+          msg.appendChild(ta);
+        } else msg.appendChild(el("p", "hint", "Текст подготовлю к утреннему списку в Telegram."));
+        var btns = el("div", "row-btns");
+        if (c.draft) {
+          var cp = el("button", "btn ghost small", "Скопировать"); cp.type = "button";
+          cp.onclick = function () { copyText(ta.value, ta, cp); };
+          btns.appendChild(cp);
+        }
+        var sent = el("button", "btn small", "Отправил"); sent.type = "button";
+        sent.disabled = !state.canWrite;
+        sent.onclick = function () { sent.disabled = true; markSent(c, ta ? ta.value : "").then(null, function () { sent.disabled = false; sent.textContent = "Не сохранилось, ещё раз"; }); };
+        btns.appendChild(sent);
+        msg.appendChild(btns);
+        card.appendChild(msg);
+      }
+      box.appendChild(card);
+    });
+  }
+
+  function markSent(c, text) {
+    if (!pcol) return Promise.reject();
+    var n = (c.touch || 0) + 1, doc = Object.assign({}, c);
+    delete doc.id;
+    doc.touches = (c.touches || []).concat([{ n: n, at: today(), text: text || c.draft || "" }]);
+    doc.touch = n;
+    doc.draft = "";
+    if (c.stage === "met" && (c.priority === "low" || c.type === "Не партнёр")) { doc.stage = "paused"; doc.next = ""; }
+    else doc.next = addDays(today(), gapAfter(c, n));
+    doc.updatedAt = new Date().toISOString();
+    return pcol.doc(c.id).set(doc);
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("#pSeg button"), function (b) {
+    b.onclick = function () {
+      state.pView = b.getAttribute("data-v");
+      Array.prototype.forEach.call(document.querySelectorAll("#pSeg button"), function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      renderPeople();
+    };
+  });
+
+  // ---------- editor ----------
+  function fillSelect(sel, items, withEmpty) {
+    sel.textContent = "";
+    if (withEmpty) { var o0 = el("option", null, "—"); o0.value = ""; sel.appendChild(o0); }
+    items.forEach(function (v) { var o = el("option", null, v); o.value = v; sel.appendChild(o); });
+  }
+  fillSelect($("f_source"), SOURCES, false);
+  fillSelect($("f_lost"), LOST_REASONS, true);
+  fillSelect($("f_channel"), CHANNELS, false);
+
+  function renderStageBtns() {
+    var box = $("stageBtns"); box.textContent = "";
+    STAGES.concat([LOST]).forEach(function (s) {
+      var b = el("button", s.k === "lost" ? "lost" : s.k === "delivered" ? "delivered" : null, s.t); b.type = "button";
+      b.setAttribute("aria-pressed", String(state.stage === s.k));
+      b.onclick = function () { state.stage = s.k; renderStageBtns(); };
+      box.appendChild(b);
+    });
+    $("lostWrap").hidden = state.stage !== "lost";
+  }
+
+  function openSheet(lead) {
+    state.editing = lead || null;
+    state.confirmDel = false;
+    var l = lead || {};
+    $("sheetTitle").textContent = lead ? (lead.name || "Заявка") : "Новая заявка";
+    $("f_name").value = l.name || "";
+    $("f_contact").value = l.contact || "";
+    $("f_source").value = l.source || "Партнёр";
+    $("f_partner").value = l.partner || "";
+    $("f_partner").dispatchEvent(new Event("input"));
+    $("f_channel").value = l.channel || CHANNELS[0];
+    $("f_budget").value = l.budget != null ? String(l.budget).replace(".", ",") : "";
+    $("f_car").value = l.car || "";
+    $("f_created").value = dayStr(l.createdAt) || today();
+    $("f_next").value = l.next || (lead ? "" : addDays(today(), 1));
+    $("f_nextText").value = l.nextText || (lead ? "" : "Отправить анкету");
+    $("f_lost").value = l.lostReason || "";
+    $("f_notes").value = l.notes || "";
+    state.stage = l.stage || "new";
+    renderStageBtns();
+    var h = $("hist"); h.textContent = "";
+    (l.history || []).forEach(function (x) { h.appendChild(el("span", null, short(dayStr(x.at)) + " — " + stageName(x.s))); });
+    state.chat = (l.chat || []).slice();
+    renderChat();
+    resetAi();
+    $("delBtn").hidden = !lead;
+    $("delBtn").textContent = "Удалить";
+    renderNudge(l);
+    $("formErr").hidden = true;
+    var ro = !state.canWrite;
+    $("saveBtn").disabled = ro; $("delBtn").disabled = ro;
+    if (ro) showErr("У вас доступ только на просмотр. Попросите Алексея дать права «Участник» или «Редактор».");
+    $("scrim").hidden = false;
+    setTimeout(function () { $("f_name").focus(); }, 30);
+  }
+  // Сообщение партнёру, чьего знакомого ведём: «твои 30 000 ₽ на кону — помоги ему решиться»
+  function nudgeText(l) {
+    var p = (l.partner || "").trim().split(" ")[0], n = (l.name || "твой знакомый").trim().split(" ")[0];
+    if (!p) return "";
+    var st = l.stage;
+    if (st === "new" || st === "anketa_sent") return p + ", привет! " + n + " у нас в работе, я ему написал 🙌 Если закажет машину — 30 000 ₽ твои 💰 Подтолкни его, пожалуйста, ответить на анкету — тогда сразу посчитаем варианты.";
+    if (st === "anketa_done" || st === "options") return p + ", " + n + " получил от нас варианты с ценой под ключ 🚗 Если закажет — 30 000 ₽ твои 💰 Спроси его, как ему, — тебе он ответит честнее, чем мне 🙂";
+    if (st === "thinking") return p + ", " + n + " пока думает 🤔 Если поможешь ему решиться — 30 000 ₽ твои 💰 Расскажи ему, как у нас всё проходит: договор, проверка машины до покупки, никаких доплат. Тебе он поверит быстрее.";
+    return "";
+  }
+  function renderNudge(l) {
+    var t = nudgeText(l || {});
+    $("nudgeBox").hidden = !t;
+    $("nudgeText").textContent = t;
+    $("nudgeBtn").textContent = "Скопировать сообщение партнёру";
+  }
+  $("nudgeBtn").onclick = function () {
+    var t = $("nudgeText").textContent, b = $("nudgeBtn");
+    function ok() { b.textContent = "Скопировано — отправьте партнёру"; }
+    try { navigator.clipboard.writeText(t).then(ok, function () { b.textContent = "Не скопировалось — выделите текст выше"; }); }
+    catch (e) { b.textContent = "Не скопировалось — выделите текст выше"; }
+  };
+
+  function closeSheet() { if (aiCtl) aiCtl.abort(); $("scrim").hidden = true; state.editing = null; }
+  function showErr(t) { $("formErr").textContent = t; $("formErr").hidden = false; }
+
+  $("addBtn").onclick = function () { openSheet(null); };
+  $("closeBtn").onclick = closeSheet;
+  $("cancelBtn").onclick = closeSheet;
+  $("scrim").addEventListener("click", function (e) { if (e.target === $("scrim")) closeSheet(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("scrim").hidden) closeSheet(); });
+
+  // Saves the open card; resolves when stored, rejects with a message for the viewer.
+  function saveLead(closeAfter) {
+    if (!col) return Promise.reject("Нет связи с базой. Обновите страницу и попробуйте ещё раз.");
+    var name = $("f_name").value.trim();
+    if (!name) return Promise.reject("Впишите имя клиента.");
+    if (state.stage === "lost" && !$("f_lost").value) return Promise.reject("Выберите причину отказа — по ним видно, где теряем клиентов.");
+    var budgetRaw = $("f_budget").value.trim().replace(",", ".");
+    var budget = budgetRaw === "" ? null : Number(budgetRaw);
+    if (budgetRaw !== "" && !isFinite(budget)) return Promise.reject("Бюджет — числом в миллионах, например 2,5.");
+
+    var old = state.editing;
+    var nowIso = new Date().toISOString();
+    var created = $("f_created").value || today();
+    var history = old && old.history ? old.history.slice() : [];
+    if (!old) history.push({ s: "new", at: created + "T12:00:00.000Z" });
+    if (!old || old.stage !== state.stage) {
+      if (!(old == null && state.stage === "new")) history.push({ s: state.stage, at: nowIso });
+    }
+    var doc = {
+      name: name,
+      contact: $("f_contact").value.trim(),
+      source: $("f_source").value,
+      partner: $("f_partner").value.trim(),
+      channel: $("f_channel").value,
+      budget: budget,
+      car: $("f_car").value.trim(),
+      createdAt: old && dayStr(old.createdAt) === created ? old.createdAt : created + "T12:00:00.000Z",
+      next: $("f_next").value || "",
+      nextText: $("f_nextText").value.trim(),
+      stage: state.stage,
+      lostReason: state.stage === "lost" ? $("f_lost").value : "",
+      notes: $("f_notes").value.trim(),
+      history: history,
+      chat: state.chat.slice(-40),
+      updatedAt: nowIso,
+      createdBy: old && old.createdBy ? old.createdBy : (state.uid || null)
+    };
+    var ref = old ? col.doc(old.id) : col.doc();
+    return ref.set(doc).then(function () { return ensurePartner(doc.partner); }).then(function () {
+      state.editing = Object.assign({}, doc, { id: ref.id });
+      $("delBtn").hidden = false;
+      $("sheetTitle").textContent = doc.name;
+      if (closeAfter) closeSheet();
+    }, function (err) {
+      throw (err && err.code === "quota_exceeded" ? "База заполнена. Удалите старые заявки и попробуйте снова." :
+        err && err.code === "invalid_argument" ? "Не получилось сохранить: похоже, у вас доступ только на просмотр." :
+        "Не получилось сохранить. Проверьте интернет и нажмите ещё раз.");
+    });
+  }
+
+  $("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    $("formErr").hidden = true;
+    $("saveBtn").disabled = true;
+    saveLead(true).then(function () { $("saveBtn").disabled = false; }, function (msg) { $("saveBtn").disabled = false; showErr(String(msg)); });
+  });
+
+  // ---------- reply assistant ----------
+  var sampleFn = null, aiCtl = null, aiResult = null;
+  var PLAYBOOK = ($("playbook") && $("playbook").textContent || "").trim();
+
+  function renderChat() {
+    var box = $("chatLog"); box.textContent = "";
+    box.hidden = !state.chat.length;
+    state.chat.forEach(function (m) { box.appendChild(el("div", "msg " + (m.from === "us" ? "us" : "client"), m.text)); });
+    box.scrollTop = box.scrollHeight;
+  }
+  function resetAi() {
+    if (aiCtl) aiCtl.abort();
+    $("f_incoming").value = ""; $("f_hint").value = "";
+    $("aiOut").hidden = true; $("aiStatus").textContent = ""; aiResult = null;
+  }
+
+  function buildPrompt(incoming, hint) {
+    var b = $("f_budget").value.trim();
+    var card = [
+      "Имя: " + ($("f_name").value.trim() || "не знаем"),
+      "Откуда пришёл: " + $("f_source").value + ($("f_partner").value.trim() ? ", порекомендовал(а) " + $("f_partner").value.trim() : ""),
+      "Где переписка: " + $("f_channel").value,
+      "Бюджет: " + (b ? b + " млн ₽" : "не знаем"),
+      "Какую машину хочет: " + ($("f_car").value.trim() || "не знаем"),
+      "Текущий этап: " + stageName(state.stage),
+      "Заметки Алексея: " + ($("f_notes").value.trim() || "нет")
+    ].join("\n");
+    var chat = state.chat.slice(-30).map(function (m) { return (m.from === "us" ? "Алексей: " : "Клиент: ") + m.text; }).join("\n\n") || "(переписки ещё не было)";
+    var d = new Date();
+    return [
+      "Ты помогаешь Алексею Клещёву, владельцу «Честного автомобиля» (Ростов-на-Дону, привозим машины под заказ из Китая, Кореи и Киргизии). Алексей ведёт переписку с клиентом и просит подготовить его следующий ответ.",
+      "",
+      "ПРАВИЛА:",
+      "- Ответ Алексей отправит сам, со своего аккаунта. Пиши от первого лица Алексея, в его стиле. НЕ представляйся электронным помощником или «цифровым Алексеем»: в регламенте это для будущего бота, сейчас не применяй.",
+      "- Строго соблюдай регламент ниже: тон, что можно говорить, чего никогда не обещать. Комиссию не называй. Цены, сроки расчёта и факты не выдумывай.",
+      "- Если клиент спрашивает то, что по регламенту решает только Алексей (конкретная цена без расчёта команды, договор, реквизиты, скидки, встреча, недовольство), не придумывай ответ: напиши в note_for_alexey, что нужно решить, а в messages дай безопасный ответ («уточню и вернусь…») или оставь массив пустым.",
+      "- Цель сейчас — довести клиента до заполненной анкеты и квалификации (реальный бюджет, сроки, есть ли деньги), затем передать Алексею на расчёт и договор. Когда клиент готов к расчёту или договору — скажи об этом в note_for_alexey.",
+      "- Если переписки ещё не было: приветствие по шагу 1 (если клиента дал партнёр — шаблон «Клиента дал рекомендатель») и отдельным сообщением анкета (шаг 2).",
+      "- Каждый элемент messages — отдельное сообщение в мессенджере. От 1 до 3 сообщений, коротко.",
+      "",
+      "РЕГЛАМЕНТ:",
+      "<<<",
+      PLAYBOOK || "(регламент не загрузился — отвечай осторожно, коротко и вежливо, без цен и обещаний)",
+      ">>>",
+      "",
+      "КАРТОЧКА КЛИЕНТА:",
+      card,
+      "",
+      "ПЕРЕПИСКА (старые сверху):",
+      chat,
+      "",
+      "НОВОЕ СООБЩЕНИЕ КЛИЕНТА:",
+      incoming || "(нет — нужно первое сообщение или касание)",
+      "",
+      "ПОДСКАЗКА АЛЕКСЕЯ: " + (hint || "нет"),
+      "Сегодня: " + d.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) + ", " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ".",
+      "",
+      "Верни только JSON такого вида:",
+      '{"messages": ["текст 1", "текст 2"], "note_for_alexey": "", "card": {"name": "", "partner": "", "budget_mln": null, "car": "", "stage": "anketa_sent", "lost_reason": "", "next_in_days": 1, "next_text": ""}}',
+      "Поля card заполняй только тем, что следует из переписки; пустая строка или null — не менять.",
+      "stage — этап ПОСЛЕ отправки твоего ответа, один из: new, anketa_sent, anketa_done, options, thinking, deposit, lost (lost — только если клиент явно отказался).",
+      "lost_reason — один из: " + LOST_REASONS.join("; ") + ".",
+      "next_in_days — через сколько дней Алексею сделать следующий шаг; next_text — что именно сделать, 2–5 слов."
+    ].join("\n");
+  }
+
+  function normalizeAi(r) {
+    r = r && typeof r === "object" ? r : {};
+    var msgs = Array.isArray(r.messages) ? r.messages.map(function (m) { return String(m == null ? "" : m).trim(); }).filter(Boolean).slice(0, 4) : [];
+    var c = r.card && typeof r.card === "object" ? r.card : {};
+    return { messages: msgs, note: String(r.note_for_alexey || "").trim(), card: c };
+  }
+
+  // What the suggested card would change; applied only when Alexey confirms the reply was sent.
+  function cardChanges(c, apply) {
+    var out = [];
+    function str(v) { return v == null ? "" : String(v).trim(); }
+    if (str(c.name) && !$("f_name").value.trim()) { out.push("имя: " + str(c.name)); if (apply) $("f_name").value = str(c.name); }
+    if (str(c.partner) && !$("f_partner").value.trim()) { out.push("партнёр: " + str(c.partner)); if (apply) $("f_partner").value = str(c.partner); }
+    var bm = Number(String(c.budget_mln == null ? "" : c.budget_mln).replace(",", "."));
+    if (c.budget_mln != null && c.budget_mln !== "" && isFinite(bm) && bm > 0) { var bs = String(bm).replace(".", ","); if (bs !== $("f_budget").value.trim()) { out.push("бюджет: " + bs + " млн"); if (apply) $("f_budget").value = bs; } }
+    if (str(c.car) && str(c.car) !== $("f_car").value.trim()) { out.push("машина: " + str(c.car)); if (apply) $("f_car").value = str(c.car); }
+    var st = str(c.stage);
+    if ((st in IDX || st === "lost") && st !== state.stage) { out.push("этап: " + stageName(st)); if (apply) { state.stage = st; renderStageBtns(); } }
+    if (st === "lost" && LOST_REASONS.indexOf(str(c.lost_reason)) >= 0) { if (apply) $("f_lost").value = str(c.lost_reason); }
+    var nd = Number(c.next_in_days);
+    if (c.next_in_days != null && isFinite(nd) && nd >= 0 && nd < 120) { var nx = addDays(today(), Math.round(nd)); out.push("следующий шаг: " + short(nx) + (str(c.next_text) ? ", " + str(c.next_text) : "")); if (apply) { $("f_next").value = nx; if (str(c.next_text)) $("f_nextText").value = str(c.next_text); } }
+    return out;
+  }
+
+  function copyText(text, ta, btn) {
+    function done() { btn.textContent = "Скопировано"; setTimeout(function () { btn.textContent = "Скопировать"; }, 1500); }
+    function fallback() { ta.focus(); ta.select(); btn.textContent = "Выделено — нажмите «Копировать»"; }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+      else fallback();
+    } catch (e) { fallback(); }
+  }
+
+  function renderAi() {
+    var box = $("aiMsgs"); box.textContent = "";
+    aiResult.messages.forEach(function (m, i) {
+      var w = el("div", "ai-msg");
+      var ta = el("textarea"); ta.id = "aiMsg" + i; ta.value = m; ta.setAttribute("aria-label", "Сообщение " + (i + 1));
+      ta.rows = Math.min(12, Math.max(3, m.split("\n").length + 1));
+      var rb = el("div", "row-btns");
+      var cb = el("button", "btn ghost small", "Скопировать"); cb.type = "button";
+      cb.onclick = function () { copyText(ta.value, ta, cb); };
+      rb.appendChild(cb); w.appendChild(ta); w.appendChild(rb); box.appendChild(w);
+    });
+    $("aiNote").hidden = !aiResult.note;
+    $("aiNote").textContent = aiResult.note ? "Для вас: " + aiResult.note : "";
+    var ch = cardChanges(aiResult.card, false);
+    $("aiCard").textContent = ch.length ? "После «Отправил» обновлю карточку — " + ch.join("; ") + "." : "";
+    $("aiSent").hidden = !aiResult.messages.length;
+    $("aiOut").hidden = false;
+  }
+
+  function aiErrText(e) {
+    var c = e && e.code;
+    if (c === "not_granted" || c === "sampling_disabled" || c === "not_declared" || c === "capability_disabled" || c === "capability_removed") return "Помощник отключён: Claude не разрешён для этой страницы. Разрешить можно в меню страницы «Разрешения».";
+    if (c === "rate_limited") return "Слишком много запросов или закончился лимит Claude. Попробуйте через несколько минут.";
+    if (c === "session_expired") return "Нужно заново войти в claude.ai.";
+    if (c === "invalid_json" || c === "empty_completion") return "Помощник ответил непонятно. Нажмите «Предложить ответ» ещё раз.";
+    if (c === "refused") return "Помощник не стал отвечать на это сообщение. Попробуйте переформулировать подсказку.";
+    return "Не получилось связаться с помощником. Попробуйте ещё раз.";
+  }
+
+  function askAi() {
+    if (!sampleFn) return;
+    if (aiCtl) aiCtl.abort();
+    var ctl = aiCtl = new AbortController();
+    $("aiBtn").disabled = true; $("aiAgain").disabled = true; $("aiStop").hidden = false;
+    $("aiOut").hidden = true;
+    $("aiStatus").textContent = "Пишу ответ… обычно 10–40 секунд.";
+    sampleFn.json(buildPrompt($("f_incoming").value.trim(), $("f_hint").value.trim()), { signal: ctl.signal, cache: false }).then(function (r) {
+      aiResult = normalizeAi(r);
+      $("aiStatus").textContent = aiResult.messages.length ? "Проверьте и поправьте текст, если нужно. Потом скопируйте в мессенджер." : "";
+      renderAi();
+    }, function (e) {
+      $("aiStatus").textContent = e && e.code === "cancelled" ? "" : aiErrText(e);
+    }).then(function () {
+      if (aiCtl === ctl) { $("aiBtn").disabled = false; $("aiAgain").disabled = false; $("aiStop").hidden = true; }
+    });
+  }
+  // ---------- quick add: free text or dictation → one or more leads ----------
+  var quickLeads = [];
+  function quickPrompt(text) {
+    var partners = {}; state.leads.forEach(function (l) { if (l.partner) partners[l.partner.trim()] = 1; });
+    return [
+      "Алексей из «Честного автомобиля» (привоз машин из Китая и Кореи, Ростов-на-Дону) прислал текст про новые заявки клиентов: пересланное сообщение партнёра, заметку или надиктованный текст (возможны ошибки распознавания речи). Разбери его на заявки.",
+      "",
+      "ТЕКСТ:",
+      "<<<", text, ">>>",
+      "",
+      "Известные партнёры (если в тексте один из них — пиши имя точно так же): " + (Object.keys(partners).join(", ") || "пока нет"),
+      "Сегодня: " + today() + ".",
+      "",
+      "Верни только JSON: {\"leads\": [{\"name\": \"\", \"contact\": \"\", \"partner\": \"\", \"source\": \"\", \"channel\": \"\", \"budget_mln\": null, \"car\": \"\", \"created\": \"\", \"notes\": \"\"}]}",
+      "- name — имя клиента (не партнёра). Если имени нет — «Клиент от {партнёр}».",
+      "- contact — телефон или ник клиента, как в тексте.",
+      "- partner — кто порекомендовал, если сказано.",
+      "- source — один из: " + SOURCES.join("; ") + ". Если есть партнёр — «Партнёр».",
+      "- channel — один из: " + CHANNELS.join("; ") + ", если понятно из текста; иначе пусто.",
+      "- budget_mln — бюджет в миллионах рублей числом (2,5 млн → 2.5), иначе null.",
+      "- car — какую машину хочет, коротко.",
+      "- created — дата заявки ГГГГ-ММ-ДД, если в тексте сказано «вчера», «в субботу» и т. п.; иначе пусто.",
+      "- notes — всё остальное полезное одной-двумя фразами.",
+      "Не придумывай того, чего нет в тексте. Если в тексте нет ни одной заявки — верни {\"leads\": []}."
+    ].join("\n");
+  }
+  function cleanQuick(x) {
+    function s(v) { return v == null ? "" : String(v).trim(); }
+    var b = Number(String(x.budget_mln == null ? "" : x.budget_mln).replace(",", "."));
+    var created = /^\d{4}-\d{2}-\d{2}$/.test(s(x.created)) && s(x.created) <= today() ? s(x.created) : today();
+    return {
+      name: s(x.name) || "Без имени", contact: s(x.contact), partner: s(x.partner),
+      source: SOURCES.indexOf(s(x.source)) >= 0 ? s(x.source) : (s(x.partner) ? "Партнёр" : SOURCES[SOURCES.length - 1]),
+      channel: CHANNELS.indexOf(s(x.channel)) >= 0 ? s(x.channel) : CHANNELS[0],
+      budget: x.budget_mln != null && x.budget_mln !== "" && isFinite(b) && b > 0 ? b : null,
+      car: s(x.car), created: created, notes: s(x.notes)
+    };
+  }
+  function renderQuick() {
+    var box = $("quickList"); box.textContent = "";
+    quickLeads.forEach(function (q, i) {
+      var c = el("div", "lead");
+      var r1 = el("div", "row1");
+      r1.appendChild(el("span", "who", q.name));
+      var rm = el("button", "btn ghost small", "Убрать"); rm.type = "button";
+      rm.onclick = function () { quickLeads.splice(i, 1); renderQuick(); };
+      r1.appendChild(rm); c.appendChild(r1);
+      var bits = [q.contact, q.partner ? "от " + q.partner : q.source, q.car, q.budget ? String(q.budget).replace(".", ",") + " млн" : "", q.channel, q.created !== today() ? "заявка " + short(q.created) : ""];
+      c.appendChild(el("div", "meta", bits.filter(Boolean).join(" · ")));
+      if (q.notes) c.appendChild(el("div", "next", q.notes));
+      box.appendChild(c);
+    });
+    $("quickActions").hidden = !quickLeads.length;
+    $("quickSave").textContent = quickLeads.length === 1 ? "Добавить заявку" : "Добавить " + quickLeads.length + " заявки";
+  }
+  $("quickBtn").onclick = function () {
+    var text = $("quickText").value.trim();
+    if (!text) { $("quickStatus").textContent = "Сначала вставьте или надиктуйте текст."; return; }
+    if (!sampleFn) return;
+    $("quickBtn").disabled = true;
+    $("quickStatus").textContent = "Разбираю… обычно 5–20 секунд.";
+    sampleFn.json(quickPrompt(text), { modelTier: "quick", cache: false }).then(function (r) {
+      var arr = r && Array.isArray(r.leads) ? r.leads : [];
+      quickLeads = arr.filter(function (x) { return x && typeof x === "object"; }).slice(0, 20).map(cleanQuick);
+      $("quickStatus").textContent = quickLeads.length ? "Проверьте и нажмите «Добавить». Поправить детали можно потом в карточке." : "Не нашёл в тексте заявок. Допишите имя клиента или кто его прислал.";
+      renderQuick();
+    }, function (e) { $("quickStatus").textContent = aiErrText(e); }).then(function () { $("quickBtn").disabled = false; });
+  };
+  $("quickCancel").onclick = function () { quickLeads = []; renderQuick(); $("quickStatus").textContent = ""; };
+  $("quickSave").onclick = function () {
+    if (!col || !quickLeads.length) return;
+    $("quickSave").disabled = true;
+    var at = new Date().toISOString(), names = [];
+    var chain = Promise.resolve();
+    quickLeads.slice().forEach(function (q) {
+      chain = chain.then(function () {
+        var c = q.created + "T12:00:00.000Z";
+        return col.doc().set({
+          name: q.name, contact: q.contact, source: q.source, partner: q.partner, channel: q.channel,
+          budget: q.budget, car: q.car, createdAt: c, next: today(), nextText: "Написать клиенту",
+          stage: "new", lostReason: "", notes: q.notes, history: [{ s: "new", at: c }], chat: [],
+          updatedAt: at, createdBy: state.uid || null
+        }).then(function () { return ensurePartner(q.partner); }).then(function () { names.push(q.name); quickLeads.shift(); });
+      });
+    });
+    chain.then(function () {
+      $("quickStatus").textContent = "Добавил: " + names.join(", ") + ". Откройте заявку в списке ниже, чтобы помощник написал клиенту первое сообщение.";
+      $("quickText").value = "";
+    }, function () {
+      $("quickStatus").textContent = (names.length ? "Добавил: " + names.join(", ") + ". " : "") + "Остальные сохранить не получилось — проверьте интернет и нажмите ещё раз.";
+    }).then(function () { $("quickSave").disabled = false; renderQuick(); });
+  };
+
+  $("aiBtn").onclick = askAi;
+  $("aiAgain").onclick = askAi;
+  $("aiStop").onclick = function () { if (aiCtl) aiCtl.abort(); };
+
+  $("aiSent").onclick = function () {
+    if (!aiResult) return;
+    var texts = aiResult.messages.map(function (m, i) { var ta = $("aiMsg" + i); return ta ? ta.value.trim() : m; }).filter(Boolean);
+    if (!texts.length) return;
+    var before = state.chat.length, at = new Date().toISOString();
+    var incoming = $("f_incoming").value.trim();
+    if (incoming) state.chat.push({ from: "client", text: incoming, at: at });
+    state.chat.push({ from: "us", text: texts.join("\n\n"), at: at });
+    cardChanges(aiResult.card, true);
+    $("aiSent").disabled = true; $("formErr").hidden = true;
+    saveLead(false).then(function () {
+      $("aiSent").disabled = false;
+      renderChat();
+      $("f_incoming").value = ""; $("f_hint").value = "";
+      $("aiOut").hidden = true; aiResult = null;
+      $("aiStatus").textContent = "Сохранил переписку и карточку. Пришёл новый ответ клиента — вставьте его выше.";
+    }, function (msg) {
+      state.chat.length = before;
+      $("aiSent").disabled = false;
+      showErr(String(msg));
+    });
+  };
+
+  $("delBtn").onclick = function () {
+    if (!state.editing || !col) return;
+    if (!state.confirmDel) { state.confirmDel = true; $("delBtn").textContent = "Точно удалить?"; return; }
+    col.doc(state.editing.id).delete().then(closeSheet, function () { showErr("Не получилось удалить. Попробуйте ещё раз."); });
+  };
+
+  Array.prototype.forEach.call(document.querySelectorAll("#period button"), function (b) {
+    b.onclick = function () {
+      state.period = Number(b.getAttribute("data-p"));
+      Array.prototype.forEach.call(document.querySelectorAll("#period button"), function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      renderFunnel();
+    };
+  });
+  $("q").addEventListener("input", function () { state.q = $("q").value; renderList(); });
+
+  renderAll();
+
+  // ---------- data ----------
+  function setStatus(t) { var s = $("status"); if (t) { s.textContent = t; s.hidden = false; } else s.hidden = true; }
+
+  if (!window.claude || typeof window.claude.use !== "function") {
+    setStatus("Эта страница хранит заявки в общей базе. Обновите страницу.");
+    $("addBtn").disabled = true;
+    return;
+  }
+  window.claude.use("sample").then(function (s) { sampleFn = s; $("aiBox").hidden = !s; $("quickBox").hidden = !s || !state.canWrite; }, function () {});
+  Promise.all([window.claude.use("db"), window.claude.use("user")]).then(function (r) {
+    db = r[0]; var user = r[1];
+    if (!db) { setStatus("База заявок недоступна в этом окне. Обновите страницу и войдите заново."); $("addBtn").disabled = true; return; }
+    col = db.collection("leads");
+    if (user) {
+      user.id().then(function (id) { state.uid = id; });
+      user.can("data.write").then(function (ok) { if (ok === false) { state.canWrite = false; $("addBtn").disabled = true; $("quickBox").hidden = true; $("sub").textContent += " · только просмотр"; } });
+    }
+    col.onSnapshot(function (snap) {
+      state.leads = snap.docs.map(function (d) { var o = Object.assign({}, d.data()); o.id = d.id; return o; });
+      setStatus("");
+      renderAll();
+    }, function () {
+      setStatus("Связь с базой прервалась. Обновите страницу.");
+    });
+    partCol = db.collection("partners");
+    partCol.onSnapshot(function (snap) {
+      state.partners = snap.docs.map(function (d) { var o = Object.assign({}, d.data()); o.id = d.id; return o; });
+      renderAll();
+    }, function () {});
+    payCol = db.collection("payouts");
+    payCol.onSnapshot(function (snap) {
+      var m = {}; snap.docs.forEach(function (d) { m[d.id] = d.data(); });
+      state.paid = m;
+      renderAll();
+    }, function () {});
+    pcol = db.collection("contacts");
+    pcol.onSnapshot(function (snap) {
+      state.people = snap.docs.map(function (d) { var o = Object.assign({}, d.data()); o.id = d.id; return o; });
+      renderPeople();
+    }, function () {});
+  });
+})();
+</script>
+
+</body></html>
