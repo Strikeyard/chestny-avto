@@ -43,6 +43,11 @@ h1 span{display:block;color:var(--money);font-size:66px;line-height:1.02;text-sh
 /* форма */
 .box{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:20px 16px;margin-top:18px;box-shadow:0 30px 60px -36px rgba(255,122,26,.5)}
 .box h2{font-size:25px;line-height:1.12;margin-bottom:12px}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border-radius:14px;padding:4px;margin-bottom:16px}
+.mode button{background:transparent;color:var(--muted);box-shadow:none;padding:11px 8px;font-size:15px;font-weight:800;border-radius:11px}
+.mode button[aria-pressed=true]{background:var(--accent);color:var(--on)}
+.who{font-size:14px;color:var(--muted);margin:-4px 0 14px}
+.who b{color:var(--text)}
 .meter{height:10px;background:var(--bg);border-radius:99px;overflow:hidden}
 .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--money));border-radius:99px;transition:width .35s}
 .meter-t{display:block;min-height:20px;margin:6px 0 16px;font-size:14px;font-weight:700;color:var(--muted)}
@@ -119,24 +124,28 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
     <p class="note-pay">Платим за каждого знакомого, которому выкупили машину. Если покупки нет, выплаты нет.</p>
 
     <div class="box" id="formBox">
-      <h2>Шаг 1: передайте контакт</h2>
+      <div class="mode" role="group" aria-label="Что сделать">
+        <button type="button" data-m="lead" aria-pressed="true">Передать клиента</button>
+        <button type="button" data-m="invite" aria-pressed="false">Пригласить партнёра</button>
+      </div>
+      <h2 id="formTitle">Шаг 1: передайте контакт</h2>
       <div class="meter" aria-hidden="true"><i id="bar"></i></div>
       <span class="meter-t" id="barT" aria-live="polite">Займёт 20 секунд</span>
       <form id="f" novalidate>
         <label class="f">Ваше имя
           <input type="text" id="partner" maxlength="80" autocomplete="name" placeholder="Как вас зовут">
         </label>
-        <label class="f">Имя знакомого
+        <label class="f"><span id="nameL">Имя знакомого</span>
           <input type="text" id="name" maxlength="80" autocomplete="off" placeholder="Кому нужна машина">
         </label>
-        <label class="f">Телефон знакомого
+        <label class="f"><span id="phoneL">Телефон знакомого</span>
           <input type="tel" id="phone" maxlength="24" autocomplete="off" inputmode="tel" placeholder="+7 900 000-00-00">
         </label>
-        <label class="f">Какую машину ищет <small>(если знаете)</small>
+        <label class="f" id="carWrap">Какую машину ищет <small>(если знаете)</small>
           <input type="text" id="car" maxlength="200" autocomplete="off" placeholder="Например, кроссовер до 2,5 млн">
         </label>
         <div class="hp" aria-hidden="true"><input type="text" id="site" tabindex="-1" autocomplete="off"></div>
-        <label class="check"><input type="checkbox" id="consent"><span>Знакомый знает, что с ним свяжутся, и согласен на это. Данные обрабатываем по <a href="/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
+        <label class="check"><input type="checkbox" id="consent"><span><span id="consentT">Знакомый знает, что с ним свяжутся, и согласен на это.</span> Данные обрабатываем по <a href="/privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
         <button type="submit" id="send">Закрепить за мной</button>
         <p class="msg" id="msg" role="alert"></p>
       </form>
@@ -145,9 +154,9 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 
     <div class="done" id="done" role="status" tabindex="-1">
       <div class="tick" aria-hidden="true">✓</div>
-      <h2>Готово, клиент закреплён за вами</h2>
-      <p>Алексей или его представитель свяжутся с ним в ближайшее время. Всё остальное мы берём на себя.</p>
-      <div class="left">Первый шаг пройден. Выкупим машину — <b>30 000 ₽</b> ваши.</div>
+      <h2 id="doneT">Готово, клиент закреплён за вами</h2>
+      <p id="doneP">Алексей или его представитель свяжутся с ним в ближайшее время. Всё остальное мы берём на себя.</p>
+      <div class="left" id="doneL">Первый шаг пройден. Выкупим машину — <b>30 000 ₽</b> ваши.</div>
       <button type="button" id="again">Передать ещё одного</button>
     </div>
 
@@ -188,9 +197,34 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 // Адрес функции Yandex Cloud, см. tools/partner-form/README.md
 const API_URL='https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
 const $=id=>document.getElementById(id);
-const store={get(){try{return localStorage.getItem('partnerName')||''}catch(_){return ''}},set(v){try{localStorage.setItem('partnerName',v)}catch(_){}}};
+const ls={get(k){try{return localStorage.getItem(k)||''}catch(_){return ''}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
+const store={get(){return ls.get('partnerName')},set(v){ls.set('partnerName',v)}};
 $('partner').value=store.get();
+// Личная ссылка партнёра: chestny-avto.ru/z/?p=<id из CRM>. По id заявка точно попадёт к нему, даже если имя написано иначе.
+const pidRaw=new URLSearchParams(location.search).get('p')||'';
+const PID=/^[A-Za-z0-9_-]{1,40}$/.test(pidRaw)?pidRaw:ls.get('partnerId');
+if(PID)ls.set('partnerId',PID);
+// Два режима: передать клиента (30 000 ₽) или пригласить партнёра (5 000 ₽ за его клиентов)
+const MODES={
+  lead:{title:'Шаг 1: передайте контакт',name:'Имя знакомого',namePh:'Кому нужна машина',phone:'Телефон знакомого',car:true,
+    consent:'Знакомый знает, что с ним свяжутся, и согласен на это.',send:'Закрепить за мной',
+    doneT:'Готово, клиент закреплён за вами',doneP:'Алексей или его представитель свяжутся с ним в ближайшее время. Всё остальное мы берём на себя.',
+    doneL:'Первый шаг пройден. Выкупим машину — <b>30 000 ₽</b> ваши.',again:'Передать ещё одного'},
+  invite:{title:'Пригласите партнёра',name:'Имя того, кого приглашаете',namePh:'Кто много общается с людьми',phone:'Его телефон',car:false,
+    consent:'Знакомый знает, что ему расскажут о партнёрке, и согласен на это.',send:'Закрепить партнёра за мной',
+    doneT:'Готово, партнёр закреплён за вами',doneP:'Алексей свяжется с ним и расскажет, как всё устроено.',
+    doneL:'За каждую машину, которую мы выкупим его знакомым, — <b>5 000 ₽</b> вам. Он сам получит 30 000 ₽.',again:'Пригласить ещё одного'}
+};
+let mode=location.hash==='#invite'?'invite':'lead';
+function setMode(m){
+  mode=m;const t=MODES[m];
+  document.querySelectorAll('.mode button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===m)));
+  $('formTitle').textContent=t.title;$('nameL').textContent=t.name;$('name').placeholder=t.namePh;$('phoneL').textContent=t.phone;
+  $('carWrap').hidden=!t.car;$('consentT').textContent=t.consent;$('send').textContent=t.send;fail('');
+}
+document.querySelectorAll('.mode button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
 const fail=t=>{$('msg').textContent=t};
+setMode(mode);
 const failLink=()=>{$('msg').innerHTML='Не отправилось. Данные на месте: попробуйте ещё раз или <a href="https://chestny-avto.ru/w">напишите Алексею</a>.'};
 const phoneOk=()=>$('phone').value.replace(/\D/g,'').length>=10;
 function meter(){
@@ -205,7 +239,7 @@ function check(){
   if(!$('partner').value.trim())return ['partner','Напишите своё имя'];
   if(!$('name').value.trim())return ['name','Напишите имя знакомого'];
   if(!phoneOk())return ['phone','Проверьте номер знакомого'];
-  if(!$('consent').checked)return ['consent','Подтвердите, что знакомый знает, что с ним свяжутся'];
+  if(!$('consent').checked)return ['consent',mode==='invite'?'Подтвердите, что знакомый знает о приглашении':'Подтвердите, что знакомый знает, что с ним свяжутся'];
   return null;
 }
 // Купюры падают один раз после отправки, только для радости
@@ -227,14 +261,16 @@ $('f').addEventListener('submit',async e=>{
   try{
     // text/plain: браузер не делает лишний предварительный запрос к функции
     const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({
-      partner:$('partner').value,name:$('name').value,phone:$('phone').value,car:$('car').value,site:$('site').value,consent:$('consent').checked})});
+      kind:mode==='invite'?'invite':'partner',pid:PID,partner:$('partner').value,name:$('name').value,phone:$('phone').value,
+      car:mode==='invite'?'':$('car').value,site:$('site').value,consent:$('consent').checked})});
     const data=await r.json().catch(()=>({}));
     if(r.ok&&data.ok){
       store.set($('partner').value.trim());
+      const t=MODES[mode];$('doneT').textContent=t.doneT;$('doneP').textContent=t.doneP;$('doneL').innerHTML=t.doneL;$('again').textContent=t.again;
       $('formBox').style.display='none';$('done').style.display='block';$('done').focus();$('done').scrollIntoView({block:'center'});bills();
     }else if(data.error){fail(data.error)}else{failLink()}
   }catch(_){failLink()}
-  $('send').disabled=false;$('send').textContent='Закрепить за мной';
+  $('send').disabled=false;$('send').textContent=MODES[mode].send;
 });
 $('again').addEventListener('click',()=>{
   ['name','phone','car'].forEach(i=>{$(i).value=''});$('consent').checked=false;fail('');meter();
