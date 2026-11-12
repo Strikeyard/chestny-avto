@@ -172,12 +172,11 @@ def save_photo(url, path):
 def page(cars):
     cards = []
     for c in cars:
-        date = datetime.fromtimestamp(c["ts"] / 1000, MSK).strftime("%d.%m.%Y")
         wa = WA + quote(f"Здравствуйте! Интересует {c['title']} за {money(c['price'])} под ключ — увидел на сайте в разделе цен.")
         chips = "".join(f"<span>{e(x)}</span>" for x in c["chips"])
         cards.append(f"""<article class="car" data-price="{c['price']}"><div class="ph"><img src="img/{c['id']}.jpg" alt="{e(c['title'])}" loading="lazy"><b class="from">Из {e({'Китай': 'Китая', 'Корея': 'Кореи', 'Киргизия': 'Киргизии'}[c['country']])}</b></div>
 <div class="bd"><h2>{e(c['title'])}</h2><div class="chips">{chips}</div><small>Под ключ в Ростове</small><div class="pr">{money(c['price'])}</div>
-<p class="dt">Цена на {date}. Точную сумму на сегодня пришлём.</p><a class="btn" href="{wa}" target="_blank" rel="noopener">Хочу такую →</a></div></article>""")
+<a class="btn" href="{wa}" target="_blank" rel="noopener">Хочу такую →</a></div></article>""")
     body = "\n".join(cards) or '<p class="empty">Сейчас обновляем подборку. Напишите нам — пришлём свежие варианты с ценой.</p>'
     tpl = (HERE / "template.html").read_text(encoding="utf-8")
     return tpl.replace("{{CARDS}}", body).replace("{{COUNT}}", str(len(cars)))
