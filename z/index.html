@@ -55,6 +55,8 @@ h1 span{display:block;color:var(--money);font-size:66px;line-height:1.02;text-sh
 .meter-t{display:block;min-height:20px;margin:6px 0 16px;font-size:14px;font-weight:700;color:var(--muted)}
 .meter-t.full{color:var(--money)}
 label.f{display:block;font-weight:700;margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.two input{min-width:0}
 label.f small{font-weight:500;color:var(--muted)}
 input[type=text],input[type=tel]{display:block;width:100%;margin-top:6px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:18px;font-weight:500}
 input:focus{outline:none;border-color:var(--accent)}
@@ -145,9 +147,14 @@ button:focus-visible{outline:2px solid #fff;outline-offset:3px}
       <div class="meter" aria-hidden="true"><i id="bar"></i></div>
       <span class="meter-t" id="barT" aria-live="polite">Займёт 20 секунд</span>
       <form id="f" novalidate>
-        <label class="f">Ваше имя
-          <input type="text" id="partner" maxlength="80" autocomplete="name" placeholder="Как вас зовут">
-        </label>
+        <div class="two">
+          <label class="f">Ваше имя
+            <input type="text" id="partner" maxlength="40" autocomplete="given-name" placeholder="Иван">
+          </label>
+          <label class="f">Фамилия
+            <input type="text" id="surname" maxlength="40" autocomplete="family-name" placeholder="Петров">
+          </label>
+        </div>
         <label class="f">Ваш телефон <small>(по нему узнаем вас)</small>
           <input type="tel" id="myphone" maxlength="24" autocomplete="tel" inputmode="tel" placeholder="+7 900 000-00-00">
         </label>
@@ -226,7 +233,7 @@ const API_URL='https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
 const $=id=>document.getElementById(id);
 const ls={get(k){try{return localStorage.getItem(k)||''}catch(_){return ''}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}}};
 // Имя и телефон партнёра запоминаем на его телефоне, чтобы в следующий раз не вводить
-$('partner').value=ls.get('partnerName');$('myphone').value=ls.get('partnerPhone');
+$('partner').value=ls.get('partnerName');$('surname').value=ls.get('partnerSurname');$('myphone').value=ls.get('partnerPhone');
 // Личная ссылка партнёра: chestny-avto.ru/z/?p=<id из CRM>. По id заявка точно попадёт к нему, даже если имя написано иначе.
 const pidRaw=new URLSearchParams(location.search).get('p')||'';
 const PID=/^[A-Za-z0-9_-]{1,40}$/.test(pidRaw)?pidRaw:ls.get('partnerId');
@@ -257,7 +264,7 @@ const digits=id=>$(id).value.replace(/\D/g,'').replace(/^8(?=\d{10}$)/,'7');
 const phoneOk=()=>digits('phone').length>=10;
 const myPhoneOk=()=>digits('myphone').length>=10;
 function meter(){
-  const n=[$('partner').value.trim(),myPhoneOk(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
+  const n=[$('partner').value.trim()&&$('surname').value.trim(),myPhoneOk(),$('name').value.trim(),phoneOk(),$('consent').checked].filter(Boolean).length;
   $('bar').style.width=n*20+'%';
   $('barT').textContent=n===5?'Осталось нажать кнопку':n?'Заполнено '+n+' из 5':'Займёт 20 секунд';
   $('barT').classList.toggle('full',n===5);
@@ -266,6 +273,7 @@ $('f').addEventListener('input',meter);
 meter();
 function check(){
   if(!$('partner').value.trim())return ['partner','Напишите своё имя'];
+  if(!$('surname').value.trim())return ['surname','Напишите свою фамилию'];
   if(!myPhoneOk())return ['myphone','Проверьте свой номер телефона'];
   if(!$('name').value.trim())return ['name','Напишите имя знакомого'];
   if(!phoneOk())return ['phone','Проверьте номер знакомого'];
@@ -292,11 +300,11 @@ $('f').addEventListener('submit',async e=>{
   try{
     // text/plain: браузер не делает лишний предварительный запрос к функции
     const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({
-      kind:mode==='invite'?'invite':'partner',pid:PID,partner:$('partner').value,partnerPhone:$('myphone').value,name:$('name').value,phone:$('phone').value,
+      kind:mode==='invite'?'invite':'partner',pid:PID,partner:($('partner').value.trim()+' '+$('surname').value.trim()).trim(),partnerPhone:$('myphone').value,name:$('name').value,phone:$('phone').value,
       car:mode==='invite'?'':$('car').value,site:$('site').value,consent:$('consent').checked})});
     const data=await r.json().catch(()=>({}));
     if(r.ok&&data.ok){
-      ls.set('partnerName',$('partner').value.trim());ls.set('partnerPhone',$('myphone').value.trim());
+      ls.set('partnerName',$('partner').value.trim());ls.set('partnerSurname',$('surname').value.trim());ls.set('partnerPhone',$('myphone').value.trim());
       const t=MODES[mode];$('doneT').textContent=t.doneT;$('doneP').textContent=t.doneP;$('doneL').innerHTML=t.doneL;$('again').textContent=t.again;
       $('formBox').style.display='none';$('done').style.display='block';$('done').focus();$('done').scrollIntoView({block:'center'});bills();
     }else if(data.error){fail(data.error)}else{failLink()}
