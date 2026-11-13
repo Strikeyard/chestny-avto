@@ -1,7 +1,19 @@
 {
- "updated": 1794547395425,
+ "updated": 1794555569380,
  "parser": 2,
  "cars": [
+  {
+   "title": "Jetta VS7",
+   "year": 2027,
+   "price": 2395000,
+   "chips": [
+    "2027"
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1d3c36ab07f04",
+   "mid": "mid.ffffbcbea42b1a2201a1d3c36ab07f04",
+   "ts": 1794554161840
+  },
   {
    "title": "BMW X1 sDrive20Li",
    "year": 2022,
