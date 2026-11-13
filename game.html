@@ -247,7 +247,7 @@ form input:focus{border-color:var(--accent)}
       <p class="small">Жмёшь кнопку — соглашаешься с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки данных</a>. Без спама и ни к чему не обязывает 🤝</p>
     </div>
     <div id="claimed" hidden>
-      <div class="ok"><b>Приз твой! 🎉</b><p class="muted">Осталось отправить в WhatsApp — текст уже набран. Алексей ответит тебе в течение дня 🤙</p></div>
+      <div class="ok"><b>Приз твой! 🎉</b><p class="muted" id="claimed-t">Осталось отправить в WhatsApp — текст уже набран. Алексей ответит тебе в течение дня 🤙</p></div>
       <a class="btn wa" id="wa-send" href="https://wa.me/79198731668" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 2.2A9.8 9.8 0 0 0 3.6 17l-1.3 4.8 4.9-1.3A9.8 9.8 0 1 0 12 2.2zm0 17.9a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8.1 8.1 0 1 1 12 20.1zm4.5-6c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></svg>Отправить в WhatsApp</a>
     </div>
     <div class="actions">
@@ -513,13 +513,33 @@ $('phone').addEventListener('input', e=>{
   if(d.length>=7) s+='-'+d.slice(7,9); if(d.length>=9) s+='-'+d.slice(9,11);
   e.target.value = d ? s : '';
 });
-$('form').addEventListener('submit', e=>{
+// Заявка сразу уходит Алексею в MAX через функцию Yandex Cloud (tools/partner-form); WhatsApp остаётся запасным
+const API_URL='https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
+let sending=false;
+$('form').addEventListener('submit', async e=>{
   e.preventDefault();
   const name=$('name').value.trim(), phone=$('phone').value.replace(/\D/g,'');
   if(!name){ $('name').focus(); return toast('Как тебя зовут? 🙂'); }
   if(phone.length!==11){ $('phone').focus(); return toast('Кажется, в номере опечатка 📱'); }
-  const text = `Привет! Я ${name} 👋 Мой результат в «Угадай цену под ключ»: ${score} очков, титул «${rankName}». Забираю приз: ${PRIZES[rankKey].title.toLowerCase()}. Мой номер: +${phone}`;
+  if(sending) return;
+  const prize = PRIZES[rankKey].title.toLowerCase();
+  const text = `Привет! Я ${name} 👋 Мой результат в «Угадай цену под ключ»: ${score} очков, титул «${rankName}». Забираю приз: ${prize}. Мой номер: +${phone}`;
+  sending=true; const btn=$('form').querySelector('button'); btn.disabled=true;
+  let ok=false;
+  try{
+    // text/plain: браузер не делает лишний предварительный запрос к функции
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({
+      kind:'anketa',site:'',consent:true,phone,name,car:'Игра «Угадай цену»: приз — '+PRIZES[rankKey].title,
+      important:`${score} очков, титул «${rankName}»`,source:'Игра «Угадай цену» на сайте'})});
+    const d=await r.json().catch(()=>({})); ok=r.ok&&d.ok;
+  }catch(_){}
+  sending=false; btn.disabled=false;
+  $('claimed-t').textContent = ok
+    ? 'Алексей уже получил заявку и напишет тебе в течение дня 🤙 Хочешь быстрее — напиши в WhatsApp, текст уже набран.'
+    : 'Осталось отправить в WhatsApp — текст уже набран. Алексей ответит тебе в течение дня 🤙';
+  $('wa-send').lastChild.textContent = ok ? 'Написать в WhatsApp' : 'Отправить в WhatsApp';
   $('wa-send').href = `https://wa.me/${PHONE}?text=` + encodeURIComponent(text);
+  if(ok) goal('lead');
   $('claim').hidden = true; $('claimed').hidden = false;
   if(!scratched){ scratched=true; $('scratch-cv').style.opacity=0; $('scratch-cv').style.pointerEvents='none'; }
   goal('game_lead');
