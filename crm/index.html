@@ -750,7 +750,9 @@ label.f textarea { min-height: 70px; resize: vertical; }
       if (!name || maxIdx(l) < BOUGHT) return;
       var at = boughtAt(l);
       if (dayStr(at) < PAY_FROM) return;
-      var p1 = findPartner(name);
+      // форма с сайта пишет partnerId — по нему тёзки не путаются; если имя в заявке поменяли руками, ищем по имени
+      var byId = l.partnerId ? partnerById(l.partnerId) : null;
+      var p1 = byId && nm(byId.name) === nm(name) ? byId : findPartner(name);
       out.push({ id: l.id + "-1", leadId: l.id, level: 1, amount: PAY1, partnerId: p1 ? p1.id : "", partnerName: p1 ? p1.name : name, client: l.name || "клиент", at: at, unknown: !p1 });
       var inv = p1 && p1.invitedBy ? partnerById(p1.invitedBy) : null;
       if (inv && inv.id !== p1.id) out.push({ id: l.id + "-2", leadId: l.id, level: 2, amount: PAY2, partnerId: inv.id, partnerName: inv.name, via: p1.name, client: l.name || "клиент", at: at });
@@ -1181,6 +1183,7 @@ label.f textarea { min-height: 70px; resize: vertical; }
       contact: $("f_contact").value.trim(),
       source: $("f_source").value,
       partner: $("f_partner").value.trim(),
+      partnerId: old && old.partnerId && nm(old.partner) === nm($("f_partner").value) ? old.partnerId : "",
       channel: $("f_channel").value,
       budget: budget,
       car: $("f_car").value.trim(),
