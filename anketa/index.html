@@ -45,7 +45,7 @@ h1{font-size:clamp(28px,7vw,40px);line-height:1.1;font-weight:800;text-transform
 .q.bad{border-color:var(--err)}
 .q label,.q .t{display:block;font-weight:800;font-size:18px;margin-bottom:10px}
 .q small{display:block;color:var(--muted);font-size:14px;font-weight:600;margin:-6px 0 10px}
-input[type=text],select,textarea{width:100%;background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:17px;appearance:none;-webkit-appearance:none}
+input[type=text],input[type=tel],select,textarea{width:100%;background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:17px;appearance:none;-webkit-appearance:none}
 select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px;background-repeat:no-repeat}
 textarea{min-height:92px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
@@ -56,6 +56,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 .chips input:checked+label{background:var(--accent);border-color:var(--accent);color:var(--on);font-weight:800}
 .chips input:focus-visible+label{outline:2px solid #fff;outline-offset:2px}
 .sub{margin-top:12px}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:#DDE1E6;cursor:pointer;font-weight:600}
+.check input{flex:none;width:24px;height:24px;margin-top:1px;accent-color:var(--accent)}
+.check a{color:var(--text)}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.btn:disabled{opacity:.6;cursor:wait}
 .msg{display:none;color:var(--err);font-size:15px;font-weight:700;margin-top:9px}
 .q.bad .msg{display:block}
 .quote{margin-top:24px;padding:14px 16px;border-left:3px solid var(--accent);background:var(--card);border-radius:0 14px 14px 0;font-size:15px;font-style:italic;color:#E3E6EA}
@@ -148,20 +153,27 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
       <div class="sub" id="who-box" hidden><input type="text" id="referrer" placeholder="Кто посоветовал? Имя"></div>
       <div class="msg">Выберите вариант. Если посоветовали, напишите кто</div></div>
     <div class="q" data-q="name"><label for="name">Как к вам обращаться?</label>
-      <input type="text" id="name" autocomplete="given-name" placeholder="Ваше имя">
+      <input type="text" id="name" class="ym-disable-keys" autocomplete="given-name" placeholder="Ваше имя">
       <div class="msg">Напишите ваше имя</div></div>
+    <div class="q" data-q="phone"><label for="phone">Телефон</label>
+      <small>Чтобы прислать варианты, даже если сообщение в мессенджере не дойдёт</small>
+      <input type="tel" id="phone" class="ym-disable-keys" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00">
+      <div class="msg">Проверьте номер: нужно 10 цифр после +7</div></div>
+    <div class="q" data-q="consent"><label class="check"><input type="checkbox" id="consent"><span>Даю <a href="../soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> для подбора машины. Подробнее в <a href="../privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
+      <div class="msg">Без согласия мы не можем принять анкету</div></div>
+    <div class="trap" aria-hidden="true"><input type="text" id="site" tabindex="-1" autocomplete="off"></div>
 
     <p class="quote">«Цены на фоне конкурентов всегда давали итоговые, без каких-то доплат»<span>Максим, отзыв на Яндекс Картах</span></p>
 
     <div class="err-all" id="err-all"></div>
     <button class="btn" type="button" id="go">Получить расчёт →</button>
-    <p class="note">Нажимая кнопку, вы соглашаетесь на <a href="../privacy.html">обработку персональных данных</a></p>
+    <p class="note">Анкета сразу придёт Алексею. Ни к чему не обязывает</p>
   </form>
 </div>
 
 <div id="done">
-  <h1>Остался один шаг</h1>
-  <div class="steps">Анкета ещё не у нас. Нажмите кнопку ниже: откроется мессенджер с готовым текстом, в нём нажмите «Отправить».</div>
+  <h1 id="done-h">Анкета у нас</h1>
+  <div class="steps" id="done-t">Алексей уже получил ваши ответы и напишет вам. Хотите ответ быстрее или удобнее в мессенджере — нажмите кнопку ниже, текст уже готов.</div>
   <a class="btn wa" id="send-wa" target="_blank" rel="noopener">Отправить в WhatsApp</a>
   <a class="btn max" id="send-max" target="_blank" rel="noopener">Отправить в MAX</a>
   <p class="hint">В MAX текст не подставится сам: мы его скопируем. В чате нажмите «Вставить» и отправьте.</p>
@@ -183,6 +195,8 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 // Личные сообщения Алексея в MAX (ссылки по номеру у MAX нет)
 const MAX_CHAT = 'https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ';
 const PHONE = '79198731668';
+// Функция Yandex Cloud: сохраняет анкету и присылает её Алексею в MAX (tools/partner-form/README.md)
+const API_URL = 'https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co';
 const REFERRAL = 'Посоветовали знакомые';
 const CHIPS = {
   engine: ['Бензин', 'Гибрид', 'Электро', 'Дизель', 'Не важно'],
@@ -194,7 +208,7 @@ const CHIPS = {
   source: [REFERRAL, 'Канал MAX или Telegram', 'Instagram или ВК', 'Яндекс или Google', 'Другое'],
 };
 const DRAFT = 'anketa-draft';
-const TEXT_IDS = ['car', 'year', 'important', 'unimportant', 'referrer', 'name'];
+const TEXT_IDS = ['car', 'year', 'important', 'unimportant', 'referrer', 'name', 'phone'];
 const $ = id => document.getElementById(id);
 document.querySelectorAll('[data-chips]').forEach(box => {
   const k = box.dataset.chips;
@@ -217,6 +231,8 @@ const RULES = {
   budget: Boolean, when: Boolean, money: Boolean,
   source: s => Boolean(s) && (s !== REFERRAL || hasText(val('referrer'))),
   name: hasText,
+  phone: s => { const d = s.replace(/\D/g, ''); return d.length === 10 || (d.length === 11 && /^[78]/.test(d)) || (d.length >= 11 && d.length <= 15 && !/^[78]/.test(d)); },
+  consent: () => $('consent').checked,
 };
 const KEYS = Object.keys(RULES);
 const ok = k => RULES[k](val(k));
@@ -252,7 +268,7 @@ $('f').addEventListener('input', onChange);
 $('f').addEventListener('change', onChange);
 
 function text() {
-  const src = val('source') === REFERRAL ? `${REFERRAL}: ${val('referrer')}` : val('source');
+  const src = source();
   return [
     'Анкета с сайта', '',
     'Имя: ' + val('name'),
@@ -275,7 +291,23 @@ const say = t => { $('toast').textContent = t; $('toast').classList.add('on'); c
 const copy = async () => { try { await navigator.clipboard.writeText(text()); return true; } catch (e) { return false; } };
 const goal = g => { try { if (window.ym) ym(113881059, 'reachGoal', g); } catch (e) {} };
 
-$('go').addEventListener('click', () => {
+const source = () => val('source') === REFERRAL ? `${REFERRAL}: ${val('referrer')}` : val('source');
+let sentText = '';  // анкета уже ушла с этим текстом: повторно после «Исправить ответы» шлём, только если ответы поменялись
+// Сразу отправляем анкету Алексею; false — не дошла, тогда клиент отправит её через мессенджер
+async function submit(msg) {
+  if (msg === sentText) return true;
+  const body = { kind: 'anketa', site: $('site').value, consent: $('consent').checked, phone: val('phone'), source: source() };
+  ['name', 'car', 'year', 'engine', 'gear', 'km', 'important', 'unimportant', 'budget', 'when', 'money'].forEach(k => { body[k] = val(k); });
+  try {
+    // text/plain: браузер не делает лишний предварительный запрос к функции
+    const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(body) });
+    const data = await r.json().catch(() => ({}));
+    if (r.ok && data.ok) { sentText = msg; return true; }
+  } catch (e) {}
+  return false;
+}
+
+$('go').addEventListener('click', async () => {
   const bad = KEYS.filter(k => !ok(k));
   KEYS.forEach(k => box(k).classList.toggle('bad', bad.includes(k)));
   if (bad.length) {
@@ -285,6 +317,16 @@ $('go').addEventListener('click', () => {
     return;
   }
   const msg = text();
+  $('go').disabled = true;
+  $('go').textContent = 'Отправляем…';
+  const delivered = await submit(msg + ' ' + val('phone'));
+  $('go').disabled = false;
+  $('go').textContent = 'Получить расчёт →';
+  $('done-h').textContent = delivered ? 'Анкета у нас' : 'Остался один шаг';
+  $('done-t').textContent = delivered
+    ? 'Алексей уже получил ваши ответы и напишет вам. Хотите ответ быстрее или удобнее в мессенджере — нажмите кнопку ниже, текст уже готов.'
+    : 'Анкета ещё не у нас: связь подвела. Нажмите кнопку ниже: откроется мессенджер с готовым текстом, в нём нажмите «Отправить».';
+  if (delivered) goal('lead');
   $('preview').textContent = msg;
   $('send-wa').href = `https://wa.me/${PHONE}?text=` + encodeURIComponent(msg);
   $('send-tg').href = `https://t.me/+${PHONE}?text=` + encodeURIComponent(msg);
