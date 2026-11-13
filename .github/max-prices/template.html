@@ -102,6 +102,13 @@ footer a{color:var(--muted)}
     document.getElementById('top-h').textContent=hit.length?'Свежие '+name+' — ниже. Хотите свою?':name+' сейчас нет в каталоге — привезём под заказ';
     document.title=name+' из Китая под ключ — Честный автомобиль';
   }
+  const dq=+new URLSearchParams(location.search).get('do');
+  if(!m&&dq>0){
+    const mln=(Math.ceil(dq/100000)/10).toString().replace('.',',');
+    document.querySelector('h1').textContent='Авто из Китая под ключ до '+mln+' млн ₽';
+    document.getElementById('top-cta').hidden=false;
+    document.getElementById('top-h').textContent='Варианты до '+mln+' млн ₽ — ниже. Подберём вашу?';
+  }
   document.querySelectorAll('input[type=tel]').forEach(inp=>{
     inp.addEventListener('focus',()=>{if(!inp.value)inp.value='+7 '});
     inp.addEventListener('input',()=>{let d=inp.value.replace(/\D/g,'');if(d[0]==='8')d='7'+d.slice(1);if(d[0]!=='7')d='7'+d;d=d.slice(0,11);const p=d.slice(1);let o='+7';
@@ -131,6 +138,8 @@ footer a{color:var(--muted)}
   if(hi===lo)return;
   var a=document.getElementById('bmin'),b=document.getElementById('bmax'),f=document.getElementById('bfill');
   [a,b].forEach(function(x){x.min=lo;x.max=hi});a.value=lo;b.value=hi;
+  // ?do=1800000 из рекламы: сразу показать машины до этой суммы
+  var q=+new URLSearchParams(location.search).get('do');if(q>lo)b.value=Math.min(hi,Math.ceil(q/S)*S);
   var m=function(v){return v.toLocaleString('ru-RU').replace(/ /g,' ')+' ₽'};
   var w=function(n){var k=n%10,h=n%100;return k===1&&h!==11?'машина':k>=2&&k<=4&&(h<12||h>14)?'машины':'машин'};
   document.getElementById('blo').textContent=m(lo);document.getElementById('bhi').textContent=m(hi);
