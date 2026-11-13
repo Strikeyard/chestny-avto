@@ -444,8 +444,8 @@ label.f textarea { min-height: 70px; resize: vertical; }
       <button class="x" type="button" id="pClose" aria-label="Закрыть">×</button>
     </div>
     <form id="pform" class="fields" autocomplete="off">
-      <label class="f">Имя партнёра<input id="p_name" required></label>
-      <label class="f">Телефон<input id="p_phone" inputmode="tel"></label>
+      <label class="f">Имя и фамилия<input id="p_name" required placeholder="Иван Петров" autocomplete="off"></label>
+      <label class="f">Телефон<input id="p_phone" inputmode="tel" required placeholder="+7 (900) 000-00-00" autocomplete="off"></label>
       <label class="f">Кто пригласил<select id="p_inv"></select></label>
       <label class="f">Выплат получил до 9 ноября<input id="p_before" type="number" min="0" step="1" inputmode="numeric" placeholder="0"><span class="f-note">Сколько раз уже платили 30 000 ₽, пока не было учёта в CRM.</span></label>
       <label class="f">Группа<select id="p_group"><option value="">—</option><option value="A">A — самые сильные</option><option value="B">B</option><option value="C">C</option></select></label>
@@ -657,7 +657,7 @@ label.f textarea { min-height: 70px; resize: vertical; }
       .map(function (k) { return [k, byP[k].n, byP[k].d]; }), "Укажите партнёра в заявке — здесь появится рейтинг");
 
     var dl = $("partnerList"); dl.textContent = "";
-    var all = {}; state.partners.forEach(function (p) { if (p.name) all[p.name.trim()] = 1; });
+    var all = {}; state.partners.forEach(function (p) { if (p.name) all[partnerLabel(p)] = 1; });
     state.leads.forEach(function (l) { if (l.partner && !findPartner(l.partner)) all[l.partner.trim()] = 1; });
     Object.keys(all).sort().forEach(function (p) { var o = el("option"); o.value = p; dl.appendChild(o); });
   }
@@ -733,6 +733,19 @@ label.f textarea { min-height: 70px; resize: vertical; }
   // ---------- partners and two-level payouts ----------
   function nm(s) { return String(s || "").toLowerCase().replace(/ё/g, "е").replace(/\s+/g, " ").trim(); }
   function findPartner(name) { var k = nm(name); if (!k) return null; for (var i = 0; i < state.partners.length; i++) if (nm(state.partners[i].name) === k) return state.partners[i]; return null; }
+  // Партнёра узнаём по телефону (решение Алексея 12.11.2026): в подсказках имя и телефон, заявка хранит partnerId.
+  function pPhone(v) { var d = String(v || "").replace(/\D/g, ""); if (d.length === 11 && /^[78]/.test(d)) d = d.slice(1); return d.length === 10 ? d : ""; }
+  function fmtPh(d) { return d ? "+7 (" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6, 8) + "-" + d.slice(8, 10) : ""; }
+  function partnerLabel(p) { var d = pPhone(p.phone); return (p.name || "").trim() + (d ? " · " + fmtPh(d) : ""); }
+  // Что выбрано в поле «Партнёр»: сам партнёр, "many" (несколько с таким именем) или null
+  function pickPartner(v) {
+    v = String(v || "").trim(); if (!v) return null;
+    var i, d = pPhone(v.split("·")[1] || "");
+    for (i = 0; i < state.partners.length; i++) if (partnerLabel(state.partners[i]) === v) return state.partners[i];
+    if (d) for (i = 0; i < state.partners.length; i++) if (pPhone(state.partners[i].phone) === d) return state.partners[i];
+    var same = state.partners.filter(function (x) { return nm(x.name) === nm(v.split("·")[0]); });
+    return same.length === 1 ? same[0] : same.length > 1 ? "many" : null;
+  }
   function partnerById(id) { for (var i = 0; i < state.partners.length; i++) if (state.partners[i].id === id) return state.partners[i]; return null; }
   function rub(n) { return Math.round(n).toLocaleString("ru-RU") + " ₽"; }
   // When the car was bought: the first time the lead reached «Машина выкуплена» or a later stage.
@@ -870,13 +883,13 @@ label.f textarea { min-height: 70px; resize: vertical; }
     state.pEditing = p || null; state.pConfirmDel = false;
     var x = p || {};
     $("pTitle").textContent = p ? p.name : "Новый партнёр";
-    $("p_name").value = x.name || ""; $("p_phone").value = x.phone || "";
+    $("p_name").value = x.name || ""; $("p_phone").value = fmtPh(pPhone(x.phone)) || x.phone || "";
     $("p_group").value = x.group || ""; $("p_notes").value = x.notes || "";
     $("p_before").value = x.paidBefore ? String(x.paidBefore) : "";
     var sel = $("p_inv"); sel.textContent = "";
     var o0 = el("option", null, "— никто, пришёл сам"); o0.value = ""; sel.appendChild(o0);
     state.partners.filter(function (y) { return !p || y.id !== p.id; }).sort(function (a, b) { return nm(a.name) < nm(b.name) ? -1 : 1; })
-      .forEach(function (y) { var o = el("option", null, y.name); o.value = y.id; sel.appendChild(o); });
+      .forEach(function (y) { var o = el("option", null, partnerLabel(y)); o.value = y.id; sel.appendChild(o); });
     sel.value = x.invitedBy && partnerById(x.invitedBy) ? x.invitedBy : "";
     var invited = p ? state.partners.filter(function (y) { return y.invitedBy === p.id; }).map(function (y) { return y.name; }) : [];
     $("pInfo").textContent = invited.length ? "Пригласил(а) партнёров: " + invited.join(", ") + ". За каждую машину их клиентов — 5 000 ₽." : "";
@@ -915,19 +928,21 @@ label.f textarea { min-height: 70px; resize: vertical; }
     e.preventDefault(); $("pErr").hidden = true;
     if (!partCol) return pErr("Нет связи с базой. Обновите страницу и попробуйте ещё раз.");
     var old = state.pEditing, name = $("p_name").value.trim();
-    if (!name) return pErr("Впишите имя партнёра.");
-    var same = findPartner(name);
-    if (same && (!old || same.id !== old.id)) return pErr("Партнёр «" + same.name + "» уже есть. Если это другой человек, добавьте фамилию или город.");
+    if (name.split(/\s+/).length < 2) return pErr("Впишите имя и фамилию партнёра, например «Иван Петров».");
+    var phone = pPhone($("p_phone").value);
+    if (!phone) return pErr("Впишите телефон партнёра: 10 цифр после +7.");
+    var twin = state.partners.filter(function (y) { return pPhone(y.phone) === phone && (!old || y.id !== old.id); })[0];
+    if (twin) return pErr("Партнёр с этим телефоном уже есть: " + twin.name + ".");
     var now = new Date().toISOString();
     var before = Math.max(0, Math.floor(Number($("p_before").value) || 0));
-    var doc = { name: name, phone: $("p_phone").value.trim(), invitedBy: $("p_inv").value, group: $("p_group").value, paidBefore: before, notes: $("p_notes").value.trim(), createdAt: old && old.createdAt ? old.createdAt : now, updatedAt: now };
+    var doc = { name: name, phone: "+7" + phone, invitedBy: $("p_inv").value, group: $("p_group").value, paidBefore: before, notes: $("p_notes").value.trim(), createdAt: old && old.createdAt ? old.createdAt : now, updatedAt: now };
     var ref = old ? partCol.doc(old.id) : partCol.doc();
     $("pSave").disabled = true;
     ref.set(doc).then(function () {
       // Leads keep the partner's name, so a rename is carried over to them.
       if (!old || nm(old.name) === nm(name)) return;
       var chain = Promise.resolve();
-      state.leads.filter(function (l) { return nm(l.partner) === nm(old.name); }).forEach(function (l) {
+      state.leads.filter(function (l) { return l.partnerId === old.id || (!l.partnerId && nm(l.partner) === nm(old.name)); }).forEach(function (l) {
         var d = Object.assign({}, l); delete d.id; d.partner = name; d.updatedAt = now;
         chain = chain.then(function () { return col.doc(l.id).set(d); });
       });
@@ -986,9 +1001,12 @@ label.f textarea { min-height: 70px; resize: vertical; }
   }
   $("f_partner").addEventListener("input", function () {
     var v = $("f_partner").value.trim(), n = $("f_partnerNote");
-    var known = !v || findPartner(v);
-    n.textContent = known ? "Партнёр сам купил машину — укажите того, кто его пригласил." : "Такого партнёра нет в списке — добавлю при сохранении.";
-    n.className = "f-note" + (known ? "" : " warn");
+    var r = pickPartner(v), old = state.editing, same = old && v && nm(old.partner) === nm(v);
+    var ok = !v || (r && r !== "many") || same;
+    n.textContent = ok ? "Партнёр сам купил машину — укажите того, кто его пригласил." :
+      r === "many" ? "Несколько партнёров с таким именем — выберите нужного по телефону из списка." :
+      "Такого партнёра нет. Сначала добавьте его во вкладке «Партнёры»: имя, фамилия, телефон.";
+    n.className = "f-note" + (ok ? "" : " warn");
   });
 
   // ---------- event contacts (tools/lead-bot/PROCESS.md, «Знакомства») ----------
@@ -1101,7 +1119,8 @@ label.f textarea { min-height: 70px; resize: vertical; }
     $("f_name").value = l.name || "";
     $("f_contact").value = l.contact || "";
     $("f_source").value = l.source || "Партнёр";
-    $("f_partner").value = l.partner || "";
+    var lp = l.partnerId ? partnerById(l.partnerId) : null;
+    $("f_partner").value = lp ? partnerLabel(lp) : (l.partner || "");
     $("f_partner").dispatchEvent(new Event("input"));
     $("f_channel").value = l.channel || CHANNELS[0];
     $("f_budget").value = l.budget != null ? String(l.budget).replace(".", ",") : "";
@@ -1171,6 +1190,10 @@ label.f textarea { min-height: 70px; resize: vertical; }
     if (budgetRaw !== "" && !isFinite(budget)) return Promise.reject("Бюджет — числом в миллионах, например 2,5.");
 
     var old = state.editing;
+    var pv = $("f_partner").value.trim(), pr = pickPartner(pv);
+    var pKeep = old && pv && nm(old.partner) === nm(pv.split("·")[0]);  // старая заявка с прежним партнёром — не мешаем
+    if (pv && pr === "many") return Promise.reject("Несколько партнёров с таким именем — выберите нужного по телефону из списка.");
+    if (pv && !pr && !pKeep) return Promise.reject("Партнёра «" + pv + "» нет в списке. Добавьте его во вкладке «Партнёры»: имя, фамилия и телефон.");
     var nowIso = new Date().toISOString();
     var created = $("f_created").value || today();
     var history = old && old.history ? old.history.slice() : [];
@@ -1182,8 +1205,8 @@ label.f textarea { min-height: 70px; resize: vertical; }
       name: name,
       contact: $("f_contact").value.trim(),
       source: $("f_source").value,
-      partner: $("f_partner").value.trim(),
-      partnerId: old && old.partnerId && nm(old.partner) === nm($("f_partner").value) ? old.partnerId : "",
+      partner: pr && pr !== "many" ? pr.name : pv,
+      partnerId: pr && pr !== "many" ? pr.id : (pKeep && old.partnerId ? old.partnerId : ""),
       channel: $("f_channel").value,
       budget: budget,
       car: $("f_car").value.trim(),
@@ -1199,7 +1222,7 @@ label.f textarea { min-height: 70px; resize: vertical; }
       createdBy: old && old.createdBy ? old.createdBy : (state.uid || null)
     };
     var ref = old ? col.doc(old.id) : col.doc();
-    return ref.set(doc).then(function () { return ensurePartner(doc.partner); }).then(function () {
+    return ref.set(doc).then(function () {
       state.editing = Object.assign({}, doc, { id: ref.id });
       $("delBtn").hidden = false;
       $("sheetTitle").textContent = doc.name;
