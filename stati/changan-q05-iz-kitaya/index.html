@@ -50,6 +50,7 @@ blockquote div{margin-top:4px;font-style:normal;color:var(--muted);font-size:14p
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--on);font-weight:800;text-decoration:none;padding:15px 22px;border-radius:999px;text-transform:uppercase;font-size:14px;letter-spacing:.05em}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.cm{display:grid;gap:10px;max-width:520px;margin-top:14px}.cm input{font:inherit;font-size:17px;padding:14px 18px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--text)}.cm .btn{justify-content:center;border:0;cursor:pointer;font-family:inherit}.cm .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}.cm small{color:var(--muted);font-size:12px}.cm small a{color:inherit}.cm-ok,.cm-fail{display:none}.cm.ok>*,.cm.fail>*{display:none}.cm.ok .cm-ok,.cm.fail .cm-fail{display:block}.cm-ok b,.cm-fail b{font-size:20px}.or{color:var(--muted);margin-top:18px;font-size:15px}
 .more{margin:36px 0}.more a{display:block;padding:14px 18px;border:1px solid var(--line);border-radius:14px;margin:10px 0;color:var(--text);text-decoration:none;font-weight:700}
 .more a:hover{border-color:var(--accent)}
 .list a{display:block;padding:22px;border:1px solid var(--line);border-radius:18px;margin:14px 0;color:var(--text);text-decoration:none;background:var(--card)}
@@ -61,6 +62,7 @@ blockquote div{margin-top:4px;font-style:normal;color:var(--muted);font-size:14p
  tr{display:block;padding:14px 16px;margin:10px 0;border:1px solid var(--line);border-radius:16px;background:var(--card)}
  td{display:block;border:0;padding:2px 0}td:first-child{font-weight:700}
  td:nth-child(2){color:var(--muted);font-size:15px}td b{white-space:normal;font-size:18px}
+ td:not(:first-child)[data-label]:not([data-label=""])::before{content:attr(data-label) ": ";color:var(--muted);font-size:13px;font-weight:400}
  .logo{font-size:15px;white-space:nowrap}.hbtn{font-size:12px;padding:9px 12px;white-space:nowrap}
 }
 footer{border-top:1px solid var(--line);margin-top:60px;padding:24px 0 90px;font-size:14px;color:var(--muted)}
@@ -74,21 +76,41 @@ footer a{color:var(--muted)}
 <h1>Changan Q05 из&nbsp;Китая: цена под&nbsp;ключ</h1>
 <p class="lead">Changan Qiyuan Q05 — компактный электрический кроссовер. Почти новый 2026 года стоит в Китае от 72 тысяч юаней, под ключ в Ростове — от 2 млн ₽.</p>
 <h2>Цены в Китае и под ключ в Ростове</h2>
-<div class="tbl"><table><thead><tr><th>Машина</th><th>Цена в Китае</th><th>Под ключ в Ростове</th></tr></thead><tbody><tr><td>Q05 405 Air, 2026, 1 900 км</td><td>73 900 ¥</td><td><b>≈ 2 000 000 ₽</b></td></tr><tr><td>Q05 405 Max, 2026, 6 100 км</td><td>78 700 ¥</td><td><b>≈ 2 080 000 ₽</b></td></tr><tr><td>Q05 506 Max+, 2026, почти новый</td><td>97–109 тыс. ¥</td><td>≈ 2,4–2,6 млн ₽</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Машина</th><th>Цена в Китае</th><th>Под ключ в Ростове</th></tr></thead><tbody><tr><td data-label="Машина">Q05 405 Air, 2026, 1 900 км</td><td data-label="Цена в Китае">73 900 ¥</td><td data-label="Под ключ в Ростове"><b>≈ 2 000 000 ₽</b></td></tr><tr><td data-label="Машина">Q05 405 Max, 2026, 6 100 км</td><td data-label="Цена в Китае">78 700 ¥</td><td data-label="Под ключ в Ростове"><b>≈ 2 080 000 ₽</b></td></tr><tr><td data-label="Машина">Q05 506 Max+, 2026, почти новый</td><td data-label="Цена в Китае">97–109 тыс. ¥</td><td data-label="Под ключ в Ростове">≈ 2,4–2,6 млн ₽</td></tr></tbody></table></div>
 <p>Версия 405: 163 л.с., запас хода 405 км по китайскому циклу CLTC. Цифра в названии — запас хода в километрах.</p>
 <h2>Главный нюанс — 30-минутная мощность</h2>
 <p>Утильсбор на электромобили считается по 30-минутной мощности из документов. До 80 л.с. — 3 400 ₽, выше — около 1 млн ₽. По нашей оценке у Q05 с мотором 163 л.с. она около 73 л.с., то есть в льготе. Но это граница: перед покупкой мы проверяем мощность по документам конкретной машины. Если льготы нет — скажем заранее.</p>
 <h2>Из чего складывается цена (405 Air)</h2>
-<div class="tbl"><table><thead><tr><th>Статья</th><th>Сумма</th></tr></thead><tbody><tr><td>Машина 73 900 ¥ по курсу ЦБ</td><td>≈ 893 000 ₽</td></tr><tr><td>Банк, расходы в Китае, доставка, документы, брокер, наши услуги</td><td>≈ 731 000 ₽</td></tr><tr><td>Пошлина 15% + НДС 22% + таможенный сбор</td><td>≈ 365 000 ₽</td></tr><tr><td>Утильсбор (льготный)</td><td>3 400 ₽</td></tr></tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Статья</th><th>Сумма</th></tr></thead><tbody><tr><td data-label="Статья">Машина 73 900 ¥ по курсу ЦБ</td><td data-label="Сумма">≈ 893 000 ₽</td></tr><tr><td data-label="Статья">Банк, расходы в Китае, доставка, документы, брокер, наши услуги</td><td data-label="Сумма">≈ 731 000 ₽</td></tr><tr><td data-label="Статья">Пошлина 15% + НДС 22% + таможенный сбор</td><td data-label="Сумма">≈ 365 000 ₽</td></tr><tr><td data-label="Статья">Утильсбор (льготный)</td><td data-label="Сумма">3 400 ₽</td></tr></tbody></table></div>
 <h2>Кому подойдёт</h2>
 <ul><li>Город и пригород, ежедневно до 300 км.</li><li>Есть розетка или зарядка дома, на работе.</li><li>Хочется новую машину, а не 3–5-летнюю, в бюджете около 2 млн ₽.</li></ul>
 <p class="note">Расчёт по курсу ЦБ на 29.10.2026 (юань 12,08 ₽, евро 90,17 ₽) и ценам объявлений в Китае. Цена меняется вместе с курсом — точную сумму на сегодня пришлём в WhatsApp.</p>
-<section class="cta"><h2>Посчитаем вашу машину</h2><p>Пришлём 1–2 варианта с итоговой ценой в Ростове. Бесплатно и без обязательств.</p>
-<div class="btns"><a class="btn" href="https://wa.me/79198731668?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20Changan%20Q05%20%D0%B8%D0%B7%20%D0%9A%D0%B8%D1%82%D0%B0%D1%8F.%20%D0%9F%D0%BE%D1%81%D1%87%D0%B8%D1%82%D0%B0%D0%B5%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B4%20%D0%BA%D0%BB%D1%8E%D1%87%3F" target="_blank" rel="noopener">Написать в WhatsApp</a><a class="btn ghost" href="../../#quiz">Подбор за 1 минуту</a><a class="btn ghost" href="https://t.me/+79198731668" target="_blank" rel="noopener">Telegram</a></div></section>
+<section class="cta"><h2>Посчитаем вашу машину</h2><p>Оставьте телефон — перезвоним и пришлём 1–2 варианта с итоговой ценой в Ростове. Бесплатно и без обязательств.</p>
+<form class="cm" novalidate data-topic="Changan Q05 (Qiyuan) из Китая: цена под ключ в Ростове"><input name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required><input name="site" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">Жду звонка →</button><small>Нажимая кнопку, вы соглашаетесь на <a href="../../privacy.html">обработку персональных данных</a>.</small>
+<div class="cm-ok"><b>✅ Заявка принята</b><p>Скоро перезвоним с номера +7 919 873-16-68.</p></div><div class="cm-fail"><b>Не получилось отправить</b><p>Напишите нам в MAX или WhatsApp — ответим сразу.</p></div></form>
+<p class="or">Или напишите сами:</p>
+<div class="btns"><a class="btn" href="https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ" target="_blank" rel="noopener">Написать в MAX</a><a class="btn ghost" href="https://wa.me/79198731668?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20Changan%20Q05%20%D0%B8%D0%B7%20%D0%9A%D0%B8%D1%82%D0%B0%D1%8F.%20%D0%9F%D0%BE%D1%81%D1%87%D0%B8%D1%82%D0%B0%D0%B5%D1%82%D0%B5%20%D0%BF%D0%BE%D0%B4%20%D0%BA%D0%BB%D1%8E%D1%87%3F" target="_blank" rel="noopener">WhatsApp</a><a class="btn ghost" href="https://t.me/+79198731668" target="_blank" rel="noopener">Telegram</a></div></section>
 <section class="faq"><h2>Коротко: вопросы и ответы</h2><h3 style="margin-top:18px;font-size:18px">Сколько стоит Changan Q05 из Китая под ключ в Ростове?</h3><p>Около 2,0–2,1 млн ₽ за Changan Qiyuan Q05 405 2026 года при цене в Китае 74–79 тысяч юаней, если 30-минутная мощность в льготе до 80 л.с.</p><h3 style="margin-top:18px;font-size:18px">Какой утильсбор у Changan Q05?</h3><p>Зависит от 30-минутной мощности в документах: до 80 л.с. — 3 400 ₽, выше — около 1 млн ₽. Проверяем до покупки.</p></section>
-<nav class="more"><h2>Ещё по теме</h2><a href="../prodazha-avto-iz-za-granicy-utilsbor-nalog/">Привезли авто из-за границы: как продать и не влететь на утильсбор и налог →</a><a href="../kak-kupit-avto-iz-kitaya-ne-vidya/">Как купить машину из Китая или Кореи, если нельзя её потрогать →</a><a href="../avto-iz-kitaya-do-1-5-mln/">Какую машину привезти из Китая за 1,5 млн ₽ под ключ →</a><a href="../elektromobil-ili-benzin-iz-kitaya/">Электромобиль или бензин из Китая: что выгоднее привезти сейчас →</a><a href="../toyota-bz3x-iz-kitaya/">Toyota bZ3X из Китая: цена под ключ в Ростове →</a><a href="../semeynaya-mashina-iz-kitaya/">Семейная машина из Китая в ограниченный бюджет: варианты и цены →</a></nav>
+<nav class="more"><h2>Ещё по теме</h2><a href="../rastamozhka-avto-iz-kitaya-i-korei/">Растаможка авто из Китая и Кореи: сколько стоит и из чего складывается →</a><a href="../utilsbor-na-avto-iz-kitaya-i-korei/">Утильсбор на авто из Китая и Кореи: сколько платить и как не попасть на миллион →</a><a href="../avto-iz-korei-pod-zakaz-rostov/">Авто из Кореи под заказ в Ростове: цены под ключ и как заказать →</a><a href="../avto-iz-kitaya-pod-zakaz-rostov/">Авто из Китая под заказ в Ростове: цены, сроки и как всё устроено →</a><a href="../volkswagen-tayron-iz-kitaya/">Volkswagen Tayron из Китая: цена под ключ в Ростове →</a><a href="../prodazha-avto-iz-za-granicy-utilsbor-nalog/">Привезли авто из-за границы: как продать и не влететь на утильсбор и налог →</a><a href="../kak-kupit-avto-iz-kitaya-ne-vidya/">Как купить машину из Китая или Кореи, если нельзя её потрогать →</a><a href="../avto-iz-kitaya-do-1-5-mln/">Какую машину привезти из Китая за 1,5 млн ₽ под ключ →</a><a href="../elektromobil-ili-benzin-iz-kitaya/">Электромобиль или бензин из Китая: что выгоднее привезти сейчас →</a><a href="../toyota-bz3x-iz-kitaya/">Toyota bZ3X из Китая: цена под ключ в Ростове →</a><a href="../semeynaya-mashina-iz-kitaya/">Семейная машина из Китая в ограниченный бюджет: варианты и цены →</a></nav>
 </main>
 <footer><div class="wrap">© 2026 Честный автомобиль · Ростов-на-Дону, ул. Красноармейская, 200 · <a href="tel:+79198731668">+7 919 873-16-68</a> · <a href="../../">Главная</a> · <a href="../../stati/">Статьи</a> · <a href="../../privacy.html">Политика конфиденциальности</a></div></footer>
+<script>
+// Заявка в одно поле: телефон сразу уходит Алексею в MAX и в CRM (функция Yandex Cloud, tools/partner-form)
+document.querySelectorAll('input[type=tel]').forEach(inp=>{
+  inp.addEventListener('focus',()=>{if(!inp.value)inp.value='+7 '});
+  inp.addEventListener('input',()=>{let d=inp.value.replace(/\D/g,'');if(d[0]==='8')d='7'+d.slice(1);if(d[0]!=='7')d='7'+d;d=d.slice(0,11);const p=d.slice(1);let o='+7';
+    if(p.length)o+=' '+p.slice(0,3);if(p.length>3)o+=' '+p.slice(3,6);if(p.length>6)o+='-'+p.slice(6,8);if(p.length>8)o+='-'+p.slice(8,10);inp.value=o});
+});
+document.querySelectorAll('form.cm').forEach(f=>f.addEventListener('submit',async e=>{
+  e.preventDefault();const b=f.querySelector('button'),phone=f.phone.value.trim();
+  if(phone.replace(/\D/g,'').length!==11){f.phone.focus();f.phone.style.borderColor='#e5484d';return}
+  if(b.disabled)return;b.disabled=true;let ok=false;
+  try{const r=await fetch('https://functions.yandexcloud.net/d4ef4c0ikv4mopvsp2co',{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},
+    body:JSON.stringify({kind:'anketa',site:f.site.value,consent:true,phone,name:'не спрашивали',car:'Перезвонить — заявка из статьи',source:'Сайт, статья: '+f.dataset.topic})});
+    const d=await r.json().catch(()=>({}));ok=r.ok&&d.ok}catch(_){}
+  b.disabled=false;f.classList.add(ok?'ok':'fail');
+}));
+</script>
 <!-- Яндекс Метрика 113881059: просмотры, вебвизор и цели (клики в мессенджеры, звонки, заявки, видео) -->
 <script>
 (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();

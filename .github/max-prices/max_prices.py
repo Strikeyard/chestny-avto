@@ -28,6 +28,7 @@ KEEP_DAYS = 60  # решение владельца 09.11.2026 (было 40, п�
 PARSER = 2  # при смене правил разбора увеличить: все посты пересоберутся
 MSK = timezone(timedelta(hours=3))
 WA = "https://wa.me/79198731668?text="
+MAX_URL = "https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ"  # личка Алексея в MAX: текст туда не передать, поэтому просто ссылка
 e = html.escape
 
 
@@ -176,7 +177,7 @@ def page(cars):
         chips = "".join(f"<span>{e(x)}</span>" for x in c["chips"])
         cards.append(f"""<article class="car" data-price="{c['price']}"><div class="ph"><img src="img/{c['id']}.jpg" alt="{e(c['title'])}" loading="lazy"><b class="from">Из {e({'Китай': 'Китая', 'Корея': 'Кореи', 'Киргизия': 'Киргизии'}[c['country']])}</b></div>
 <div class="bd"><h2>{e(c['title'])}</h2><div class="chips">{chips}</div><small>Под ключ в Ростове</small><div class="pr">{money(c['price'])}</div>
-<a class="btn" href="{wa}" target="_blank" rel="noopener">Хочу такую →</a></div></article>""")
+<div class="cbtns"><a class="btn" href="{wa}" target="_blank" rel="noopener">Хочу такую →</a><a class="btn ghost" href="{MAX_URL}" target="_blank" rel="noopener" aria-label="Написать в MAX">MAX</a></div></div></article>""")
     body = "\n".join(cards) or '<p class="empty">Сейчас обновляем подборку. Напишите нам — пришлём свежие варианты с ценой.</p>'
     tpl = (HERE / "template.html").read_text(encoding="utf-8")
     return tpl.replace("{{CARDS}}", body).replace("{{COUNT}}", str(len(cars)))

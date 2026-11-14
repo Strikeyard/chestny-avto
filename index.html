@@ -201,6 +201,7 @@ textarea{min-height:100px;resize:vertical}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--card2);border:1px solid var(--line);padding:14px 20px;border-radius:16px;font-size:15px;max-width:calc(100% - 32px);z-index:70;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media(prefers-reduced-motion:reduce){.fab .wa::before{animation:none}}
+.cbtns{display:flex;gap:8px}.cbtns .btn:first-child{flex:1;justify-content:center}.cbtns .btn.ghost{padding-left:18px;padding-right:18px}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .callme .cm-body{display:grid;gap:12px}
 .callme h3{text-transform:none;letter-spacing:-.01em}
@@ -549,7 +550,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <p class="qnote">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html" style="color:inherit;text-decoration:underline">обработку персональных данных</a>.</p>
         </div>
         <div class="cm-ok"><div class="big">✅</div><h3>Заявка принята</h3><p>Скоро перезвоним с номера +7 919 873-16-68.</p></div>
-        <div class="cm-fail"><h3>Не получилось отправить</h3><p>Напишите нам — номер уже в сообщении:</p><a class="btn cm-wa" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a><p style="margin-top:14px">или позвоните: <a href="tel:+79198731668" style="color:inherit">+7 919 873-16-68</a></p></div>
+        <div class="cm-fail"><h3>Не получилось отправить</h3><p>Напишите нам — номер уже в сообщении:</p><a class="btn cm-wa" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a> <a class="btn ghost" href="https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ" target="_blank" rel="noopener">Написать в MAX</a><p style="margin-top:14px">или позвоните: <a href="tel:+79198731668" style="color:inherit">+7 919 873-16-68</a></p></div>
       </form>
     </div>
   </div>
@@ -845,7 +846,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </div>
       </div>
       <div class="cm-ok"><div class="big">✅</div><h3>Заявка принята</h3><p>Скоро перезвоним с номера +7 919 873-16-68.</p></div>
-      <div class="cm-fail"><h3>Не получилось отправить</h3><p>Напишите нам — номер уже в сообщении:</p><a class="btn cm-wa" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a><p style="margin-top:14px">или позвоните: <a href="tel:+79198731668" style="color:inherit">+7 919 873-16-68</a></p></div>
+      <div class="cm-fail"><h3>Не получилось отправить</h3><p>Напишите нам — номер уже в сообщении:</p><a class="btn cm-wa" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a> <a class="btn ghost" href="https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ" target="_blank" rel="noopener">Написать в MAX</a><p style="margin-top:14px">или позвоните: <a href="tel:+79198731668" style="color:inherit">+7 919 873-16-68</a></p></div>
     </form>
   </div>
 </section>
@@ -1011,7 +1012,7 @@ document.querySelectorAll('input[type=tel]').forEach(inp=>{
       const wa='https://wa.me/79198731668?text='+encodeURIComponent(`Здравствуйте! Интересует ${c.title} за ${rub(c.price)} под ключ — увидел на сайте. Можно подобрать похожую?`);
       return `<article class="case"><div class="pic"><img src="${CENY}img/${esc(c.id)}.jpg" alt="${esc(c.title)}" loading="lazy"><span class="from">Из ${esc(from[c.country]||c.country)}</span></div>`+
         `<div class="body"><h3>${esc(c.title)}</h3><div class="specs">${(c.chips||[]).map(x=>`<span>${esc(x)}</span>`).join('')}</div>`+
-        `<div class="price"><small>Под ключ в Ростове</small><b>${rub(c.price)}</b></div><a class="btn" href="${wa}" target="_blank" rel="noopener">Хочу такую →</a></div></article>`;
+        `<div class="price"><small>Под ключ в Ростове</small><b>${rub(c.price)}</b></div><div class="cbtns"><a class="btn" href="${wa}" target="_blank" rel="noopener">Хочу такую →</a><a class="btn ghost" href="${MAX_URL}" target="_blank" rel="noopener" aria-label="Написать в MAX">MAX</a></div></div></article>`;
     }).join('');
   }).catch(()=>{box.innerHTML='<p class="cases-note">Свежие машины — в разделе цен и в нашем канале MAX.</p>'});
 })();
