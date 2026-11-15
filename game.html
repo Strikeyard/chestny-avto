@@ -12,9 +12,7 @@
 <meta property="og:description" content="Сколько стоит Audi из Китая под ключ в Ростове? Угадай за 2 минуты, набей очки и забери приз 🎁">
 <meta property="og:image" content="https://chestny-avto.ru/img/og.jpg">
 <meta property="og:url" content="https://chestny-avto.ru/game.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 :root{
   --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
@@ -146,6 +144,7 @@ form input{width:100%;background:var(--card);border:1px solid var(--line);border
 form input:focus{border-color:var(--accent)}
 .small{font-size:12px;color:var(--muted);text-align:center;margin-top:4px}
 .small a{color:var(--muted)}
+.ckc{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);text-align:left;cursor:pointer}.ckc input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:var(--accent)}.ckc a{color:inherit}
 .actions{display:grid;gap:10px;margin-top:6px}
 .ok{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 16px;margin-bottom:12px}
 .ok b{display:block;font-family:Manrope,sans-serif;font-size:20px;text-transform:uppercase;margin-bottom:6px}
@@ -242,9 +241,10 @@ form input:focus{border-color:var(--accent)}
       <form id="form" novalidate>
         <input id="name" name="name" autocomplete="given-name" placeholder="Как тебя зовут?" required>
         <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+        <label class="ckc"><input type="checkbox" id="consent"><span>Даю <a href="soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a>, подробнее — в <a href="privacy.html" target="_blank" rel="noopener">политике</a></span></label>
         <button class="btn" type="submit">Забрать приз 🎁</button>
       </form>
-      <p class="small">Жмёшь кнопку — соглашаешься с <a href="privacy.html" target="_blank" rel="noopener">политикой обработки данных</a>. Без спама и ни к чему не обязывает 🤝</p>
+      <p class="small">Без спама и ни к чему не обязывает 🤝</p>
     </div>
     <div id="claimed" hidden>
       <div class="ok"><b>Приз твой! 🎉</b><p class="muted" id="claimed-t">Осталось отправить в WhatsApp — текст уже набран. Алексей ответит тебе в течение дня 🤙</p></div>
@@ -522,6 +522,7 @@ $('form').addEventListener('submit', async e=>{
   const name=$('name').value.trim(), phone=$('phone').value.replace(/\D/g,'');
   if(!name){ $('name').focus(); return toast('Как тебя зовут? 🙂'); }
   if(phone.length!==11){ $('phone').focus(); return toast('Кажется, в номере опечатка 📱'); }
+  if(!$('consent').checked){ $('consent').focus(); return toast('Отметь согласие на обработку данных ☑️'); }
   if(sending) return;
   const prize = PRIZES[rankKey].title.toLowerCase();
   const text = `Привет! Я ${name} 👋 Мой результат в «Угадай цену под ключ»: ${score} очков, титул «${rankName}». Забираю приз: ${prize}. Мой номер: +${phone}`;
@@ -573,12 +574,6 @@ function confetti(){
     if(t-t0<3200) requestAnimationFrame(f); else c.clearRect(0,0,cv.width,cv.height); })(t0);
 }
 </script>
-<script>
-// Яндекс Метрика подключается, когда в YM_ID появится номер счётчика
-if (YM_ID) {
-  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
-  ym(+YM_ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounces:true});
-}
-</script>
+<script src="/js/consent.js"></script>
 </body>
 </html>

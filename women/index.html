@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Честный автомобиль для неё — машина мечты под ключ в Ростове</title>
 <meta name="description" content="Привозим автомобили из Китая, Кореи и Киргизии под заказ. Одна итоговая цена под ключ в Ростове-на-Дону, договор, проверка до покупки, выдача как для себя.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <meta name="theme-color" content="#1A1220">
 <meta name="yandex-verification" content="56d486109caf05ff">
 <meta name="google-site-verification" content="43eLVR2VIDxAyC8OESqzWt_AbslkEXOrAfMAOcr7vEA">
@@ -31,7 +29,7 @@
  "address":{"@type":"PostalAddress","streetAddress":"ул. Красноармейская, 200","addressLocality":"Ростов-на-Дону","addressCountry":"RU"},
  "areaServed":"Ростов-на-Дону","openingHours":"Mo-Su 00:00-23:59"}
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 :root{
   --bg:#1A1220; --card:#251A2E; --card2:#30223A; --line:#41304D;
@@ -340,6 +338,7 @@ textarea{min-height:100px;resize:vertical}
 .qback[hidden]{display:none}
 .qform{display:grid;gap:12px}
 .qnote{color:var(--muted);font-size:12px}
+.cm-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;cursor:pointer;text-align:left}.cm-check input{flex:none;width:20px;height:20px;margin-top:1px;accent-color:var(--accent)}.cm-check a{color:inherit;text-decoration:underline}
 .qdone{text-align:center;padding:10px 0}
 .qdone .big{font-size:56px;line-height:1;margin-bottom:12px}
 .qdone h3{margin-bottom:10px}
@@ -619,8 +618,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           <h3>Куда тебе перезвонить? 📞</h3>
           <input name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required>
           <input name="site" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <label class="qnote cm-check"><input type="checkbox" name="consent"><span>Даю <a href="../soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a>. Подробнее — в <a href="../privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
           <button class="btn shine" type="submit" style="justify-content:center">Жду звонка →</button>
-          <p class="qnote">Нажимая кнопку, ты соглашаешься на <a href="../privacy.html" style="color:inherit;text-decoration:underline">обработку персональных данных</a>.</p>
         </div>
         <div class="cm-ok"><div class="big">✅</div><h3>Заявка принята</h3><p>Скоро перезвоним с номера +7 919 873-16-68.</p></div>
         <div class="cm-fail"><h3>Не получилось отправить</h3><p>Напиши нам — номер уже в сообщении:</p><a class="btn cm-wa" href="https://wa.me/79198731668" target="_blank" rel="noopener">Отправить в WhatsApp →</a> <a class="btn ghost" href="https://max.ru/u/f9LHodD0cOK7cpeRBPFOmUjIttCsyQ-VKmBbz7pZ9Lkpz9ZZQ0b8nF53LlQ" target="_blank" rel="noopener">Написать в MAX</a><p style="margin-top:14px">или позвони: <a href="tel:+79198731668" style="color:inherit">+7 919 873-16-68</a></p></div>
@@ -889,8 +888,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div style="display:grid;gap:14px">
           <input name="phone" type="tel" aria-label="Телефон" placeholder="+7 ___ ___-__-__" autocomplete="tel" inputmode="tel" required>
           <input name="site" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+          <label class="qnote cm-check"><input type="checkbox" name="consent"><span>Даю <a href="../soglasie.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a>. Подробнее — в <a href="../privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</span></label>
           <button class="btn" type="submit" style="justify-content:center">Жду звонка →</button>
-          <p class="qnote">Нажимая кнопку, ты соглашаешься на <a href="../privacy.html" style="color:inherit;text-decoration:underline">обработку персональных данных</a>.</p>
         </div>
       </div>
       <div class="cm-ok"><div class="big">✅</div><h3>Заявка принята</h3><p>Скоро перезвоним с номера +7 919 873-16-68.</p></div>
@@ -1071,6 +1070,7 @@ document.querySelectorAll('form.callme').forEach(f=>f.addEventListener('submit',
   e.preventDefault();
   const btn=f.querySelector('button[type=submit]'),phone=f.phone.value.trim();
   if(phone.replace(/\D/g,'').length!==11){f.phone.focus();say('Проверь номер телефона');return}
+  if(!f.consent.checked){f.consent.focus();say('Отметьте согласие на обработку данных');return}
   if(btn.disabled)return;btn.disabled=true;
   const where=f.id==='lead'?'низ главной':'блок «Подбор»';
   let ok=false;
@@ -1085,24 +1085,6 @@ document.querySelectorAll('form.callme').forEach(f=>f.addEventListener('submit',
   f.classList.add(ok?'ok':'fail');
 }));
 </script>
-<!-- Яндекс Метрика 113881059: просмотры, вебвизор и цели (клики в мессенджеры, звонки, заявки, видео) -->
-<script>
-(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
-for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return}
-k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
-ym(113881059,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-(function(){
-  var goal=function(g){try{ym(113881059,'reachGoal',g)}catch(_){}};
-  document.addEventListener('click',function(ev){
-    var a=ev.target.closest&&ev.target.closest('a[href]');if(!a)return;var h=a.href;
-    if(h.indexOf('wa.me')>-1)goal('wa');else if(h.indexOf('t.me')>-1)goal('tg');
-    else if(h.indexOf('max.ru')>-1)goal('max');else if(h.indexOf('tel:')===0)goal('call');
-  },true);
-  document.addEventListener('submit',function(){goal('lead')},true);
-  document.addEventListener('play',function(ev){if(ev.target.tagName==='VIDEO')goal('video')},true);
-})();
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/113881059" style="position:absolute;left:-9999px" alt=""></div></noscript>
+<script src="/js/consent.js"></script>
 </body>
 </html>
