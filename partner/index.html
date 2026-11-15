@@ -14,9 +14,7 @@
 <meta property="og:image" content="https://chestny-avto.ru/partner/img/h9.jpg">
 <meta name="theme-color" content="#121417">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23FF7A1A'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 :root{
   --bg:#121417; --card:#1C2026; --card2:#232831; --line:#2A3039;
@@ -666,13 +664,8 @@ const JOIN_URL=GROUP_URL||'https://wa.me/79198731668?text='+encodeURIComponent('
 // Яндекс Метрика: впишите номер счётчика (metrika.yandex.ru → «Добавить счётчик»).
 // Цели для настройки в счётчике (тип «JavaScript-событие»): join — нажали «Вступить», max — перешли в MAX,
 // phrase — скопировали фразу, video — включили видео. Пока пусто, ничего не отправляется.
+// Сама Метрика подключается из /js/consent.js и только после согласия на cookie
 const YM_ID='113881059';
-if(YM_ID){
-  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
-  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-  (window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
-  ym(+YM_ID,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
-}
 const goal=g=>{if(YM_ID&&window.ym)ym(+YM_ID,'reachGoal',g)};
 
 document.querySelectorAll('[data-join]').forEach(a=>{a.href=JOIN_URL;a.target='_blank';a.rel='noopener';a.addEventListener('click',()=>{goal('join');const d=document.getElementById('nextDlg');if(d.showModal&&!d.open)d.showModal()})});
@@ -739,5 +732,6 @@ document.querySelectorAll('.vid').forEach(card=>{
   v.addEventListener('ended',()=>{card.classList.remove('playing');v.controls=false});
 });
 </script>
+<script src="/js/consent.js"></script>
 </body>
 </html>
