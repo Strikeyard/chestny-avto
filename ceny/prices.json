@@ -1,7 +1,17 @@
 {
- "updated": 1794822949572,
+ "updated": 1794861231598,
  "parser": 2,
  "cars": [
+  {
+   "title": "Chery Arrizo",
+   "year": 0,
+   "price": 1464000,
+   "chips": [],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1e4f7164f4ea0",
+   "mid": "mid.ffffbcbea42b1a2201a1e4f7164f4ea0",
+   "ts": 1794842760783
+  },
   {
    "title": "Jetta VS7",
    "year": 2027,
