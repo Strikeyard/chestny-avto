@@ -1,5 +1,5 @@
 {
- "updated": 1794795292572,
+ "updated": 1794822949572,
  "parser": 2,
  "cars": [
   {
@@ -517,19 +517,6 @@
    "id": "midffffbcbea42b1a2201a0b35d70670da1",
    "mid": "mid.ffffbcbea42b1a2201a0b35d70670da1",
    "ts": 1789715640423
-  },
-  {
-   "title": "Kia Sportage",
-   "year": 2022,
-   "price": 3100000,
-   "chips": [
-    "2022",
-    "2.0 · 146 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a0ae44d3083413",
-   "mid": "mid.ffffbcbea42b1a2201a0ae44d3083413",
-   "ts": 1789630141192
   }
  ]
 }
