@@ -1,5 +1,5 @@
 {
- "updated": 1794887940063,
+ "updated": 1794922598302,
  "parser": 2,
  "cars": [
   {
@@ -514,19 +514,6 @@
    "id": "midffffbcbea42b1a2201a0b88ec94473ac",
    "mid": "mid.ffffbcbea42b1a2201a0b88ec94473ac",
    "ts": 1789802760516
-  },
-  {
-   "title": "Skoda Octavia",
-   "year": 2022,
-   "price": 2450000,
-   "chips": [
-    "2022",
-    "1.4T · 150 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0b35d70670da1",
-   "mid": "mid.ffffbcbea42b1a2201a0b35d70670da1",
-   "ts": 1789715640423
   }
  ]
 }
