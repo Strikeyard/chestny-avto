@@ -1,7 +1,20 @@
 {
- "updated": 1794976325871,
+ "updated": 1795011292311,
  "parser": 2,
  "cars": [
+  {
+   "title": "Mercedes-Benz GLB",
+   "year": 2020,
+   "price": 2446746,
+   "chips": [
+    "2020",
+    "1.3T · 136 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1ed87cb6b76a7",
+   "mid": "mid.ffffbcbea42b1a2201a1ed87cb6b76a7",
+   "ts": 1794986462059
+  },
   {
    "title": "Chery Arrizo",
    "year": 0,
@@ -501,19 +514,6 @@
    "id": "midffffbcbea42b1a2201a0c2e93e697c35",
    "mid": "mid.ffffbcbea42b1a2201a0c2e93e697c35",
    "ts": 1789976460905
-  },
-  {
-   "title": "BYD Yuan UP",
-   "year": 2024,
-   "price": 2103000,
-   "chips": [
-    "2024",
-    "новая"
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0b88ec94473ac",
-   "mid": "mid.ffffbcbea42b1a2201a0b88ec94473ac",
-   "ts": 1789802760516
   }
  ]
 }
