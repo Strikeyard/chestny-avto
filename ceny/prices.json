@@ -1,7 +1,33 @@
 {
- "updated": 1795059555752,
+ "updated": 1795094817638,
  "parser": 2,
  "cars": [
+  {
+   "title": "Kia K5 Noblesse",
+   "year": 2023,
+   "price": 2720000,
+   "chips": [
+    "2023",
+    "2.0 · 160 л.с."
+   ],
+   "country": "Корея",
+   "id": "midffffbcbea42b1a2201a1f3ca329f0094",
+   "mid": "mid.ffffbcbea42b1a2201a1f3ca329f0094",
+   "ts": 1795091477151
+  },
+  {
+   "title": "Toyota Yaris L",
+   "year": 2022,
+   "price": 1452780,
+   "chips": [
+    "2022",
+    "1.5 · 111 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1f2bdb52679c6",
+   "mid": "mid.ffffbcbea42b1a2201a1f2bdb52679c6",
+   "ts": 1795073881382
+  },
   {
    "title": "Mercedes-Benz GLB",
    "year": 2020,
