@@ -1,7 +1,21 @@
 {
- "updated": 1795145609928,
+ "updated": 1795180090279,
  "parser": 2,
  "cars": [
+  {
+   "title": "Mazda 3 Axela",
+   "year": 2021,
+   "price": 2048000,
+   "chips": [
+    "2021",
+    "новая",
+    "1.5 · 117 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1f7eb62fe78b4",
+   "mid": "mid.ffffbcbea42b1a2201a1f7eb62fe78b4",
+   "ts": 1795160761086
+  },
   {
    "title": "Kia K5 Noblesse",
    "year": 2023,
@@ -527,19 +541,6 @@
    "id": "midffffbcbea42b1a2201a0c7fc61994523",
    "mid": "mid.ffffbcbea42b1a2201a0c7fc61994523",
    "ts": 1790061601177
-  },
-  {
-   "title": "VW Tayron",
-   "year": 2022,
-   "price": 2778000,
-   "chips": [
-    "2022",
-    "1.4T · 150 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0c2e93e697c35",
-   "mid": "mid.ffffbcbea42b1a2201a0c2e93e697c35",
-   "ts": 1789976460905
   }
  ]
 }
