@@ -1,7 +1,20 @@
 {
- "updated": 1795228397876,
+ "updated": 1795260136207,
  "parser": 2,
  "cars": [
+  {
+   "title": "Ford Ranger",
+   "year": 2023,
+   "price": 4604000,
+   "chips": [
+    "2023",
+    "2.3T · 186 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a1fd06c2524526",
+   "mid": "mid.ffffbcbea42b1a2201a1fd06c2524526",
+   "ts": 1795246441042
+  },
   {
    "title": "Mazda 3 Axela",
    "year": 2021,
@@ -528,19 +541,6 @@
    "id": "midffffbcbea42b1a2201a0cd2a11794d04",
    "mid": "mid.ffffbcbea42b1a2201a0cd2a11794d04",
    "ts": 1790148481401
-  },
-  {
-   "title": "Kia K3",
-   "year": 0,
-   "price": 2242147,
-   "chips": [
-    "новая",
-    "1.6 · 123 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a0c7fc61994523",
-   "mid": "mid.ffffbcbea42b1a2201a0c7fc61994523",
-   "ts": 1790061601177
   }
  ]
 }
