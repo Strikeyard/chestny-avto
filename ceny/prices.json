@@ -1,5 +1,5 @@
 {
- "updated": 1795307147959,
+ "updated": 1795334826409,
  "parser": 2,
  "cars": [
   {
@@ -527,20 +527,6 @@
    "id": "midffffbcbea42b1a2201a0d25e2ae7492b",
    "mid": "mid.ffffbcbea42b1a2201a0d25e2ae7492b",
    "ts": 1790235781863
-  },
-  {
-   "title": "Nissan Teana",
-   "year": 2026,
-   "price": 2450000,
-   "chips": [
-    "2026",
-    "новая",
-    "2.0 · 156 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0cd2a11794d04",
-   "mid": "mid.ffffbcbea42b1a2201a0cd2a11794d04",
-   "ts": 1790148481401
   }
  ]
 }
