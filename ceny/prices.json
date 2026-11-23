@@ -1,7 +1,20 @@
 {
- "updated": 1795405576409,
+ "updated": 1795445578854,
  "parser": 2,
  "cars": [
+  {
+   "title": "Exeed Zhuifeng",
+   "year": 2022,
+   "price": 1880000,
+   "chips": [
+    "2022",
+    "1.5T · 147 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a20759e36d7d0e",
+   "mid": "mid.ffffbcbea42b1a2201a20759e36d7d0e",
+   "ts": 1795419661165
+  },
   {
    "title": "Ford Ranger",
    "year": 2023,
@@ -514,19 +527,6 @@
    "id": "midffffbcbea42b1a2201a0d7839ba927fc",
    "mid": "mid.ffffbcbea42b1a2201a0d7839ba927fc",
    "ts": 1790322121641
-  },
-  {
-   "title": "Honda XR-V",
-   "year": 2023,
-   "price": 2215000,
-   "chips": [
-    "2023",
-    "1.5 · 124 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0d25e2ae7492b",
-   "mid": "mid.ffffbcbea42b1a2201a0d25e2ae7492b",
-   "ts": 1790235781863
   }
  ]
 }
