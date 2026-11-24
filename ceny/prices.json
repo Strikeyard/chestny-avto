@@ -1,7 +1,20 @@
 {
- "updated": 1795486753002,
+ "updated": 1795528588413,
  "parser": 2,
  "cars": [
+  {
+   "title": "Volkswagen Golf",
+   "year": 2022,
+   "price": 2123000,
+   "chips": [
+    "2022",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a20c8213a01ede",
+   "mid": "mid.ffffbcbea42b1a2201a20c8213a01ede",
+   "ts": 1795506181024
+  },
   {
    "title": "Exeed Zhuifeng",
    "year": 2022,
@@ -513,20 +526,6 @@
    "id": "midffffbcbea42b1a2201a0dcaadc4a1a03",
    "mid": "mid.ffffbcbea42b1a2201a0dcaadc4a1a03",
    "ts": 1790408580170
-  },
-  {
-   "title": "Changan Q07",
-   "year": 2026,
-   "price": 3810000,
-   "chips": [
-    "2026",
-    "новая",
-    "гибрид · 1.5 · 374 л.с."
-   ],
-   "country": "Киргизия",
-   "id": "midffffbcbea42b1a2201a0d7839ba927fc",
-   "mid": "mid.ffffbcbea42b1a2201a0d7839ba927fc",
-   "ts": 1790322121641
   }
  ]
 }
