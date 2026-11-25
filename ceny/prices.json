@@ -1,7 +1,20 @@
 {
- "updated": 1795563060507,
+ "updated": 1795596540644,
  "parser": 2,
  "cars": [
+  {
+   "title": "BMW X2",
+   "year": 2021,
+   "price": 2395000,
+   "chips": [
+    "2021",
+    "1.5 · 140 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a211ad03465474",
+   "mid": "mid.ffffbcbea42b1a2201a211ad03465474",
+   "ts": 1795592880966
+  },
   {
    "title": "Volkswagen Golf",
    "year": 2022,
@@ -512,20 +525,6 @@
    "id": "midffffbcbea42b1a2201a0e6d2122578ae",
    "mid": "mid.ffffbcbea42b1a2201a0e6d2122578ae",
    "ts": 1790578922021
-  },
-  {
-   "title": "Leapmotor A10",
-   "year": 2026,
-   "price": 2273000,
-   "chips": [
-    "2026",
-    "новая",
-    "95 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0dcaadc4a1a03",
-   "mid": "mid.ffffbcbea42b1a2201a0dcaadc4a1a03",
-   "ts": 1790408580170
   }
  ]
 }
