@@ -1,7 +1,20 @@
 {
- "updated": 1795756084479,
+ "updated": 1795792488834,
  "parser": 2,
  "cars": [
+  {
+   "title": "Mercedes-Benz V",
+   "year": 2024,
+   "price": 7741000,
+   "chips": [
+    "2024",
+    "2.0T · 231 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a21bedd9396bc1",
+   "mid": "mid.ffffbcbea42b1a2201a21bedd9396bc1",
+   "ts": 1795764902201
+  },
   {
    "title": "BMW X2",
    "year": 2021,
@@ -512,19 +525,6 @@
    "id": "midffffbcbea42b1a2201a0ec1edf5a5128",
    "mid": "mid.ffffbcbea42b1a2201a0ec1edf5a5128",
    "ts": 1790667841370
-  },
-  {
-   "title": "Chevrolet Equinox",
-   "year": 2020,
-   "price": 2200000,
-   "chips": [
-    "2020",
-    "гибрид · 1.6 · 137 л.с."
-   ],
-   "country": "Корея",
-   "id": "midffffbcbea42b1a2201a0e6d2122578ae",
-   "mid": "mid.ffffbcbea42b1a2201a0e6d2122578ae",
-   "ts": 1790578922021
   }
  ]
 }
