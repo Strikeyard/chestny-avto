@@ -1,7 +1,20 @@
 {
- "updated": 1795822451962,
+ "updated": 1795852828483,
  "parser": 2,
  "cars": [
+  {
+   "title": "Octavia Combi",
+   "year": 2019,
+   "price": 1905000,
+   "chips": [
+    "2019",
+    "1.4T · 150 л.с."
+   ],
+   "country": "Китай",
+   "id": "midffffbcbea42b1a2201a220f5163a508f",
+   "mid": "mid.ffffbcbea42b1a2201a220f5163a508f",
+   "ts": 1795849262650
+  },
   {
    "title": "Mercedes-Benz V",
    "year": 2024,
@@ -512,19 +525,6 @@
    "id": "midffffbcbea42b1a2201a0f14b9f905ccc",
    "mid": "mid.ffffbcbea42b1a2201a0f14b9f905ccc",
    "ts": 1790754660240
-  },
-  {
-   "title": "Audi A3L",
-   "year": 2023,
-   "price": 2375000,
-   "chips": [
-    "2023",
-    "1.4T · 150 л.с."
-   ],
-   "country": "Китай",
-   "id": "midffffbcbea42b1a2201a0ec1edf5a5128",
-   "mid": "mid.ffffbcbea42b1a2201a0ec1edf5a5128",
-   "ts": 1790667841370
   }
  ]
 }
